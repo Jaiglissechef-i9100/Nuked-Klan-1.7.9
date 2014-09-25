@@ -151,35 +151,93 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     else include('modules/404/index.php');
     
     if ($_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin' && defined('EDITOR_CHECK')) {
-    echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
-    , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_basic\')){',"\n";
-    echo ConfigSmileyCkeditor().'',"\n";
-    echo ' CKEDITOR.replace( \'e_basic\',',"\n"
-    , '    {',"\n"
-    , '        toolbar : \'Basic\',',"\n"
-    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
-    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
-    echo '    }); }',"\n"
-    , '//]]>',"\n"
-    , '</script>',"\n"
-    , '<script type="text/javascript">',"\n"
-    , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_advanced\')){',"\n";
-    echo ($nuked['video_editeur'] == 'on') ? 'CKEDITOR.config.extraPlugins = \'Video\';' : '';
-    echo 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
-    , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
-    echo ConfigSmileyCkeditor().'',"\n";
-    echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
-    , '    {',"\n"
-    , '        toolbar : \'Full\',',"\n"
-    , '        language : \'' . substr($language, 0,2) . '\',',"\n";
-    if(!empty($bgcolor4)) echo '        uiColor : \'' . $bgcolor4 . '\'',"\n";
-    echo '    }); }',"\n"
-    , '//]]>',"\n"
-    , '</script>',"\n";
-    
+        // choix de l'éditeur
+
+        if($nuked['editor_type'] == "cke") //ckeditor
+        {
+        ?>
+            <script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>
+            <script type="text/javascript" src="media/ckeditor/config.js"></script>
+            <script type="text/javascript">
+                //<![CDATA[
+                if(document.getElementById('e_basic')){
+                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
+                    CKEDITOR.config.scayt_autoStartup = "true";
+                    CKEDITOR.replace('e_basic',{
+                        toolbar : 'Basic',
+                        language : '<?php echo substr($language, 0,2) ?>',
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\'' : ''; ?>
+                    });
+                    <?php echo ConfigSmileyCkeditor(); ?>
+                }
+
+                if(document.getElementById('e_advanced')){
+                    <?php echo ($nuked['video_editeur'] == 'on') ? 'CKEDITOR.config.extraPlugins = \'Video\';' : ''; ?>
+                    CKEDITOR.config.scayt_sLang = "<?php echo (($language == 'french') ? 'fr_FR' : 'en_US'); ?>";
+                    <?php echo ($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''; ?>
+                    CKEDITOR.replace('e_advanced',{
+                        toolbar : 'Full',
+                        language : '<?php echo substr($language, 0,2) ?>',
+                        <?php echo !empty($bgcolor4) ? 'uiColor : \''.$bgcolor4.'\',' : ''; ?>
+                        allowedContent:
+                            'p h1 h2 h3 h4 h5 h6 blockquote tr td div a span{text-align,font-size,font-family,font-style,color,background-color,display};' +
+                            'img[!src,alt,width,height,class,id,style,title,border];' +
+                            'strong s em u strike sub sup ol ul li br caption thead  hr big small tt code del ins cite q address section aside header;' +
+                            'div[class,id,style,title,align]{page-break-after,width,height,background};' +
+                            'a[!href,accesskey,class,id,name,rel,style,tabindex,target,title];' +
+                            'table[align,border,cellpadding,cellspacing,class,id,style];' +
+                            'td[colspan, rowspan];' +
+                            'th[scope];' +
+                            'pre(*);' +
+                            'span[id, style];'
+                            <?php if($nuked['video_editeur'] == 'on'){ ?>
+                                + 'object[width,height,data,type];'
+                                + 'param[name,value];'
+                                + 'embed[width,height,src,type,allowfullscreen,allowscriptaccess];'
+                            <?php } ?>
+                    });
+                    <?php echo ConfigSmileyCkeditor(); ?>
+                }
+                //]]>
+            </script>
+        <?php
+        }else if($nuked['editor_type'] == "tiny"){ //tinymce
+        ?>
+            <script type="text/javascript" src="media/tinymce/tinymce.min.js"></script>
+            <script type="text/javascript">
+                // for frontend
+                if(document.getElementById('e_basic')){
+                    tinymce.init({
+                        selector: "textarea#e_basic",
+                        language : 'fr_FR',
+                        plugins: [
+                            "autolink lists preview",
+                            "fullscreen",
+                            "table contextmenu directionality",
+                            "emoticons textcolor"
+                        ],
+                        toolbar1: "undo redo | styleselect | bold italic | bullist numlist outdent indent | link | emoticons "
+                    });
+                }
+                // for forum
+                if(document.getElementById('e_advanced')){
+                    tinymce.init({
+                        selector: "textarea#e_advanced",
+                        language : 'fr_FR',
+                        plugins: [
+                            "advlist autolink lists link image charmap print preview hr anchor pagebreak",
+                            "searchreplace wordcount visualblocks visualchars code fullscreen",
+                            "insertdatetime nonbreaking save table contextmenu directionality",
+                            "emoticons paste textcolor youtube codemagic"
+                        ],
+                        toolbar1: "insertfile undo redo | styleselect | bold italic forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image youtube emoticons codemagic | preview",
+                        /* toolbar2: "print preview media | forecolor backcolor emoticons | link image", */
+                        image_advtab: true
+                     });
+                }
+            </script>
+        <?php
+        }else{}
     }
 
     if (!isset($_REQUEST['nuked_nude'])){
