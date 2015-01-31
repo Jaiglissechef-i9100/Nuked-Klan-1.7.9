@@ -320,7 +320,7 @@ define("_TOLOG","Login");
 define("_TOBACK","Back");
 
 define("_BONJOUR","Hello");
-define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.7.9 admin panel!");
+define("_MESSAGEDEBIENVENUE", "Welcome on the nuked-klan 1.7.10 admin panel!");
 define("_AIDE","Help");
 define("_STATS","Stats");
 define("_SQL","SQL error found");
@@ -656,6 +656,9 @@ define("_SEESHARE","see the sent stats");
 define("_SMILEYNOTAUTHORIZE","The smiley code is not authorized, please change it");
 define("_THANKSPARTICIPATION","Thanks for your participation.");
 define("_NOTIFICATIONNOTRECEIVED","The notification was not received.");
+define("_TYPEEDITEUR","Choice of text editor");
+define("_CKEDITOR","CKEditor");
+define("_TINYEDITOR","TinyEditor");
 # Page : About
 define('_INFOSPROPOS','<h3>General information:</h3>
 version ' . $nuked['version'] . '<br />
