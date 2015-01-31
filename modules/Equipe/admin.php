@@ -1,18 +1,10 @@
-<?php 
-// ***********************************************
-// Nuked-KlaN - PHP Portal
-// Php by MasterCat
-// Msn : admin@mastercat-gloup.com
-// http://mastercat-gloup.com
-// ----------------------------------------------------------------------
-// Mis à jour pour la nk1.7.9 par YurtY
-// www.overlord.power-heberg.com
-// bribri.dlf@gmail.com
-// ----------------------------------------------------------------------
-// Module Equipe
-// Page admin.php
-// Faite pour Mx-Design
-// ***********************************************
+<?php
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK"))
 {
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
@@ -1044,4 +1036,5 @@ else
     adminfoot();
 } 
 
+>>>>>>> 5736252... Add of "Equipe" module, patch userRankColor and socialNetworks on modules User, Team and Members
 ?>

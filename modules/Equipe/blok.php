@@ -1,14 +1,10 @@
 <?php 
-// ***********************************************
-// Nuked-KlaN - PHP Portal
-// Php by MasterCat
-// Msn : admin@mastercat-gloup.com
-// http://mastercat-gloup.com
-// ----------------------------------------------------------------------
-// Module Staff
-// Page blok.php
-// Faite pour Mx-Design
-// ***********************************************
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (eregi("blok.php", $_SERVER['PHP_SELF']))
 {
     die ("You cannot open this page directly");
@@ -18,19 +14,19 @@ global $nuked;
 
   $sql1=mysql_query('SELECT * FROM '.$nuked['prefix'].'_staff ORDER BY rand() LIMIT 1');
   $req1 = mysql_fetch_object($sql1);
-  
+
   $sql2=mysql_query('SELECT * FROM '.$nuked['prefix'].'_users WHERE id="'.$req1->membre_id.'"');
   $req2 = mysql_fetch_object($sql2);
 
   $sql3=mysql_query('SELECT * FROM '.$nuked['prefix'].'_users_detail WHERE user_id="'.$req1->membre_id.'"');
   $req3 = mysql_fetch_object($sql3);
-  
+
   $sql4=mysql_query('SELECT * FROM '.$nuked['prefix'].'_staff_status WHERE id="'.$req1->status_id.'"');
   $req4 = mysql_fetch_object($sql4);
-  
+
   $sql5=mysql_query('SELECT * FROM '.$nuked['prefix'].'_staff_rang WHERE id="'.$req1->rang_id.'"');
   $req5 = mysql_fetch_object($sql5);
-  
+
   $photos_membre = ($req3->photo != "") ? '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($req2->pseudo).'"><img src="'.$req3->photo.'" width="100" style=";margin:5px;border:none;" /></a>' : '<a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($req2->pseudo).'"><img src="modules/User/images/noavatar.png" width="100" style=";margin:5px;border:none;" /></a>';
 
   $age1=$req3->age;

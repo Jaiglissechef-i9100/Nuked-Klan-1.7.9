@@ -1,12 +1,10 @@
 <?php 
-// -------------------------------------------------------------------------//
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// -------------------------------------------------------------------------//
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// -------------------------------------------------------------------------//
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
 if (!defined("INDEX_CHECK")){
     die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
 } 
@@ -80,18 +78,18 @@ if ($visiteur >= $level_access && $level_access > -1){
 				. "<tr style=\"background: " . $bgcolor3 . ";\">\n"
 				. "<td align=\"center\">&nbsp;</td>\n"
 				. "<td align=\"center\"><b>" . _NICK . "</b></td>\n";
-				if ($c1 == 'on'){echo "<td align=\"center\"><b>" . _MAIL . "</b></td>\n";}
-				if ($c2 == 'on'){echo "<td align=\"center\"><b>" . _ICQ . "</b></td>\n";}
-				if ($c3 == 'on'){echo "<td align=\"center\"><b>" . _MSN . "</b></td>\n";}
-				if ($c4 == 'on'){echo "<td align=\"center\"><b>" . _AIM . "</b></td>\n";}
-				if ($c5 == 'on'){echo "<td align=\"center\"><b>" . _YIM . "</b></td>\n";}
-				if ($c6 == 'on'){echo "<td align=\"center\"><b>" . _XFIRE . "</b></td>\n";}
-				if ($c7 == 'on'){echo "<td align=\"center\"><b>" . _FACEBOOK . "</b></td>\n";}
-				if ($c8 == 'on'){echo "<td align=\"center\"><b>" . _ORIGINEA . "</b></td>\n";}
-				if ($c9 == 'on'){echo "<td align=\"center\"><b>" . _STEAM . "</b></td>\n";}
-				if ($c10 == 'on'){echo "<td align=\"center\"><b>" . _TWITER . "</b></td>\n";}
-				if ($c11 == 'on'){echo "<td align=\"center\"><b>" . _SKYPE . "</b></td>\n";}
-				if ($c12 == 'on'){echo "<td style=\" width=\"5%\";\" align=\"center\"><b>" . _URL . "</b></td>\n";}
+				if ($nuked['user_email'] == 'on'){echo "<td align=\"center\"><b>" . _MAIL . "</b></td>\n";}
+				if ($nuked['user_icq'] == 'on'){echo "<td align=\"center\"><b>" . _ICQ . "</b></td>\n";}
+				if ($nuked['user_msn'] == 'on'){echo "<td align=\"center\"><b>" . _MSN . "</b></td>\n";}
+				if ($nuked['user_aim'] == 'on'){echo "<td align=\"center\"><b>" . _AIM . "</b></td>\n";}
+				if ($nuked['user_yim'] == 'on'){echo "<td align=\"center\"><b>" . _YIM . "</b></td>\n";}
+				if ($nuked['user_xfire'] == 'on'){echo "<td align=\"center\"><b>" . _XFIRE . "</b></td>\n";}
+				if ($nuked['user_facebook'] == 'on'){echo "<td align=\"center\"><b>" . _FACEBOOK . "</b></td>\n";}
+				if ($nuked['user_origin'] == 'on'){echo "<td align=\"center\"><b>" . _ORIGINEA . "</b></td>\n";}
+				if ($nuked['user_steam'] == 'on'){echo "<td align=\"center\"><b>" . _STEAM . "</b></td>\n";}
+				if ($nuked['user_twiter'] == 'on'){echo "<td align=\"center\"><b>" . _TWITER . "</b></td>\n";}
+				if ($nuked['user_skype'] == 'on'){echo "<td align=\"center\"><b>" . _SKYPE . "</b></td>\n";}
+				if ($nuked['user_website'] == 'on'){echo "<td style=\" width=\"5%\";\" align=\"center\"><b>" . _URL . "</b></td>\n";}
 				echo "</tr>\n";
 
         $sql = mysql_query("SELECT pseudo, url, email, icq, msn, aim, yim, rang, country, xfire, facebook ,origin, steam, twitter, skype FROM " . USER_TABLE . " WHERE team = '' " . $and . " AND niveau > 0 ORDER BY pseudo LIMIT " . $start . ", " . $nb_membres);
@@ -121,7 +119,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             echo "<tr style=\"background: " . $bg . ";\">\n"
 					. "<td align=\"center\"><img src=\"images/flags/" . $country . "\" alt=\"\" title=\"" . $pays . "\" /></td>\n"
 					. "<td><a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($pseudo) . "\" title=\"" . _VIEWPROFIL . "\"><b>" . $pseudo . "</b></a></td>\n";
-			if ($c1 == 'on')
+			if ($nuked['user_email'] == 'on')
 		{
 			echo "<td align=\"center\">\n";
 
@@ -132,7 +130,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo "<img style=\"border: 0;\" src=\"images/user/emailna.png\" alt=\"\"/></td>";
             } 
 		}
-            if ($c2 == 'on')
+            if ($nuked['user_icq'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -143,7 +141,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo"<img style=\"border: 0;\" src=\"images/user/icqna.png\" alt=\"\"/></td>";
             } 
 		}
-		    if ($c3 == 'on')
+		    if ($nuked['user_msn'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -154,7 +152,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo "<img style=\"border: 0;\" src=\"images/user/msnna.png\" alt=\"\"/></td>";
             } 
 		}
-		    if ($c4 == 'on')
+		    if ($nuked['user_aim'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -165,7 +163,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo "<img style=\"border: 0;\" src=\"images/user/aimna.png\" alt=\"\"/></td>";
             } 
 		}
-		    if ($c5 == 'on')
+		    if ($nuked['user_yim'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -176,8 +174,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo "<img style=\"border: 0;\" src=\"images/user/yahoona.png\" alt=\"\"/></td>";
             } 
 		}
-		
-			if ($c6 == 'on')
+			if ($nuked['user_xfire'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -188,8 +185,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo "<img style=\"border: 0;\" src=\"images/user/xfirena.png\" alt=\"\"/></td>";
             } 
 		}
-		
-			if ($c7 == 'on')
+			if ($nuked['user_facebook'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -200,8 +196,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo "<img style=\"border: 0;\" src=\"images/user/facebookna.png\" alt=\"\"/></td>";
             } 
 		}
-		
-			if ($c8 == 'on')
+			if ($nuked['user_origin'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -212,8 +207,7 @@ if ($visiteur >= $level_access && $level_access > -1){
                 echo "<img style=\"border: 0;\" src=\"images/user/originna.png\" alt=\"\"/></td>";
             } 
 		}
-		
-			if ($c9 == 'on')
+			if ($nuked['user_steam'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -225,7 +219,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             } 
 		}
 		
-			if ($c10 == 'on')
+			if ($nuked['user_twiter'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -237,7 +231,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             } 
 		}
 		
-			if ($c11 == 'on')
+			if ($nuked['user_skype'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -249,7 +243,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             } 
 		}
 		
-			if ($c12 == 'on')
+			if ($nuked['user_website'] == 'on')
 		{
             echo "<td align=\"center\">\n";
 
@@ -303,10 +297,7 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         opentable();
 
-        $autor = htmlentities($autor, ENT_QUOTES);
-
-			$sql_config = mysql_query("SELECT nivoreq FROM ". $nuked['prefix'] ."_users_config");
-		list($nivoreq) = mysql_fetch_array($sql_config);
+        $autor = htmlentities($autor, ENT_QUOTES, 'ISO-8859-1' );
 
         $sql = mysql_query("SELECT U.id, U.icq, U.msn, U.aim, U.yim, U.email, U.url, U.date, U.game, U.country, U.xfire, U.facebook , U.origin, U.steam, U.twitter, U.skype, S.date FROM " . USER_TABLE . " AS U LEFT OUTER JOIN " . SESSIONS_TABLE . " AS S ON U.id = S.user_id WHERE U.pseudo = '" . $autor . "'");
         $test = mysql_num_rows($sql);
@@ -411,7 +402,8 @@ if ($visiteur >= $level_access && $level_access > -1){
 			if ($ville) echo "<tr><td><b>&nbsp;&nbsp;» " . _CITY . "&nbsp;:&nbsp;</b></td><td>" . $ville . "</td></tr>\n";
 			if ($pays) echo "<tr><td><b>&nbsp;&nbsp;» " . _COUNTRY . "&nbsp;:&nbsp;</b></td><td>" . $pays . "</td></tr>\n";
 			
-if ($visiteur >= $nivoreq)
+
+if ($visiteur >= $nuked['user_social_level'] )
 {			
 			if ($mail) echo "<tr><td><b>&nbsp;&nbsp;» " . _MAIL . "&nbsp;:&nbsp;</b></td><td>" . $mail . "</td></tr>\n";
 			if ($url && preg_match("`http://`i", $url)) echo "<tr><td><b>&nbsp;&nbsp;» " . _URL . "&nbsp;:&nbsp;</b></td><td><a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\">" . $url . "</a></td></tr>\n";
@@ -491,7 +483,7 @@ if ($visiteur >= $nivoreq)
 	function listing($q,$type='right',$limit=100){
 		$q	= strtolower($q);
 		$q = nk_CSS($q);
-		$q = htmlentities($q, ENT_QUOTES);	
+		$q = htmlentities($q, ENT_QUOTES, 'ISO-8859-1' );	
 		if (!$q) return;
 		
 		if (!is_numeric($limit)) $limit = 0;
