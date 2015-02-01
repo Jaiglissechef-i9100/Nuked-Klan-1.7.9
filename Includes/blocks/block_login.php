@@ -1,17 +1,11 @@
 <?php
-// ------------------------------------------------------------------------ //
-// Nuked-KlaN - PHP Portal                                                  //
-// http://www.nuked-klan.org                                                //
-// ------------------------------------------------------------------------ //
-// This program is free software. you can redistribute it and/or modify     //
-// it under the terms of the GNU General Public License as published by     //
-// the Free Software Foundation; either version 2 of the License.           //
-// ------------------------------------------------------------------------ //
-// Patch block login v2                                                     //
-// Update 02/01/2013                                                        //
-// ------------------------------------------------------------------------ //
-
-if(!defined("INDEX_CHECK")){
+/**
+ * @version     1.7.10
+ * @link http://www.nuked-klan.org Clan Management System for Gamers
+ * @license http://opensource.org/licenses/gpl-license.php GNU Public License
+ * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
+ */
+if (!defined("INDEX_CHECK")){
 	exit('You can\'t run this file alone.');
 }
 
@@ -405,11 +399,11 @@ function edit_block_login($bid)
     else if ($active == 2) $checked2 = 'selected="selected"';
     else $checked0 = 'selected="selected"';
 
-    if($login == 'off') $checked3 = 'selected="selected"'; else $checked3 = '';
-    if($messpv == 'off') $checked4 = 'selected="selected"'; else $checked4 = '';
-    if($members == 'off') $checked5 = 'selected="selected"'; else $checked5 = '';
-    if($online == 'off') $checked6 = 'selected="selected"'; else $checked6 = '';
-	if($avatar == 'off') $checked7 = 'selected="selected"'; else $checked7 = '';
+    if ($login == 'off') $checked3 = 'selected="selected"'; else $checked3 = '';
+    if ($messpv == 'off') $checked4 = 'selected="selected"'; else $checked4 = '';
+    if ($members == 'off') $checked5 = 'selected="selected"'; else $checked5 = '';
+    if ($online == 'off') $checked6 = 'selected="selected"'; else $checked6 = '';
+	if ($avatar == 'off') $checked7 = 'selected="selected"'; else $checked7 = '';
 
 	# Information IP / Localisation
 	if($info_ip == 'off') $checked8 = 'selected="selected"'; else $checked8 = '';
@@ -470,13 +464,11 @@ function edit_block_login($bid)
 	<tr><td colspan="4" align="center"><select name="pages[]" size="8" multiple="multiple">';
 
     select_mod2($pages);
-
     echo '</select></td></tr><tr><td colspan="4" align="center"></td></tr></table>
-	<div style="text-align: center;"><br />
+    <div style="text-align: center;"><br />
     <input type="hidden" name="type" value="' . $type . '" />
 	<input type="hidden" name="bid" value="' . $bid . '" />
-	<input type="submit" name="send" value="' . _MODIFBLOCK . '" class="button" />&nbsp;
-	<a href="?file=Admin&amp;page=block" class="button">' . _BACK . '</a></div></form><br /></div></div>';
+	<div style="text-align: center;"><br /><input class="button" type="submit" name="send" value="' , _MODIFBLOCK , '" /<a class="buttonLink" href="index.php?file=Admin&amp;page=block">' , _BACK , '</a></div></form><br /></div></div>';
 }
 
 function modif_advanced_login($data)

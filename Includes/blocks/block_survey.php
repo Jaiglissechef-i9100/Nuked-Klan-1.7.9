@@ -1,6 +1,6 @@
 <?php
 /**
- * @version     1.8
+ * @version     1.7.10
  * @link http://www.nuked-klan.org Clan Management System for Gamers
  * @license http://opensource.org/licenses/gpl-license.php GNU Public License
  * @copyright 2001-2015 Nuked-Klan (Registred Trademark)
@@ -8,8 +8,7 @@
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
 function affich_block_survey($blok){
-    global $file, $nuked, $user,$language;
-    translate('modules/Survey/lang/' . $language . '.lang.php');
+    global $file, $nuked;
 
     if ($file != 'Survey'){
         $survey_id = $blok['content'];
@@ -20,65 +19,24 @@ function affich_block_survey($blok){
 
         $sql = mysql_query('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ' . $where);
         list($poll_id, $titre) = mysql_fetch_array($sql);
-        $titre = htmlentities($titre);
-            $sql = mysql_query('SELECT titre FROM ' . SURVEY_TABLE . ' WHERE sid=' . $poll_id);
-            list($titre) = mysql_fetch_array($sql);
-            $titre = htmlentities($titre);
-            
-            global $bgcolor2,$bgcolor3,$bgcolor1;
-            
-            $blok['content'] .= "\n"
-               . "<div style=\"text-align: center;\"><b>$titre</b></div><br />\n"
-               . "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . "; margin-left: auto;margin-right: auto;text-align: left;\" cellspacing=\"0\" cellpadding=\"3\" border=\"0\">\n";
+        $titre = printSecuTags($titre);
 
-            $sql2 = mysql_query('SELECT optionCount FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id);
-            $nbcount = 0;
-            while (list($option_count) = mysql_fetch_array($sql2)) {
-                $nbcount = $nbcount + $option_count;
-            } 
+        $blok['content'] = '<form action="index.php?file=Survey&amp;nuked_nude=index&amp;op=update_sondage" method="post">'."\n"
+        . '<div style="text-align: center">'."\n"
+        . '<b>' . $titre . '</b><br /><p style="text-align: left" >'."\n";
 
-            $sql3 = mysql_query('SELECT optionCount, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = ' . $poll_id . ' ORDER BY voteID ASC');
-            while (list($optioncount, $optiontext) = mysql_fetch_array($sql3)) {
-                $optiontext = htmlentities($optiontext);
+        $sql2 = mysql_query('SELECT voteID, optionText FROM ' . SURVEY_DATA_TABLE . ' WHERE sid = \'' . $poll_id . '\' ORDER BY voteID ASC');
+        while (list($voteid, $optiontext) = mysql_fetch_array($sql2)){
+            $optiontext = printSecuTags($optiontext);
 
-                if ($nbcount <> 0) {
-                    $etat = ($optioncount * 100) / $nbcount;
-                } else {
-                    $etat = 0;
-                } 
-                $pourcent_arrondi = round($etat);
-                global $bgcolor2,$bgcolor3,$bgcolor1;
-            if ($j == 0) {
-                $bg = $bgcolor2;
-                $j++;
-            } else {
-                $bg = $bgcolor1;
-                $j = 0;
-            } 
-                $blok['content'] .= '<tr><td>' . $optiontext . '</td><td>';
+            $blok['content'] .= '<input type="radio" class="checkbox" name="voteID" value="' . $voteid . '" />&nbsp;' . $optiontext . '<br />'."\n";
+        }
 
-                if ($etat < 1) {
-                    $width = 2;
-                } else {
-                    $width = $etat * 2;
-                    $width = round($width);
-                } 
-                if (is_file('themes/" . $theme . "/images/bar.gif')) {
-                    $img = 'themes/" . $theme . "/images/bar.gif';
-                } else {
-                    $img = 'modules/Survey/images/bar.gif';
-                } 
-
-                $blok['content'] .= '<img src="' . $img . '" width="' . $width . '" height="10" alt="" />&nbsp;' . $pourcent_arrondi . '% (' . $optioncount . ')</td></tr>';
-            }
-
-            $blok['content'] .= "</table><table style=\"margin-left: auto;margin-right: auto;text-align: left;width:90%;\" border=\"0\">\n"
-               . "<tr><td>&nbsp;</td></tr><tr><td><b>" . _TOTALVOTE . " : </b>" . $nbcount . "</td></tr>\n";
-            
-
-            $blok['content'] .= '</table><div style="text-align: center;"><br />[ <a href="index.php?file=Survey&amp;op=sondage&amp;poll_id=' . $poll_id . '">' . _SENDVOTE . '</a> | <a href="index.php?file=Survey">' . _OTHERPOLL . '</a> ]</div><br />';
-    }
-
+        $blok['content'] .= '</p><p style="text-align: center"><input type="hidden" name="poll_id" value="' . $poll_id . '" />'."\n"
+                                    . '<br /><input type="submit" value="' . _TOVOTE . '" />&nbsp;'
+                                    . '<input type="button" value="' . _RESULT . '" onclick="document.location=\'index.php?file=Survey&amp;op=affich_res&amp;poll_id=' . $poll_id . '\'" />'."\n"
+                                    . '<br /><a href="index.php?file=Survey"><b>' . _OTHERPOLL . '</b></a></p></div></form>'."\n";
+        }
     return $blok;
 }
 
@@ -88,7 +46,7 @@ function edit_block_survey($bid){
     $sql = mysql_query('SELECT active, position, titre, module, content, type, nivo, page FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
     list($active, $position, $titre, $modul, $content, $type, $nivo, $pages) = mysql_fetch_array($sql);
 
-    $titre = htmlentities($titre);
+    $titre = printSecuTags($titre);
 
     if ($active == 1) $checked1 = 'selected="selected"';
     else if ($active == 2) $checked2 = 'selected="selected"';
@@ -96,14 +54,14 @@ function edit_block_survey($bid){
 
     echo '<div class="content-box">',"\n" //<!-- Start Content Box -->
             , '<div class="content-box-header"><h3>' , _BLOCKADMIN , '</h3>',"\n"
-            , '<a href="help/' , $language , '/block.html" rel="modal">',"\n"
+            , '<div style="text-align:right;"><a href="help/' , $language , '/block.html" rel="modal">',"\n"
             , '<img style="border: 0;" src="help/help.gif" alt="" title="' , _HELP , '" /></a>',"\n"
-            , '</div>',"\n"
+            , '</div></div>',"\n"
             , '<div class="tab-content" id="tab2"><form method="post" action="index.php?file=Admin&amp;page=block&amp;op=modif_block">',"\n"
             , '<table style="margin-left: auto;margin-right: auto;text-align: left;" cellspacing="0" cellpadding="2" border="0">',"\n"
             , '<tr><td><b>' , _TITLE , '</b></td><td><b>' , _BLOCK , '</b></td><td><b>' , _POSITION , '</b></td><td><b>' , _LEVEL , '</b></td></tr>',"\n"
-            , '<tr><td align="center"><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
-            , '<td align="center"><select name="active">',"\n"
+            , '<tr><td><input type="text" name="titre" size="40" value="' , $titre , '" /></td>',"\n"
+            , '<td><select name="active">',"\n"
             , '<option value="1" ' , $checked1 , '>' , _LEFT , '</option>',"\n"
             , '<option value="2" ' , $checked2 , '>' , _RIGHT , '</option>',"\n"
             , '<option value="0" ' , $checked0 , '>' , _OFF , '</option></select></td>',"\n"
@@ -122,7 +80,7 @@ function edit_block_survey($bid){
 
     $sql2 = mysql_query('SELECT sid, titre FROM ' . SURVEY_TABLE . ' ORDER BY sid DESC');
     while (list($survey_id, $survey_title) = mysql_fetch_array($sql2)){
-        $survey_title = htmlentities($survey_title);
+        $survey_title = printSecuTags($survey_title);
 
         if ($survey_id == $content) $checked3 = "selected=\"selected\"";
         else $checked3 = "";
@@ -131,17 +89,15 @@ function edit_block_survey($bid){
     }
 
     echo '</select></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
-            , '<tr><td colspan="4" align="center"><b>' , _PAGESELECT , ' :</b></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
-            , '<tr><td colspan="4" align="center"><select name="pages[]" size="8" multiple="multiple">',"\n";
+            , '<tr><td colspan="4"><b>' , _PAGESELECT , ' :</b></td></tr><tr><td colspan="4">&nbsp;</td></tr>',"\n"
+            , '<tr><td colspan="4"><select name="pages[]" size="8" multiple="multiple">',"\n";
 
     select_mod2($pages);
 
     echo '</select></td></tr><tr><td colspan="4" align="center"><br />',"\n"
             , '<input type="hidden" name="type" value="' , $type , '" />',"\n"
             , '<input type="hidden" name="bid" value="' , $bid , '" />',"\n"
-            , '<input type="submit" name="send" value="' , _MODIFBLOCK , '" />',"\n"
             , '</td></tr></table>',"\n"
-            , '<div style="text-align: center;"><br />[ <a href="index.php?file=Admin&amp;page=block"><b>' , _BACK , '</b></a> ]</div></form><br /></div></div>',"\n";
+            , '<div style="text-align: center;"><br /><input class="button" type="submit" name="send" value="' , _MODIFBLOCK , '" /><a class="buttonLink" href="index.php?file=Admin&amp;page=block">' , _BACK , '</a></div></form><br /></div></div>',"\n";
 
 }
-?>
