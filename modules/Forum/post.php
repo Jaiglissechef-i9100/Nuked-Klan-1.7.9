@@ -303,7 +303,7 @@ echo "			</td>\n"
 				. "		<td class=\"Forum_Ppost_centre_d14\">\n"
 				. "			<table>";
                 
-								create_captcha(1);
+								echo create_captcha();
 
             echo "			</table><br />\n"
 				. "		</td>\n"

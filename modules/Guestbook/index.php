@@ -63,7 +63,7 @@ if( $nuked['Guestbookpost'] == '1' or $user){
 		. "}\n"
 		. "\n"
 		. "// -->\n"
-	. "</script>\n";
+		. "</script>\n";
 
         if ($user)
         {
@@ -79,8 +79,7 @@ if( $nuked['Guestbookpost'] == '1' or $user){
 		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
-		if ($captcha == 1) create_captcha(2);
-
+		if ($captcha == 1) echo create_captcha();
 
 		echo "<tr><td colspan=\"2\"><b>" . _COMMENT . " :</b></td></tr>\n"
 		. "<tr><td colspan=\"2\"><textarea id=\"e_basic\" name=\"comment\" cols=\"65\" rows=\"12\"></textarea></td></tr>\n"
@@ -118,7 +117,7 @@ if( $nuked['Guestbookpost'] == '1' or $user){
         else
         {
             $name = verif_pseudo($name);
-            $name = htmlentities($name, ENT_QUOTES);
+            $name = htmlentities($name, ENT_QUOTES, 'ISO-8859-1');
 
             if ($name == "error1")
             {
@@ -150,7 +149,7 @@ if( $nuked['Guestbookpost'] == '1' or $user){
             }
         }
 
-        $email = htmlentities($email);
+        $email = nkHtmlEntities($email);
         $sql3 = mysql_query("SELECT email FROM " . BANNED_TABLE . " WHERE email = '" . $email . "'");
         $nb_ban = mysql_num_rows($sql3);
 
@@ -181,11 +180,11 @@ if( $nuked['Guestbookpost'] == '1' or $user){
         else if ($comment != "")
         {
             $date = time();
-            $comment = secu_html(html_entity_decode($comment));
+            $comment = secu_html(nkHtmlEntityDecode($comment));
             $comment = mysql_real_escape_string(stripslashes($comment));
             $pseudo = mysql_real_escape_string(stripslashes($pseudo));
             $email = mysql_real_escape_string(stripslashes($email));
-            
+
             if (!empty($url) && !is_int(stripos($url, 'http://')))
             {
                 $url = "http://" . mysql_real_escape_string(stripslashes($url));
@@ -241,7 +240,7 @@ if( $nuked['Guestbookpost'] == '1' or $user){
         {
             $date = nkDate($date);
 
-            $url = htmlentities($url);
+            $url = nkHtmlEntities($url);
 
             $url = nk_CSS($url);
             $email = nk_CSS($email);
@@ -282,7 +281,6 @@ if( $nuked['Guestbookpost'] == '1' or $user){
             {
                 $usermail = "";
             }
-
             if ($visiteur >= admin_mod("Guestbook"))
             {
                 echo "<script type=\"text/javascript\">\n"
@@ -321,20 +319,19 @@ if( $nuked['Guestbookpost'] == '1' or $user){
 				$select_avatar="SELECT avatar FROM " . USER_TABLE . " WHERE pseudo = '" . $name . "'";
 				$sql_avatar=mysql_query($select_avatar);
 				list($avatar_url) = mysql_fetch_array($sql_avatar);
-    	
+
     	if($avatar_url == "") $avatar_url = "modules/Guestbook/images/anonyme.png";
     	if( $nuked['Guestbooktemplate'] == 1) {
-        
+
 		include ("modules/Guestbook/template.php");          
         echo "<br /><div id=\"guestbookdeb\"><ul class=\"guestbooklist\"><li><div>
-
-	  <div class=\"guestbook-meta\">
-	   <img  src='".$avatar_url."' class='Gavatar' height='36' width='36' />
-	   <span> <strong>" . $name . "</strong> <br />" . _POSTED . " : " . $date . "</span>
-	   ".$admin."".$website."".$usermail."
-	   </div>
-	  <p>".$comment."</p>
-      </div></li></ul></div><br /><br />";
+	    <div class=\"guestbook-meta\">
+	    <img  src='".$avatar_url."' class='Gavatar' height='36' width='36' />
+	    <span> <strong>" . $name . "</strong> <br />" . _POSTED . " : " . $date . "</span>
+	    ".$admin."".$website."".$usermail."
+	    </div>
+	    <p>".$comment."</p>
+        </div></li></ul></div><br /><br />";
     	}
         }
 

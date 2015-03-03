@@ -188,7 +188,7 @@ if ($active == 3 || $active == 4)
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"90%\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" />\n";
 
-		if ($captcha == 1) create_captcha(3);
+		if ($captcha == 1) echo create_captcha();
 		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "<input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
@@ -214,7 +214,7 @@ else
 
         echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" value=\"" . _YOURMESS . "\"  style=\"width:90%;\" onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br /><table>\n";
 
-	if ($captcha == 1) create_captcha(2);
+	if ($captcha == 1) echo create_captcha();
 	else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
 	echo "</table><input type=\"submit\" value=\"" . _SEND . "\"/><br /><br />\n"
