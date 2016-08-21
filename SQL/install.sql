@@ -909,6 +909,23 @@ CREATE TABLE IF NOT EXISTS `nuked_nbconnecte` (
 INSERT INTO `nuked_nbconnecte` (`IP`, `type`, `date`, `user_id`, `username`) VALUES
 ('80.236.56.247', 0, 1352563331, '', '');
 
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuked_nbconnect_jour`
+--
+
+CREATE TABLE IF NOT EXISTS `nuked_nbconnect_jour` (
+  `id` int(11) NOT NULL auto_increment,
+  `nom` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `temps` bigint(20) NOT NULL default '0',
+  `hier` varchar(10) collate latin1_general_ci NOT NULL default '',
+  `record` varchar(10) collate latin1_general_ci NOT NULL default '',
+  `ip` varchar(20) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
+
 -- --------------------------------------------------------
 
 --
