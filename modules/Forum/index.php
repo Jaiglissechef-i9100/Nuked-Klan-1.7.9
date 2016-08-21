@@ -14,6 +14,7 @@ if (!defined("INDEX_CHECK"))
 
 global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Forum/lang/" . $language . ".lang.php");
+define('FORUM_PRIMAIRE_TABLE', $nuked['prefix'] . '_forums_primaire');
 
 // Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
@@ -40,17 +41,61 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function index()
     {
-        opentable();
+        global $nuked;
+        
+        if ($nuked['forum_cat_prim'] == "on")
+        { 
+        opentable();               
+        include("modules/Forum/primaire.php");
+        closetable();        
+        }
+        else
+        {
         include("modules/Forum/main.php");
-        closetable();
+        }
     }
+	
+            function save($id, $value)
+            {
+                    global $visiteur, $user, $nuked;
+                   
+                    $sql_aut = mysql_query("SELECT forum_id FROM ".FORUM_MESSAGES_TABLE." WHERE id = '" . $id . "'");
+                    list($forum_id) = mysql_fetch_row($sql_aut);
+                   
+                    $result = mysql_query("SELECT moderateurs FROM " . FORUM_TABLE . " WHERE id = '" . $forum_id . "'");
+            list($modos) = mysql_fetch_array($result);
+     
+            $administrator = ($user && $modos != "" && strpos($modos, $user[0]) !== false) ? 1 : 0;
+     
+           if ($_REQUEST['author'] == $user[2] || $visiteur >= admin_mod("Forum") || $administrator == 1)
+            {                      
+                $date = nkDate(time());
+                $texte_edit = _EDITBY . "&nbsp;" . $user[2] . "&nbsp;" . _THE . "&nbsp;" . $date;
+                $edition = ", edition = '" . $texte_edit ."'";
+                                                   
+                $_REQUEST['value'] = secu_html(html_entity_decode($_REQUEST['value']));
+                $_REQUEST['value'] = icon($_REQUEST['value']);
+                $_REQUEST['value'] = mysql_real_escape_string(stripslashes($_REQUEST['value']));
+                           
+                            $contenu = str_replace('\n','', $_REQUEST['value']);                   
+                echo $contenu . "<br /><br /><br /><br /><br /><small><i>" . $texte_edit . "</i></small>";                                                 
+     
+                            $sql = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET txt = '" . $_REQUEST['value'] . "'" . $edition . " WHERE id = '" . $id . "'");
+            }
+            else
+            {
+                echo "<br /><br /><div style=\"text-align: center;\">" . _ZONEADMIN . "</div><br /><br />";
+                $url = 'index.php?file=Forum';
+            }              
+            }
+
 
     function edit($mess_id)
     {
-        global $visiteur, $user, $nuked;
+        global $visiteur, $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 
         opentable();
-
+		
         if ($_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {
             echo "<br /><br /><div style=\"text-align: center;\">" . _FIELDEMPTY . "</div><br /><br />";
@@ -550,7 +595,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function reply()
     {
-        global $user, $nuked, $captcha,$visiteur,$user_ip, $bgcolor3;
+        global $user, $nuked, $captcha,$visiteur,$user_ip;
 
         opentable();
 
@@ -768,7 +813,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function post()
     {
-        global $user, $nuked,$captcha,$user_ip, $visiteur, $bgcolor3;
+        global $user, $nuked,$captcha,$user_ip, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 
         opentable();
 
@@ -1068,7 +1113,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     function add_poll()
     {
-        global $visiteur, $user, $nuked;
+        global $visiteur, $user, $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 
         opentable();
 
@@ -1467,6 +1512,10 @@ if ($visiteur >= $level_access && $level_access > -1)
 
     switch ($_REQUEST['op'])
     {
+        case "save":
+            save($_REQUEST['id'], $_REQUEST['value']);
+            break;
+			
         case"index":
             index();
             break;

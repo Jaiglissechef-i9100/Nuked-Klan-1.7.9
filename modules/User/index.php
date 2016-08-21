@@ -351,8 +351,11 @@ function edit_account(){
     define('EDITOR_CHECK', 1);
 
     if ($user){
-        $sql = mysql_query("SELECT pseudo, pass, url, mail, email, icq, msn, aim, yim, avatar, signature, country, game FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
-        list($nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $avatar, $signature, $pays, $jeu) = mysql_fetch_array($sql);
+        $sql = mysql_query("SELECT pseudo, pass, url, mail, email, icq, msn, aim, yim, avatar, signature, country, game, xfire, facebook ,origin, steam, twitter, skype FROM " . USER_TABLE . " WHERE id = '" . $user[0] . "'");
+        list($nick, $pass, $url, $mail, $email, $icq, $msn, $aim, $yim, $avatar, $signature, $pays, $jeu, $xfire, $facebook ,$origin, $steam, $twitter, $skype) = mysql_fetch_array($sql);
+
+		$sql_config = mysql_query("SELECT mail, icq, msn, aim, yim, xfire, facebook, originea, steam, twiter, skype, lien FROM ". $nuked['prefix'] ."_users_config");
+		list($c1, $c2, $c3, $c4, $c5, $c6, $c7, $c8, $c9, $c10, $c11, $c12) = mysql_fetch_array($sql_config);
 
         echo "<br /><div style=\"text-align: center;\"><big><b>" . _YOURACCOUNT . "</b></big></div><br />\n"
                 . "<div style=\"text-align: center;\"><b><a href=\"index.php?file=User\">" . _INFO . "</a> | "
@@ -394,14 +397,20 @@ function edit_account(){
                 . "<tr><td><b>" . _MAIL . " " . _PRIVATE . " : </b></td><td><input id=\"edit_mail\" type=\"text\" name=\"mail\" size=\"30\" maxlength=\"80\" value=\"" . $mail. "\" /> *</td></tr>\n"
                 . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                 . "<tr><td><b>" . _USERPASSWORD . " (" . _PASSOLD . ") :</b></td><td><input type=\"password\" name=\"pass_old\" size=\"10\" maxlength=\"15\" /> *</td></tr>\n"
-                . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n"
-                . "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n"
-                . "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"15\" maxlength=\"15\" value=\"" . $icq . "\" /></td></tr>\n"
-                . "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n"
-                . "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n"
-                . "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n"
-                . "<tr><td><b>" . _WEBSITE . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n"
-                . "<tr><td><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
+                . "<tr><td colspan=\"2\">&nbsp;</td></tr>\n";
+				if ($c1 == 'on'){echo "<tr><td><b>" . _MAIL . " " . _PUBLIC . " : </b></td><td><input type=\"text\" name=\"email\" size=\"30\" maxlength=\"80\" value=\"" . $email . "\" /></td></tr>\n";}
+				if ($c2 == 'on'){echo "<tr><td><b>" . _ICQ . " : </b></td><td><input type=\"text\" name=\"icq\" size=\"30\" maxlength=\"30\" value=\"" . $icq . "\" /></td></tr>\n";}
+				if ($c3 == 'on'){echo "<tr><td><b>" . _MSN . " : </b></td><td><input type=\"text\" name=\"msn\" size=\"30\" maxlength=\"80\" value=\"" . $msn . "\" /></td></tr>\n";}
+				if ($c4 == 'on'){echo "<tr><td><b>" . _AIM . " : </b></td><td><input type=\"text\" name=\"aim\" size=\"30\" maxlength=\"30\" value=\"" . $aim . "\" /></td></tr>\n";}
+				if ($c5 == 'on'){echo "<tr><td><b>" . _YIM . " : </b></td><td><input type=\"text\" name=\"yim\" size=\"30\" maxlength=\"30\" value=\"" . $yim . "\" /></td></tr>\n";}
+				if ($c6 == 'on'){echo "<tr><td><b>" . _XFIRE . " : </b></td><td><input type=\"text\" name=\"xfire\" size=\"30\" maxlength=\"30\" value=\"" . $xfire . "\" /></td></tr>\n";}
+				if ($c7 == 'on'){echo "<tr><td><b>" . _FACEBOOK . " : </b></td><td><input type=\"text\" name=\"facebook\" size=\"30\" maxlength=\"30\" value=\"" . $facebook . "\" /></td></tr>\n";}
+				if ($c8 == 'on'){echo "<tr><tr><td><b>" . _ORIGINEA . " : </b></td><td><input type=\"text\" name=\"origin\" size=\"30\" maxlength=\"30\" value=\"" . $origin . "\" /></td></tr>\n";}
+				if ($c9 == 'on'){echo "<tr><td><b>" . _STEAM . " : </b></td><td><input type=\"text\" name=\"steam\" size=\"30\" maxlength=\"30\" value=\"" . $steam . "\" /></td></tr>\n";}
+				if ($c10 == 'on'){echo "<tr><td><b>" . _TWITER . " : </b></td><td><input type=\"text\" name=\"twitter\" size=\"30\" maxlength=\"30\" value=\"" . $twitter . "\" /></td></tr>\n";}	
+				if ($c11 == 'on'){echo "<tr><td><b>" . _SKYPE . " : </b></td><td><input type=\"text\" name=\"skype\" size=\"30\" maxlength=\"30\" value=\"" . $skype . "\" /></td></tr>\n";}	
+                if ($c12 == 'on'){echo "<tr><td><b>" . _WEBSITE . " : </b></td><td><input type=\"text\" name=\"url\" size=\"40\" maxlength=\"80\" value=\"" . $url . "\" /></td></tr>\n";}
+                echo "<tr><td><b>" . _COUNTRY . " : </b></td><td><select name=\"country\">\n";
 
         $rep = Array();
         $handle = @opendir("images/flags");
@@ -996,7 +1005,8 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
         $country = "France.gif";
     }
     $date2 = nkDate(time());
-    $add = mysql_query("INSERT INTO " . USER_TABLE . " ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count` ) VALUES ( '" . $user_id . "' , '' , '' , '' , '' , '' , '" . $pseudo . "' , '" . $mail . "' , '" . $email . "' , '' , '' , '' , '' , '' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '' , '' , '' , '' , '" . $game . "' , '" . $country . "' , '' )");
+    $add = mysql_query("INSERT INTO " . USER_TABLE . " ( `id` , `team` , `team2` , `team3` , `rang` , `ordre` , `pseudo` , `mail` , `email` , `icq` , `msn` , `aim` , `yim` , `url` , `pass` , `niveau` , `date` , `avatar` , `signature` , `user_theme` , `user_langue` , `game` , `country` , `count`, `xfire`, `facebook`, `origin`, `steam`, `twitter`, `skype` ) VALUES ( '" . $user_id . "' , '' , '' , '' , '' , '' , '" . $pseudo . "' , '" . $mail . "' , '" . $email . "' , '' , '' , '' , '' , '' , '" . $cryptpass . "' , '" . $niveau . "' , '" . $date . "' , '' , '' , '' , '' , '" . $game . "' , '" . $country . "' , '', '" . $xfire . "', '" . $facebook . "', '" . $origin . "', '" . $steam . "', '" . $twitter . "', '" . $skype . "'
+ )");
 
     // Mark read all topics in the forum
     $_COOKIE['cookie_forum'] = '';
@@ -1194,7 +1204,7 @@ function login_message(){
     }
 
     $referer = urldecode($_REQUEST['referer']);
-    $referer = str_replace('&amp;', '&', $referer); 
+    $referer = str_replace('&amp;', '&', $referer);
 
     if (!empty($referer) && !stripos($referer, 'User&op=reg')){
         $url = "index.php?" . $referer;
@@ -1238,7 +1248,7 @@ function login_message(){
     }
 }
 
-function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_old, $icq, $msn, $aim, $yim, $avatar, $fichiernom, $signature, $game, $country, $remove){
+function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_old, $icq, $msn, $aim, $yim, $avatar, $fichiernom, $signature, $game, $country, $remove, $xfire, $facebook ,$origin, $steam, $twitter, $skype){
     global $nuked, $user;
 
     if ($remove == "ok" && $nuked['user_delete'] == "on"){
@@ -1368,6 +1378,12 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         $msn = mysql_real_escape_string(stripslashes($msn));
         $aim = mysql_real_escape_string(stripslashes($aim));
         $yim = mysql_real_escape_string(stripslashes($yim));
+        $xfire = mysql_real_escape_string(stripslashes($xfire));
+        $facebook = mysql_real_escape_string(stripslashes($facebook));
+        $steam = mysql_real_escape_string(stripslashes($steam));
+        $origin = mysql_real_escape_string(stripslashes($origin));
+        $twitter = mysql_real_escape_string(stripslashes($twitter));
+        $skype = mysql_real_escape_string(stripslashes($skype));
         $url = mysql_real_escape_string(stripslashes($url));
         $game = mysql_real_escape_string(stripslashes($game));
         $country = mysql_real_escape_string(stripslashes($country));
@@ -1378,6 +1394,12 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         $msn = htmlentities($msn);
         $aim = htmlentities($aim);
         $yim = htmlentities($yim);
+        $xfire = htmlentities($xfire);
+        $facebook = htmlentities($facebook);
+        $steam = htmlentities($steam);
+        $origin = htmlentities($origin);
+        $twitter = htmlentities($twitter);
+        $skype = htmlentities($skype);        
         $url = htmlentities($url);
         $game = htmlentities($game);
         $country = htmlentities($country);
@@ -1435,7 +1457,7 @@ function update($nick, $pass, $mail, $email, $url, $pass_reg, $pass_conf, $pass_
         if (!(file_exists("images/flags/".$country.""))){
             $country = "France.gif";
         }
-        $upd3 = mysql_query("UPDATE " . USER_TABLE . " SET icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', email = '" . $email . "', url = '" . $url . "', avatar = '" . $url_avatar . "', signature = '" . $signature . "', game = '" . $game . "', country = '" . $country . "' WHERE id = '" . $user[0] . "'");
+        $upd3 = mysql_query("UPDATE " . USER_TABLE . " SET icq = '" . $icq . "', msn = '" . $msn . "', aim = '" . $aim . "', yim = '" . $yim . "', email = '" . $email . "', url = '" . $url . "', avatar = '" . $url_avatar . "', signature = '" . $signature . "', game = '" . $game . "', country = '" . $country . "', xfire = '" . $xfire . "', facebook = '" . $facebook . "', origin = '" . $origin . "', steam = '" . $steam . "', twitter = '" . $twitter . "', skype = '" . $skype . "' WHERE id = '" . $user[0] . "'");
         echo "<br /><br /><div style=\"text-align: center;\">" . _INFOMODIF . "</div><br /><br />";
         redirect("index.php?file=User", 1);
     }
@@ -1700,7 +1722,7 @@ function envoi_mail($email){
 
             $message = @html_entity_decode($message);
 
-            @mail($email, _LOSTPASSWORD, $message, $headers);
+            mail($email, _LOSTPASSWORD, $message, $headers);
 
             echo '<div style="text-align:center;margin:30px;">'._MAILSEND.'</div>';
             redirect("index.php", 3);
@@ -1750,7 +1772,7 @@ function envoi_pass($email, $token){
 
                 $message = @html_entity_decode($message);
 
-                @mail($email, _YOURNEWPASSWORD, $message, $headers);
+                mail($email, _YOURNEWPASSWORD, $message, $headers);
 
                 $new_pass = nk_hash($new_pass);
 
@@ -2025,7 +2047,7 @@ switch ($_REQUEST['op']){
         break;
     case"update":
         opentable();
-        update($_REQUEST['nick'], $_REQUEST['pass'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass_old'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['avatar'], $_REQUEST['fichiernom'], $_REQUEST['signature'], $_REQUEST['game'], $_REQUEST['country'], $_REQUEST['remove']);
+        update($_REQUEST['nick'], $_REQUEST['pass'], $_REQUEST['mail'], $_REQUEST['email'], $_REQUEST['url'], $_REQUEST['pass_reg'], $_REQUEST['pass_conf'], $_REQUEST['pass_old'], $_REQUEST['icq'], $_REQUEST['msn'], $_REQUEST['aim'], $_REQUEST['yim'], $_REQUEST['avatar'], $_REQUEST['fichiernom'], $_REQUEST['signature'], $_REQUEST['game'], $_REQUEST['country'], $_REQUEST['remove'], $_REQUEST['xfire'], $_REQUEST['facebook'], $_REQUEST['origin'], $_REQUEST['steam'], $_REQUEST['twitter'], $_REQUEST['skype']);
         closetable();
         break;
     case"update_pref":

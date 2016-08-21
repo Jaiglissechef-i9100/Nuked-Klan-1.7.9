@@ -9,14 +9,40 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die;
 
-
-global $bgcolor1, $bgcolor2, $bgcolor3;
+global $nuked, $bgcolor1, $bgcolor2, $bgcolor3, $bgcolor4;
 // Definition des 3 couleurs, par defaut ceux de nuked-klan, vous pouvez les remplacer par un code couleur.
 // Exemple : $color1 = "#FFFFFF";
 
-$color1 = $bgcolor1;
-$color2 = $bgcolor2;
-$color3 = $bgcolor3;
+if($nuked['forum_skin'] == "Nk-Help")
+{
+	$forumcolor1 = "#CCC";
+	$forumcolor2 = "#FFF";
+	$forumcolor3 = "#EEE";
+	$forumcolor4 = "#DD6600";
+	
+}else if($nuked['forum_skin'] == "Phpbb3-Blue")
+{
+	$forumcolor1 = "#000";
+	$forumcolor2 = "#e1ebf2";
+	$forumcolor3 = "#568BD3";
+	$forumcolor4 = "#fff";
+	$forumcolor5 = "#ccc";
+	$forumcolor6 = "#d8d7d7";
+	$forumcolor7 = "#6b6665";
+	
+}else if($nuked['forum_skin'] == "Nk-Gigoss")
+{
+	$forumcolor1 = "#EA8F09";
+	$forumcolor2 = "#DD6600";
+	$forumcolor3 = "#2B2B2B";
+	$forumcolor4 = "#1B1B1B";
+	
+}else{
+	$color1 = $bgcolor1;
+	$color2 = $bgcolor2;
+	$color3 = $bgcolor3;
+	$color4 = $bgcolor4;
+}
 
 // Définition du background de la 1er cellule par defaut un bgcolor3, vous pouvez le remplacer par un background utilisant une image.
 // Exemple : $background = "style=\"background-image:url(images/img.gif);\"";

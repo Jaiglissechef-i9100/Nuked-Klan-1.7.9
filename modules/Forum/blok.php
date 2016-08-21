@@ -15,6 +15,7 @@ if (!defined("INDEX_CHECK"))
 
 global $nuked, $file, $language, $user, $bgcolor3, $bgcolor2;
 translate("modules/Forum/lang/" . $language . ".lang.php");
+define('FORUM_PRIMAIRE_TABLE', $nuked['prefix'] . '_forums_primaire');
 
 if (!$user)
 {
