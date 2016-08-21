@@ -1412,6 +1412,25 @@ CREATE TABLE IF NOT EXISTS `nuked_vote` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `mumble`
+--
+
+DROP TABLE IF EXISTS `mumble`;
+CREATE TABLE IF NOT EXISTS `mumble` (
+    `name` varchar(255) NOT NULL default '',
+    `mumble_jsonurl` text NOT NULL,
+   PRIMARY KEY  (`name`)
+) ENGINE=MyISAM";
+
+--
+-- Contenu de la table `mumble`
+--
+
+INSERT INTO `mumble` (`config`) VALUES ( '');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `themes slide`
 --
 
