@@ -883,6 +883,9 @@ CREATE TABLE IF NOT EXISTS `nuked_news` (
   `date` varchar(30) COLLATE latin1_general_ci NOT NULL DEFAULT '',
   `bbcodeoff` int(1) NOT NULL DEFAULT '0',
   `smileyoff` int(1) NOT NULL DEFAULT '0',
+  `published` INT(1) default NULL,
+  `niveau` INT(1) default NULL,
+  `allow_comments` INT(1) default NULL,
   PRIMARY KEY (`id`),
   KEY `cat` (`cat`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
@@ -891,8 +894,8 @@ CREATE TABLE IF NOT EXISTS `nuked_news` (
 -- Contenu de la table `nuked_news`
 --
 
-INSERT INTO `nuked_news` (`id`, `cat`, `titre`, `auteur`, `auteur_id`, `texte`, `suite`, `date`, `bbcodeoff`, `smileyoff`) VALUES
-(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.7.9', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l''install. En cas de problèmes, veuillez le signaler sur  <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.', '', '1352563028', 0, 0);
+INSERT INTO `nuked_news` (`id`, `cat`, `titre`, `auteur`, `auteur_id`, `texte`, `suite`, `date`, `bbcodeoff`, `smileyoff`, `published`, `niveau`, `allow_comments`) VALUES
+(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.7.9', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l''install. En cas de problèmes, veuillez le signaler sur  <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.', '', '1352563028', 0, 0, 1, 0, 1);
 
 -- --------------------------------------------------------
 

@@ -7,7 +7,15 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+
+/**
+ * Patch Extended News
+ * Nuked-Klan version 1.7.9
+ * @version 1.0.0
+ * Auteur: eResnova <http://www.e-resnova.net>
+ */
+ 
+defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open this page directly</div>');
 
 translate("modules/News/lang/" . $language . ".lang.php");
 
@@ -102,15 +110,16 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		echo "<table width=\"100%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
 		   . "<tr>\n"
-		   . "<td style=\"width: 25%;\" align=\"center\"><b>" . _TITLE . "</b></td>\n"
-		   . "<td style=\"width: 15%;\" align=\"center\"><b>" . _CAT . "</b></td>\n"
-		   . "<td style=\"width: 20%;\" align=\"center\"><b>" . _DATE . "</b></td>\n"
-		   . "<td style=\"width: 20%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
-		   . "<td style=\"width: 10%;\" align=\"center\"><b>" . _EDIT . "</b></td>\n"
-		   . "<td style=\"width: 10%;\" align=\"center\"><b>" . _DEL . "</b></td></tr>\n";
+		   . "<td style=\"width: 5%;\"></td>\n"
+		   . "<td style=\"width: 25%;\"><b>" . _TITLE . "</b></td>\n"
+		   . "<td style=\"width: 20%;\"><b>" . _CAT . "</b></td>\n"
+		   . "<td style=\"width: 15%;\"><b>" . _DATE . "</b></td>\n"
+		   . "<td style=\"width: 15%;\"><b>" . _AUTHOR . "</b></td>\n"
+		   . "<td style=\"width: 10%; text-align: center;\"><b>" . _EDIT . "</b></td>\n"
+		   . "<td style=\"width: 10%; text-align: center;\"><b>" . _DEL . "</b></td></tr>\n";
 
-		$sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, cat, date FROM " . NEWS_TABLE . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_news);
-		while (list($news_id, $titre, $autor, $autor_id, $cat, $date) = mysql_fetch_array($sql2)) {
+		$sql2 = mysql_query("SELECT id, titre, auteur, auteur_id, cat, date, published FROM " . NEWS_TABLE . " ORDER BY " . $order_by . " LIMIT " . $start . ", " . $nb_news);
+		while (list($news_id, $titre, $autor, $autor_id, $cat, $date, $published) = mysql_fetch_array($sql2)) {
 			$date = nkDate($date);
 
 			$sql3 = mysql_query("SELECT titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat. "'");
@@ -133,14 +142,21 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 			} else {
 				$title = printSecuTags($titre);
 			}
+			
+			if($published == 1) {
+				$published = '<img src="modules/News/images/published.png" title="' . _PUBLISHED . '" />';
+			} else {
+				$published = '<img src="modules/News/images/not_published.png" title="' . _NOTPUBLISHED . '" />';
+			}
 
 			echo "<tr>\n"
-			   . "<td style=\"width: 25%;\">" . $title . "</td>\n"
-			   . "<td style=\"width: 15%;\" align=\"center\">" . $categorie . "</td>\n"
-			   . "<td style=\"width: 20%;\" align=\"center\">" . $date . "</td>\n"
-			   . "<td style=\"width: 20%;\" align=\"center\">" . $_REQUEST['auteur'] . "</td>\n"
-			   . "<td style=\"width: 10%;\" align=\"center\"><a href=\"index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISNEWS . "\" /></a></td>\n"
-			   . "<td style=\"width: 10%;\" align=\"center\"><a href=\"javascript:del_news('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $news_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISNEWS . "\" /></a></td></tr>\n";
+			   . "<td style=\"width: 5%; text-align: center;\">" . $published . "</td>\n"
+			   . "<td style=\"width: 25%;\"><a href=\"index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id=" . $news_id . "\">" . $title . "</a></td>\n"
+			   . "<td style=\"width: 20%;\">" . $categorie . "</td>\n"
+			   . "<td style=\"width: 15%;\">" . $date . "</td>\n"
+			   . "<td style=\"width: 15%;\">" . $_REQUEST['auteur'] . "</td>\n"
+			   . "<td style=\"width: 10%; text-align: center;\"><a href=\"index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id=" . $news_id . "\"><img style=\"border: 0;\" src=\"images/edit.gif\" alt=\"\" title=\"" . _EDITTHISNEWS . "\" /></a></td>\n"
+			   . "<td style=\"width: 10%; text-align: center;\"><a href=\"javascript:del_news('" . mysql_real_escape_string(stripslashes($titre)) . "', '" . $news_id . "');\"><img style=\"border: 0;\" src=\"images/del.gif\" alt=\"\" title=\"" . _DELTHISNEWS . "\" /></a></td></tr>\n";
 		}
 
 		if ($count == 0) {
@@ -171,73 +187,147 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "</b>" . _ADDNEWS . "<b> | "
 		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
 		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-		   . "<form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_add\" onsubmit=\"backslash('news_texte');backslash('news_suite');\">\n"
-		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-		   . "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><b>" . _PUBLISH . "&nbsp;" . _THE ." :</b>&nbsp;<select id=\"news_jour\" name=\"jour\">\n";
-
-		$day = 1;
-		while ($day < 32) {
-			if ($day == date("d")) {
-				echo "<option value=\"" . $day . "\" selected=\"selected\">" . $day . "</option>\n";
-			} else {
-				echo "<option value=\"" . $day . "\">" . $day . "</option>\n";
+		   . "<form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_add\" onsubmit=\"backslash('news_texte');backslash('news_suite');\">\n";
+		   
+			?>
+			
+			<style type="text/css">
+			#cke_news_suite, #cke_news_texte {
+				width: 100% !important;
 			}
-			$day++;
-		}
+			</style>
+			
+			<table>
+				<thead>
+					<tr>
+						<th colspan="2"><?php echo _ADDNEWS; ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><?php echo _TITLE; ?></td>
+						<td><input type="text" id="news_titre" name="titre" maxlength="100" class="text-input medium-input" /></td>
+					</tr>
+					<tr>
+						<td><?php echo _PUBLISH; ?> <?php echo _THE; ?></td>
+						<td>
+							<select id="news_jour" name="jour">
+							<?php
+							$day = 1;
+							while ($day < 32) {
+								if ($day == date("d")) {
+									echo "<option value=\"" . $day . "\" selected=\"selected\">" . $day . "</option>\n";
+								} else {
+									echo "<option value=\"" . $day . "\">" . $day . "</option>\n";
+								}
+								$day++;
+							}
+							?>
+							</select>
+							<select id="news_mois" name="mois">
+							<?php
+							$month = 1;
+							while ($month < 13) {
+								if ($month == date("m")) {
+									echo "<option value=\"" . $month . "\" selected=\"selected\">" . $month . "</option>\n";
+								} else {
+									echo "<option value=\"" . $month . "\">" . $month . "</option>\n";
+								}
+								$month++;
+							}
+							?>
+							</select>
+							<select id="news_annee" name="annee">
+							<?php
+							$prevprevprevyear = date(Y) -3;
+							$prevprevyear = date(Y) -2;
+							$prevyear = date(Y) -1;
+							$year = date(Y) ;
+							$nextyear = date(Y) + 1;
+							$nextnextyear = date(Y) + 2;
+							$check = "selected=\"selected\"";
 
-		echo "</select>&nbsp;<select id=\"news_mois\" name=\"mois\">\n";
-
-		$month = 1;
-		while ($month < 13) {
-			if ($month == date("m")) {
-				echo "<option value=\"" . $month . "\" selected=\"selected\">" . $month . "</option>\n";
-			} else {
-				echo "<option value=\"" . $month . "\">" . $month . "</option>\n";
-			}
-			$month++;
-		}
-
-		echo "</select>&nbsp;<select id=\"news_annee\" name=\"annee\">\n";
-
-		$prevprevprevyear = date(Y) -3;
-		$prevprevyear = date(Y) -2;
-		$prevyear = date(Y) -1;
-		$year = date(Y) ;
-		$nextyear = date(Y) + 1;
-		$nextnextyear = date(Y) + 2;
-		$check = "selected=\"selected\"";
-
-		echo "<option value=\"" . $prevprevprevyear . "\">" . $prevprevprevyear . "</option>\n"
-		   . "<option value=\"" . $prevprevyear . "\">" . $prevprevyear . "</option>\n"
-		   . "<option value=\"" . $prevyear . "\">" . $prevyear . "</option>\n"
-		   . "<option value=\"" . $year . "\" " . $check . ">" . $year . "</option>\n";
-
-		$heure = date("H:i");
-
-		echo "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
-		   . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
-		   . "</select>&nbsp;<b>" . _AT . " :</b>&nbsp;<input type=\"text\" id=\"news_heure\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><b>" . _CAT . " :</b> <select id=\"news_cat\" name=\"cat\">\n";
-
-		select_news_cat();
-
-		echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n"
-		   . "<tr><td align=\"center\"><big><b>" . _TEXT . " :</b></big></td></tr>\n";
-
-
-		echo "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><big><b>" . _MORE . " :</b></big></td></tr>\n";
-
-
-
-		echo "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\"></textarea></td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDNEWS . "\" />\n"
-		   . "</td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\">[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main\"><b>" . _BACK . "</b></a> ]</td></tr></table></form><br /></div></div>\n";
+							echo "<option value=\"" . $prevprevprevyear . "\">" . $prevprevprevyear . "</option>\n"
+							   . "<option value=\"" . $prevprevyear . "\">" . $prevprevyear . "</option>\n"
+							   . "<option value=\"" . $prevyear . "\">" . $prevyear . "</option>\n"
+							   . "<option value=\"" . $year . "\" " . $check . ">" . $year . "</option>\n"
+							   . "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
+							   . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n";
+							?>
+							</select>
+							&nbsp;&nbsp;&nbsp;<?php echo _AT; ?>&nbsp;
+							<?php
+							$heure = date("H:i");
+							?>
+							<input type="text" id="news_heure" name="heure" size="5" maxlength="5" value="<?php echo $heure; ?>" class="text-input small-input" style="width: 55px !important; text-align: center;" />
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo _NIVEAU; ?></td>
+						<td>
+							<select id="news_niveau" name="niveau">
+								<option value="0">0</option>
+								<option value="1">1</option>
+								<option value="2">2</option>
+								<option value="3">3</option>
+								<option value="4">4</option>
+								<option value="5">5</option>
+								<option value="6">6</option>
+								<option value="7">7</option>
+								<option value="8">8</option>
+								<option value="9">9</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo _CAT; ?></td>
+						<td>
+							<select id="news_cat" name="cat">
+								<?php select_news_cat(); ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo _COMMENTS; ?></td>
+						<td>
+							<select id="news_allow_comments" name="allow_comments">
+								<option value="1"><?php echo _ENABLED; ?></option>
+								<option value="0"><?php echo _DESABLED; ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo _PUBLICATION; ?></td>
+						<td>
+							<p style="padding-bottom: 5px;"><input type="radio" name="published" value="1" checked="checked" /> Publier la news maintenant</p>
+							<p><input type="radio" name="published" value="0" /> Enregistrer comme brouillon</p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<p><?php echo _TEXT; ?></p>
+							<textarea class="editor" id="news_texte" name="texte" rows="15"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<p><?php echo _MORE; ?></p>
+							<textarea class="editor" id="news_suite" name="suite" rows="15"></textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<div style="text-align: center; padding: 15px;">
+				<input type="submit" class="button" value="<?php echo _ADDNEWS; ?>" />
+			</div>
+		
+		</form>
+		
+		<?php
 	}
 
-	function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
+	function do_add($titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $published, $niveau, $allow_comments) {
 		global $nuked, $user;
 
 
@@ -254,19 +344,20 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$auteur = $user[2];
 		$auteur_id = $user[0];
 
-		$sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "')");
+		$sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date` , `published` , `niveau` , `allow_comments`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "', '" . $published . "' , '" . $niveau . "' , '" . $allow_comments .  "')");
+		
 		// Action
 		$texteaction = "". _ACTIONADDNEWS .": ".$titre.".";
 		$acdate = time();
 		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
+		$news_id = mysql_insert_id();
+		
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
 		   . _NEWSADD . "\n"
 		   . "</div>\n"
 		   . "</div>\n";
-		$sqls = mysql_query("SELECT id FROM " . NEWS_TABLE . " WHERE titre = '" . $titre . "' AND date = '".$date."'");
-		list($news_id) = mysql_fetch_array($sqls);
+
 		echo "<script>\n"
 		   . "setTimeout('screen()','3000');\n"
 		   . "function screen() { \n"
@@ -278,8 +369,8 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function edit($news_id) {
 		global $nuked, $language;
 
-		$sql = mysql_query("SELECT titre, texte, suite, date, cat FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
-		list($titre, $texte, $suite, $date, $cat) = mysql_fetch_array($sql);
+		$sql = mysql_query("SELECT titre, texte, suite, date, cat, published, niveau, allow_comments FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
+		list($titre, $texte, $suite, $date, $cat, $published, $niveau, $allow_comments) = mysql_fetch_array($sql);
 
 		$sql2 = mysql_query("SELECT nid, titre FROM " . NEWS_CAT_TABLE . " WHERE nid = '" . $cat . "'");
 		list($cid, $categorie) = mysql_fetch_array($sql2);
@@ -289,70 +380,152 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/News.php\" rel=\"modal\">\n"
 		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 		   . "</div></div>\n"
-		   . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_edit&amp;news_id=" . $news_id . "\" onsubmit=\"backslash('news_texte');backslash('news_suite');\">\n"
-		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-		   . "<tr><td align=\"center\"><b>" . _TITLE . " :</b>&nbsp;<input type=\"text\" id=\"news_titre\" name=\"titre\" maxlength=\"100\" size=\"45\" value=\"" . printSecuTags($titre) . "\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><b>" . _PUBLISH . "&nbsp;" . _THE ." :</b>&nbsp;<select id=\"news_jour\" name=\"jour\">\n";
-
-		$day = 1;
-		while ($day < 32) {
-			if ($day == date("d", $date)) {
-				echo "<option value=\"" . $day . "\" selected=\"selected\">" . $day . "</option>\n";
-			} else {
-				echo "<option value=\"" . $day . "\">" . $day . "</option>\n";
+		   . "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=News&amp;page=admin\">" . _NAVNEWS . "</a> | "
+		   . "</b>" . _ADDNEWS . "<b> | "
+		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_cat\">" . _CATMANAGEMENT . "</a> | "
+		   . "<a href=\"index.php?file=News&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+		   . "<form method=\"post\" action=\"index.php?file=News&amp;page=admin&amp;op=do_edit&amp;news_id=" . $news_id . "\" onsubmit=\"backslash('news_texte');backslash('news_suite');\">\n";
+		   
+			?>
+			
+			<style type="text/css">
+			#cke_news_suite, #cke_news_texte {
+				width: 100% !important;
 			}
-			$day++;
-		}
+			</style>
+			
+			<table>
+				<thead>
+					<tr>
+						<th colspan="2"><?php echo _EDITNEWS; ?></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><?php echo _TITLE; ?></td>
+						<td><input type="text" id="news_titre" name="titre" maxlength="100" class="text-input medium-input" value="<?php echo printSecuTags($titre); ?>" /></td>
+					</tr>
+					<tr>
+						<td><?php echo _PUBLISH; ?> <?php echo _THE; ?></td>
+						<td>
+							<select id="news_jour" name="jour">
+							<?php
+							$day = 1;
+							while ($day < 32) {
+								if ($day == date("d", $date)) {
+									echo "<option value=\"" . $day . "\" selected=\"selected\">" . $day . "</option>\n";
+								} else {
+									echo "<option value=\"" . $day . "\">" . $day . "</option>\n";
+								}
+								$day++;
+							}
+							?>
+							</select>
+							<select id="news_mois" name="mois">
+							<?php
+							$month = 1;
+							while ($month < 13) {
+								if ($month == date("m", $date)) {
+									echo "<option value=\"" . $month . "\" selected=\"selected\">" . $month . "</option>\n";
+								} else {
+									echo "<option value=\"" . $month . "\">" . $month . "</option>\n";
+								}
+								$month++;
+							}
+							?>
+							</select>
+							<select id="news_annee" name="annee">
+							<?php
+							$prevprevprevyear = date(Y) -3;
+							$prevprevyear = date(Y) -2;
+							$prevyear = date(Y) -1;
+							$year = date(Y) ;
+							$nextyear = date(Y) + 1;
+							$nextnextyear = date(Y) + 2;
+							$check = "selected=\"selected\"";
 
-		echo "</select>&nbsp;<select id=\"news_mois\" name=\"mois\">\n";
-
-		$month = 1;
-		while ($month < 13) {
-			if ($month == date("m", $date)) {
-				echo "<option value=\"" . $month . "\" selected=\"selected\">" . $month . "</option>\n";
-			} else {
-				echo "<option value=\"" . $month . "\">" . $month . "</option>\n";
-			}
-			$month++;
-		}
-
-		echo "</select>&nbsp;<select id=\"news_annee\" name=\"annee\">\n";
-
-		$prevprevprevyear = date("Y", $date) -3;
-		$prevprevyear = date("Y", $date) -2;
-		$prevyear = date("Y", $date) -1;
-		$year = date("Y", $date) ;
-		$nextyear = date("Y", $date) + 1;
-		$nextnextyear = date("Y", $date) + 2;
-		$check = "selected=\"selected\"";
-
-		echo "<option value=\"" . $prevprevprevyear . "\">" . $prevprevprevyear . "</option>\n"
-		   . "<option value=\"" . $prevprevyear . "\">" . $prevprevyear . "</option>\n"
-		   . "<option value=\"" . $prevyear . "\">" . $prevyear . "</option>\n"
-		   . "<option value=\"" . $year . "\" " . $check . ">" . $year . "</option>\n";
-
-		$heure = date("H:i", $date);
-
-		echo "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
-		   . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n"
-		   . "</select>&nbsp;<b>" . _AT . " :</b>&nbsp;<input type=\"text\" id=\"news_heure\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr>\n"
-		   . "<tr><td align=\"center\"><b>" . _CAT . " :</b> <select id=\"news_cat\" name=\"cat\"><option value=\"" . $cid . "\">" . $categorie . "</option>\n";
-
-		select_news_cat();
-
-		echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n"
-		   . "<tr><td align=\"center\"><big><b>" . _TEXT . " :</b></big></td></tr>\n"
-		   . "<tr><td align=\"center\"><textarea class=\"editor\" id=\"news_texte\" name=\"texte\" cols=\"70\" rows=\"15\">".$texte."</textarea></td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><big><b>" . _MORE . " :</b></big></td></tr><tr><td align=\"center\">\n";
-
-
-		echo "</td></tr><tr><td align=\"center\"><textarea class=\"editor\" id=\"news_suite\" name=\"suite\" cols=\"70\" rows=\"15\">".$suite."</textarea></td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFTHISNEWS . "\" />\n"
-		   . "</td></tr>\n"
-		   . "<tr><td>&nbsp;</td></tr><tr><td align=\"center\">[ <a href=\"index.php?file=News&amp;page=admin&amp;op=main\"><b>" . _BACK . "</b></a> ]</td></tr></table></form><br /></div></div>\n";
+							echo "<option value=\"" . $prevprevprevyear . "\">" . $prevprevprevyear . "</option>\n"
+							   . "<option value=\"" . $prevprevyear . "\">" . $prevprevyear . "</option>\n"
+							   . "<option value=\"" . $prevyear . "\">" . $prevyear . "</option>\n"
+							   . "<option value=\"" . $year . "\" " . $check . ">" . $year . "</option>\n"
+							   . "<option value=\"" . $nextyear . "\">" . $nextyear . "</option>\n"
+							   . "<option value=\"" . $nextnextyear . "\">" . $nextnextyear . "</option>\n";
+							?>
+							</select>
+							&nbsp;&nbsp;&nbsp;<?php echo _AT; ?>&nbsp;
+							<?php
+							$heure = date("H:i", $date);
+							?>
+							<input type="text" id="news_heure" name="heure" size="5" maxlength="5" value="<?php echo $heure; ?>" class="text-input small-input" style="width: 55px !important; text-align: center;" />
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo _NIVEAU; ?></td>
+						<td>
+							<select id="news_niveau" name="niveau">
+								<option value="0" <?php if($niveau == 0) { echo 'selected="selected"'; } ?>>0</option>
+								<option value="1" <?php if($niveau == 1) { echo 'selected="selected"'; } ?>>1</option>
+								<option value="2" <?php if($niveau == 2) { echo 'selected="selected"'; } ?>>2</option>
+								<option value="3" <?php if($niveau == 3) { echo 'selected="selected"'; } ?>>3</option>
+								<option value="4" <?php if($niveau == 4) { echo 'selected="selected"'; } ?>>4</option>
+								<option value="5" <?php if($niveau == 5) { echo 'selected="selected"'; } ?>>5</option>
+								<option value="6" <?php if($niveau == 6) { echo 'selected="selected"'; } ?>>6</option>
+								<option value="7" <?php if($niveau == 7) { echo 'selected="selected"'; } ?>>7</option>
+								<option value="8" <?php if($niveau == 8) { echo 'selected="selected"'; } ?>>8</option>
+								<option value="9" <?php if($niveau == 9) { echo 'selected="selected"'; } ?>>9</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo _CAT; ?></td>
+						<td>
+							<select id="news_cat" name="cat">
+								<option value="<?php echo $cid; ?>"><?php echo $categorie; ?></option>
+								<?php select_news_cat(); ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo _COMMENTS; ?></td>
+						<td>
+							<select id="news_allow_comments" name="allow_comments">
+								<option value="1" <?php if($allow_comments == 1) { echo 'selected="selected"'; } ?>><?php echo _ENABLED; ?></option>
+								<option value="0" <?php if($allow_comments == 0) { echo 'selected="selected"'; } ?>><?php echo _DESABLED; ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td><?php echo _PUBLICATION; ?></td>
+						<td>
+							<p style="padding-bottom: 5px;"><input type="radio" name="published" value="1" <?php if($published == 1) { echo 'checked="checked"'; } ?> /> Publier la news maintenant</p>
+							<p><input type="radio" name="published" value="0" <?php if($published == 0) { echo 'checked="checked"'; } ?> /> Enregistrer comme brouillon</p>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<p><?php echo _TEXT; ?></p>
+							<textarea class="editor" id="news_texte" name="texte" rows="15"><?php echo $texte; ?></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<p><?php echo _MORE; ?></p>
+							<textarea class="editor" id="news_suite" name="suite" rows="15"><?php echo $suite; ?></textarea>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<div style="text-align: center; padding: 15px;">
+				<input type="submit" class="button" value="<?php echo _EDITNEWS; ?>" />
+			</div>
+		
+		</form>
+		
+		<?php
 	}
 
-	function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure) {
+	function do_edit($news_id, $titre, $texte, $suite, $cat, $jour, $mois, $annee, $heure, $published, $niveau, $allow_comments) {
 		global $nuked, $user;
 
 		$table = explode(':', $heure, 2);
@@ -364,17 +537,19 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$suite = html_entity_decode($suite);
 		$suite = mysql_real_escape_string(stripslashes($suite));
 
-		$upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' WHERE id = '" . $news_id . "'");
+		$upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' , published = '" . $published . "', niveau = '" . $niveau . "', allow_comments = '" . $allow_comments . "' WHERE id = '" . $news_id . "'");
+		
 		// Action
 		$texteaction = "". _ACTIONMODIFNEWS .": ".$titre.".";
 		$acdate = time();
 		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
-		//Fin action
+		
 		echo "<div class=\"notification success png_bg\">\n"
 		   . "<div>\n"
 		   . _NEWSMODIF . "\n"
 		   . "</div>\n"
 		   . "</div>\n";
+		   
 		echo "<script>\n"
 		   . "setTimeout('screen()','3000');\n"
 		   . "function screen() { \n"
@@ -669,14 +844,14 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		case "do_add":
 			admintop();
-			do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure']);
+			do_add($_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['published'], $_REQUEST['niveau'], $_REQUEST['allow_comments']);
 			UpdateSitmap();
 			adminfoot();
 			break;
 
 		case "do_edit":
 			admintop();
-			do_edit($_REQUEST['news_id'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure']);
+			do_edit($_REQUEST['news_id'], $_REQUEST['titre'], $_REQUEST['texte'], $_REQUEST['suite'], $_REQUEST['cat'], $_REQUEST['jour'], $_REQUEST['mois'], $_REQUEST['annee'], $_REQUEST['heure'], $_REQUEST['published'], $_REQUEST['niveau'], $_REQUEST['allow_comments']);
 			adminfoot();
 			break;
 

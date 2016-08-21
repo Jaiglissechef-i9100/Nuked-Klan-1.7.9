@@ -1,4 +1,12 @@
 <?php
+
+/**
+ * Patch Extended News
+ * Nuked-Klan version 1.7.9
+ * @version 1.0.0
+ * Auteur: eResnova <http://www.e-resnova.net>
+ */
+
 if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
@@ -25,8 +33,16 @@ define("_NEWSURL","L'URL de cette news est :");
 
 define("_ADMINNEWS","Administration des News");
 define("_HELP","Aides");
+define("_EDITNEWS","Edition de la news");
 define("_DELETENEWS","Vous êtes sur le point de supprimer");
 define("_CONFIRM","Continuer ?");
+define("_PUBLISHED","Publiée");
+define("_NOTPUBLISHED","Brouillon");
+define("_NIVEAU","Niveau de visibilité");
+define("_COMMENTS","Commentaires");
+define("_ENABLED","Autorisés");
+define("_DESABLED","Désactivés");
+define("_PUBLICATION","Publication");
 define("_TITLE","Titre");
 define("_CAT","Catégorie");
 define("_DATE","Date");
@@ -103,6 +119,8 @@ define("_PREFUPDATED","Préférences modifiées avec succès");
 define("_URLIMG","Url de l'image");
 define("_UPIMG","Uploader l'image");
 define("_ORDERBY","Classer par");
+define("_ERRORNEWS","L'actualité que vous souhaitez afficher n'existe pas...");
+define("_COMMENTSDISABLED","Commentaires désactivés...");
 
 define("_ACTIONADDNEWS","a ajouté la news");
 define("_ACTIONMODIFNEWS","a modifié la news");
