@@ -27,7 +27,7 @@ CKEDITOR.editorConfig = function( config )
         { name: 'basicstyles', items : [ 'Bold','Italic','Underline','Strike','Subscript','Superscript','-','RemoveFormat' ] },
         { name: 'paragraph',   items : [ 'NumberedList','BulletedList','-','Outdent','Indent','-','Blockquote','CreateDiv','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','BidiLtr','BidiRtl' ] },
         { name: 'tools',       items : [ 'Maximize', 'ShowBlocks' ] },
-        { name: 'insert',      items : [ 'Video','syntaxhighlight' ] },
+        { name: 'insert',      items : [ 'Video' ] },
         '/',
         { name: 'styles',      items : [ 'Styles','Format','Font','FontSize' ] },
         { name: 'colors',      items : [ 'TextColor','BGColor' ] },

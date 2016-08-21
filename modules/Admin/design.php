@@ -20,8 +20,8 @@ $colonnes_a_masquer = array (
 	'Admin,action' => 0,					    //  Avec une valeur à 0, empêche seulement les longs mots de déformer des cellules
 	'Admin,menu' => '4, 3, 2',	 			    // 'file,page' => 'colonne 4, colonne 3, colonne 2'
 	'Admin,menu;edit_menu' => '6, 5, 7, 4, 1',  // 'file,page;op' => 'colonne 6, colonne 5, colonne 7, colonne 4, colonne 1'
-    'Admin,user' => '4, 3, 2', 			
-    'Admin,user;main_ip' => '3, 2',
+	'Admin,user' => '4, 3, 2', 			
+	'Admin,user;main_ip' => '3, 2',
 	'Admin,user;main_cat' => '2, 3',
 	'Admin,user;main_valid' => '3, 2',
 	'Admin,user;main_rank' => '2',
@@ -329,8 +329,7 @@ function adminfoot(){
                         CKEDITOR.config.enterMode = CKEDITOR.ENTER_BR;';
                     }
                     echo ConfigSmileyCkeditor();
-                    $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
-                    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';';
+                    echo ($nuked['video_editeur'] == 'on') ? 'CKEDITOR.config.extraPlugins = \'Video\';' : '';
                     ?>
                     //]]>
                 </script>

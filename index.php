@@ -128,15 +128,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
 
         if (!($_REQUEST['file'] == 'Admin' || $_REQUEST['page'] == 'admin' || (isset($_REQUEST['nuked_nude']) && $_REQUEST['nuked_nude'] == 'admin')) || $_REQUEST['page'] == 'login') top();
         echo '<script type="text/javascript" src="media/js/infobulle.js"></script>',"\n"
-        , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n"
-        , '<script type="text/javascript" src="media/ckeditor/plugins/syntaxhighlight/scripts/shBrush_min.js"></script>',"\n"
-        , '<script type="text/javascript"><!--',"\n"
-        , 'document.write(\'<link type="text/css" rel="stylesheet" href="media/ckeditor/plugins/syntaxhighlight/styles/shCore.css"/>\');',"\n"
-        , '--></script>',"\n"
-        , '<script type="text/javascript">',"\n"
-        , 'SyntaxHighlighter.config.clipboardSwf = \'media/ckeditor/plugins/syntaxhighlight/scripts/clipboard.swf\';',"\n"
-        , 'SyntaxHighlighter.all();',"\n"
-        , '</script>',"\n";
+        , '<script type="text/javascript">InitBulle(\'' , $bgcolor2 , '\', \'' , $bgcolor3 , '\', 2);</script>',"\n";
 
         if($user[1] == 9 && $_REQUEST['file'] != 'Admin' && $_REQUEST['page'] != 'admin'){
             if ($nuked['nk_status'] == 'closed'){
@@ -162,9 +154,7 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     echo '<script type="text/javascript" src="media/ckeditor/ckeditor.js"></script>',"\n"
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
-    , '    if(document.getElementById(\'e_basic\')){',"\n"
-    , 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
-    , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
+    , '    if(document.getElementById(\'e_basic\')){',"\n";
     echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_basic\',',"\n"
     , '    {',"\n"
@@ -177,9 +167,8 @@ else if (($_REQUEST['file'] != 'Admin' AND $_REQUEST['page'] != 'admin') || ( ni
     , '<script type="text/javascript">',"\n"
     , '//<![CDATA[',"\n"
     , '    if(document.getElementById(\'e_advanced\')){',"\n";
-    $Video = ($nuked['video_editeur'] == 'on') ? ',Video' : '';
-    echo 'CKEDITOR.config.extraPlugins = \'syntaxhighlight'.$Video.'\';'
-    , 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
+    echo ($nuked['video_editeur'] == 'on') ? 'CKEDITOR.config.extraPlugins = \'Video\';' : '';
+    echo 'CKEDITOR.config.scayt_sLang = "' . (($language == 'french') ? 'fr_FR' : 'en_US') . '";',"\n"
     , (($nuked['scayt_editeur'] == 'on') ? 'CKEDITOR.config.scayt_autoStartup = "true";' : ''),"\n";
     echo ConfigSmileyCkeditor().'',"\n";
     echo ' CKEDITOR.replace( \'e_advanced\',',"\n"
