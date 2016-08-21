@@ -13,4 +13,7 @@ defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
     <a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;">
         <img width="80" height="15" style="border:none" src="images/nk_powered.gif" alt="" title="Powered by Nuked-Klan <?php echo $nuked['version']; ?>© 2001, 2011" />
     </a>
+    <a href="http://kotshiro.free.fr" onclick="window.open(this.href); return false;">
+       <img width="80" height="15" style="border:none" src="images/inconnueteambadge.gif" alt="" title="Visit InconnueTeam" />
+    </a>
 </div>

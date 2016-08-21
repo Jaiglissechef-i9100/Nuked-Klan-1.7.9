@@ -194,16 +194,48 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<form method=\"post\" action=\"index.php?file=Guestbook&amp;page=admin&amp;op=change_pref\">\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
         . "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
-        . "<tr><td>" . _GUESTBOOKPG . " :</td><td><input type=\"text\" name=\"mess_guest_page\" size=\"2\" value=\"" . $nuked['mess_guest_page'] . "\" /></td></tr>\n"
-        . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /></div>\n"
+        . "<tr><td>" . _GUESTBOOKPG . " :</td><td><input type=\"text\" name=\"mess_guest_page\" size=\"2\" value=\"" . $nuked['mess_guest_page'] . "\" /></td></tr>\n";
+        if( $nuked['Guestbookpost'] == 0){
+        echo "<tr><td>" . _GUESTBOOKANONYMES . " :</td><td>
+		<select name=\"Guestbookpost\" >
+		<option value=\"0\">"._NON."</option>
+		<option value=\"1\">"._OUI."</option>
+		</select></td></tr>\n";
+        } else {
+        echo "<tr><td>" . _GUESTBOOKANONYMES . " :</td><td>
+		<select name=\"Guestbookpost\" >
+		<option value=\"1\">"._OUI."</option>
+		<option value=\"0\">"._NON."</option>		
+		</select></td></tr>\n";
+        }
+        if( $nuked['Guestbooktemplate'] == 0){
+        echo "<tr><td>" . _GUESTBOOKTEMPLATE . " :</td><td>
+		<select name=\"Guestbooktemplate\" >
+		<option value=\"0\">"._NORMALTEMPLATE."</option>
+		<option value=\"1\">"._ADVENCEDTEMPLATE."</option>
+		</select></td></tr>\n";
+        } else {
+        echo "<tr><td>" . _GUESTBOOKTEMPLATE . " :</td><td>
+		<select name=\"Guestbooktemplate\" >
+		<option value=\"1\">"._ADVENCEDTEMPLATE."</option>
+		<option value=\"0\">"._NORMALTEMPLATE."</option>		
+		</select></td></tr>\n";
+        }
+        echo "<tr><td>" . _GUESTBOOKTEMPLATEIMG . " :</td><td><a rel=\"modal\" href=\"/modules/Guestbook/images/normal_template.png\" title=\"Template Normal\"><img src=\"/modules/Guestbook/images/normal_template.png\" style=\"width: 150px; height: 100px;\" /></a>&nbsp; &nbsp;&nbsp;<a rel=\"modal\" title=\"Template Réduit\" href=\"/modules/Guestbook/images/reduit_template.png\"><img src=\"/modules/Guestbook/images/reduit_template.png\" style=\"width: 150px; height: 100px;\" /></a></td></tr>\n";
+   
+        echo "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" name=\"Submit\" value=\"" . _SEND . "\" /></div>\n"
         . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Guestbook&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     } 
 
-    function change_pref($mess_guest_page)
+    function change_pref($mess_guest_page,$Guestbookpost,$Guestbooktemplate)
     {
         global $nuked, $user;
 
         $upd = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $mess_guest_page . "' WHERE name = 'mess_guest_page'");
+        $updbook = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $Guestbookpost . "' WHERE name = 'Guestbookpost'");
+        $updbooktemplate = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $Guestbooktemplate . "' WHERE name = 'Guestbooktemplate'");
+     
+     
         // Action
         $texteaction = "". _ACTIONPREFBOOK .".";
         $acdate = time();
@@ -236,7 +268,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
             break;
 
         case "change_pref":
-            change_pref($_REQUEST['mess_guest_page']);
+            change_pref($_REQUEST['mess_guest_page'],$_REQUEST['Guestbookpost'],$_REQUEST['Guestbooktemplate']);
             break;
 
         default:

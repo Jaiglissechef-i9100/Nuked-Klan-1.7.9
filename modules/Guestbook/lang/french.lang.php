@@ -3,6 +3,15 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
+define("_GUESTBOOKANONYMES","Autorisé les Anonymes à poster?");
+define("_NON","Non");
+define("_OUI","Oui");
+define("_GUESTBOOKTEMPLATE","Quel template voulez-vous ?");
+define("_NORMALTEMPLATE","Normal");
+define("_ADVENCEDTEMPLATE","Reduit");
+define("_GUESTBOOKTEMPLATEIMG","Templates");
+define("_NOSIGNGUESTBOOKTETU","Hey tu est têtu!! Seuls les membres peuvent signé le livre d'or!!!");
+define("_NOSIGNGUESTBOOK","Seuls les membres peuvent signé le livre d'or");
 define("_NOENTRANCE","Désolé mais vous n'avez pas les droits pour accéder à cette page");
 define("_ZONEADMIN","Cette zone est réservée a l'Admin, Désolé...");
 define("_GUESTBOOK","Livre d'or");
@@ -14,7 +23,7 @@ define("_SEND","Envoyer");
 define("_CANCEL","Annuler");
 define("_BACK","Retour");
 define("_MODIF","Modifier");
-define("_NONICK","Vous n\'avez pas entré votre pseudo !");
+define("_NONICK","Vous n'avez pas entré votre pseudo !");
 define("_NOTEXT","Vous n\'avez pas entré votre texte !");
 define("_RESERVNICK","Ce pseudo est déjà réservé");
 define("_BANNEDNICK","Ce pseudo est banni");
@@ -30,12 +39,8 @@ define("_THEREIS","Il y a");
 define("_SIGNINDB","signatures dans le livre d'or");
 define("_PREVIOUSPAGE","Page Précédente");
 define("_NEXTPAGE","Page Suivante");
-define("_NOSIGN","Il n\'y a pas encore de message");
+define("_NOSIGN","Il n'y a pas encore de message");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
-define("_WROTE","a écrit");
-define("_READMORE","Lire la suite...");
-
-
 
 define("_ADMINGUESTBOOK","Administration Livre D'or");
 define("_HELP","Aides");

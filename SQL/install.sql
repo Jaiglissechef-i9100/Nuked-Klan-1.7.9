@@ -275,7 +275,9 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('forum_search_viewtopic', 'oui'),
 ('forum_quick_edit', 'non'),
 ('forum_quick_modo', 'non'),
-('forum_quick_user', 'non');
+('forum_quick_user', 'non'),
+('Guestbookpost', '0'),
+('Guestbooktemplate', '0');
 
 -- --------------------------------------------------------
 
@@ -852,19 +854,18 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (8, 'Server', 0, 3),
 (9, 'Download', 0, 3),
 (10, 'Gallery', 0, 3),
-(11, 'Guestbook', 0, 3),
-(12, 'Suggest', 0, 3),
-(13, 'Textbox', 0, 9),
-(14, 'Calendar', 0, 2),
-(15, 'Members', 0, 9),
-(16, 'Team', 0, 9),
-(17, 'Defy', 0, 3),
-(18, 'Recruit', 0, 3),
-(19, 'Comment', 0, 9),
-(20, 'Vote', 0, 9),
-(21, 'Stats', 0, 2),
-(22, 'Contact', 0, 3);
-(23, 'Equipe', 0, 2);
+(11, 'Suggest', 0, 3),
+(12, 'Textbox', 0, 9),
+(13, 'Calendar', 0, 2),
+(14, 'Members', 0, 9),
+(15, 'Team', 0, 9),
+(16, 'Defy', 0, 3),
+(17, 'Recruit', 0, 3),
+(18, 'Comment', 0, 9),
+(19, 'Vote', 0, 9),
+(20, 'Stats', 0, 2),
+(21, 'Contact', 0, 3);
+(22, 'Equipe', 0, 2);
 
 -- --------------------------------------------------------
 

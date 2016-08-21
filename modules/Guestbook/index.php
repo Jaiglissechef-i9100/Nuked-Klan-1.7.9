@@ -30,6 +30,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 {
     compteur("Guestbook");
 
+if( $nuked['Guestbookpost'] == '1' or $user){
     function post_book()
     {
         global $user, $nuked, $captcha;
@@ -87,7 +88,14 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         closetable();
     }
-
+} else {
+	    function post_book()
+    {
+    	Opentable();
+  echo "<br /><br /><div style=\"text-align: center;\"><h2>[ <a href=\"index.php?file=User&amp;op=reg_screen\">" . _NOSIGNGUESTBOOKTETU . "</a> ]</h2></div><br />\n";
+        closetable();
+    }  	
+}
     function send_book($name, $email, $url, $comment)
     {
         global $user, $nuked, $user_ip, $captcha;
@@ -212,19 +220,22 @@ if ($visiteur >= $level_access && $level_access > -1)
         if (!$_REQUEST['p']) $_REQUEST['p'] = 1;
         $start = $_REQUEST['p'] * $nb_mess_guest - $nb_mess_guest;
 
-        echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big>\n"
-        . "<br /><br />[ <a href=\"index.php?file=Guestbook&amp;op=post_book\">" . _SIGNGUESTBOOK . "</a> ]</div><br />\n";
-
+        echo "<br /><div style=\"text-align: center;\"><big><b>" . _GUESTBOOK . "</b></big>\n";
+        if( $nuked['Guestbookpost'] == 1 or $user){
+        echo "<br /><br />[ <a href=\"index.php?file=Guestbook&amp;op=post_book\">" . _SIGNGUESTBOOK . "</a> ]</div><br />\n";
+        } else {
+        echo "<br /><br />[ <a href=\"index.php?file=User&amp;op=reg_screen\">" . _NOSIGNGUESTBOOK . "</a> ]</div><br />\n";
+        }
         if ($count > $nb_mess_guest)
         {
             number($count, $nb_mess_guest, "index.php?file=Guestbook");
         }
-
+        if( $nuked['Guestbooktemplate'] == 0) {
         echo "<table style=\"background: " . $bgcolor3 . ";margin:auto\" width=\"98%\" cellpadding=\"3\" cellspacing=\"1\">\n"
         . "<tr style=\"background: " . $bgcolor3 . ";\">\n"
         . "<td style=\"width: 30%;\" align=\"center\"><b>" . _AUTHOR . "</b></td>\n"
         . "<td style=\"width: 70%;\" align=\"center\"><b>" . _COMMENT . "</b></td></tr>\n";
-
+        }
         $sql2 = mysql_query("SELECT id, name, comment, email, url, date, host FROM " . GUESTBOOK_TABLE . " ORDER BY id DESC LIMIT " . $start . ", " . $nb_mess_guest."");
         while (list($id, $name, $comment, $email, $url, $date, $ip) = mysql_fetch_array($sql2))
         {
@@ -257,7 +268,7 @@ if ($visiteur >= $level_access && $level_access > -1)
 
             if ($url != "")
             {
-                $website = "&nbsp;<a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"modules/Forum/images/website.gif\" alt=\"\" title=\"" . $url . "\" /></a>";
+                $website = "<div style=\"padding-top:3px;float: right;\">&nbsp;<a href=\"" . $url . "\" onclick=\"window.open(this.href); return false;\"><img style=\"border: 0;\" src=\"modules/Forum/images/website.gif\" alt=\"\" title=\"" . $url . "\" /></a></div>";
             }
             else
             {
@@ -265,7 +276,7 @@ if ($visiteur >= $level_access && $level_access > -1)
             }
             if ($email != "")
             {
-                $usermail = "<a href=\"mailto:" . $email . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/email.gif\" alt=\"\" title=\"" . $email . "\" /></a>";
+                $usermail = "<div style=\"padding-top:3px;float: right;\"><a href=\"mailto:" . $email . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/email.gif\" alt=\"\" title=\"" . $email . "\" /></a></div>";
             }
             else
             {
@@ -286,33 +297,54 @@ if ($visiteur >= $level_access && $level_access > -1)
                 . "// -->\n"
                 . "</script>\n";
 
-                $admin = "&nbsp;<a href=\"index.php?file=Guestbook&amp;page=admin&amp;op=edit_book&amp;gid=" . $id . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/buttons/" . $language . "/edit.gif\" alt=\"\" /></a>"
-                . "&nbsp;<a href=\"javascript:delmess('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"modules/Forum/images/delete.gif\" alt=\"\" /></a>";
+                $admin = "<div style=\"padding-top:3px;float: right;\">&nbsp;<a href=\"index.php?file=Guestbook&amp;page=admin&amp;op=edit_book&amp;gid=" . $id . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/buttons/" . $language . "/edit.gif\" alt=\"\" /></a>"
+                . "&nbsp;<a href=\"javascript:delmess('" . mysql_real_escape_string(stripslashes($name)) . "', '" . $id . "');\"><img style=\"border: 0;\" src=\"modules/Forum/images/delete.gif\" alt=\"\" /></a></div>";
             }
             else
             {
                 $admin = "";
             }
-
+            if( $nuked['Guestbooktemplate'] == 0) {
             echo "<tr style=\"background: " . $bg . ";\"><td style=\"width: 30%;\" valign=\"top\"><b>" . $name . "</b>";
-
+            }
             if ($visiteur >= admin_mod("Guestbook"))
             {
+            	if( $nuked['Guestbooktemplate'] == 0) {
                 echo "<br />Ip : " . $ip;
+            	}
             }
-
+            if( $nuked['Guestbooktemplate'] == '0') {
             echo "</td><td style=\"width: 70%;\"><img src=\"images/posticon.gif\" alt=\"\" /><small> " . _POSTED . " : " . $date . "</small>\n"
             . "<br /><br />" . $comment . "<br /><br /></td></tr>\n"
             . "<tr style=\"background: " . $bg . ";\"><td style=\"width: 30%;\">&nbsp;</td><td style=\"width: 70%;\">" . $usermail . $website . $admin . "</td></tr>\n";
+            }
+				$select_avatar="SELECT avatar FROM " . USER_TABLE . " WHERE pseudo = '" . $name . "'";
+				$sql_avatar=mysql_query($select_avatar);
+				list($avatar_url) = mysql_fetch_array($sql_avatar);
+    	
+    	if($avatar_url == "") $avatar_url = "modules/Guestbook/images/anonyme.png";
+    	if( $nuked['Guestbooktemplate'] == 1) {
+        
+		include ("modules/Guestbook/template.php");          
+        echo "<br /><div id=\"guestbookdeb\"><ul class=\"guestbooklist\"><li><div>
+
+	  <div class=\"guestbook-meta\">
+	   <img  src='".$avatar_url."' class='Gavatar' height='36' width='36' />
+	   <span> <strong>" . $name . "</strong> <br />" . _POSTED . " : " . $date . "</span>
+	   ".$admin."".$website."".$usermail."
+	   </div>
+	  <p>".$comment."</p>
+      </div></li></ul></div><br /><br />";
+    	}
         }
 
         if ($count == 0)
         {
             echo "<tr style=\"background: " . $bgcolor2 . ";\"><td align=\"center\" colspan=\"2\">" . _NOSIGN . "</td></tr>\n";
         }
-
+        if( $nuked['Guestbooktemplate'] == 0) {
         echo "</table>\n";
-
+        }
         if ($count > $nb_mess_guest)
         {
             number($count, $nb_mess_guest, "index.php?file=Guestbook");
