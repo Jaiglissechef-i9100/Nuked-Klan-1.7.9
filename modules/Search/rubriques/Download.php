@@ -50,7 +50,7 @@ if ($nb_dl > 0){
         $dl_titre = htmlentities($dl_titre);
         $dl_date = nkDate($dl_date);
         $tab['module'][] = $modname;
-        $tab['title'][] = "<b>" . $dl_titre . "</b> - " . _ADDED . "&nbsp;" . $dl_date;
+        $tab['title'][] = "<b>" . $dl_titre . "</b> ";
         $tab['link'][] = "index.php?file=Download&amp;op=description&amp;dl_id=" . $dl_id;
     }
 }
