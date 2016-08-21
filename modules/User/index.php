@@ -1166,35 +1166,37 @@ function login($pseudo, $pass, $remember_me){
         }
         else{
             echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+					. '<script type="text/javascript" src="modules/User/user.js"></script>'
                     . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
                     . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
                     . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
                     . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
                     . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                     . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                    . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                    . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _NOVALIDUSER . "</td></tr></table></body></html>";
+                    . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: center;\" cellspacing=\"1\" cellpadding=\"20\">\n"
+					. "<tr><td><div class=\"login_error\" style=\"align=\"center\"><big><b>" . _NOVALIDUSER . "</b></big></div></td></tr></table></body></html>\n";
 
             redirect("index.php", 2);
         }
     }
     else{
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-                . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
+                . '<script type="text/javascript" src="modules/User/user.js"></script>'
+				. "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
                 . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
                 . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
                 . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
                 . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                 . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _UNKNOWNUSER . "</td></tr></table></body></html>";
+                . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: center;\" cellspacing=\"0\" cellpadding=\"20\">\n"
+				. "<tr><td><div class=\"login_error\"style=\" align=\"center\"><big><b>" . _UNKNOWNUSER . "</b></big></div></td></tr></table></body></html>\n";
 
         redirect("index.php", 2);
     }
 }
 
 function login_message(){
-    global $nuked, $theme,  $bgcolor1, $bgcolor2, $bgcolor3, $cookie_session, $sessionlimit, $referer, $user_ip, $uid;
+    global $nuked, $theme,  $bgcolor1, $bgcolor2, $bgcolor3, $cookie_session, $sessionlimit, $referer, $user_ip, $user, $uid;
 
     if (isset($_COOKIE[$cookie_session]) && $_COOKIE[$cookie_session] != ""){
         $test_cookie = $_COOKIE[$cookie_session];
@@ -1215,14 +1217,17 @@ function login_message(){
 
     if ($test_cookie != ""){
         echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+				. '<script type="text/javascript" src="modules/User/user.js"></script>'
                 . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
                 . "<head><title>" . $nuked['name'] . " :: " . $nuked['slogan'] . " ::</title>\n"
                 . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
                 . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
                 . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
                 . "<body style=\"background: " . $bgcolor2 . ";\"><div><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /></div>\n"
-                . "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: left;background: " . $bgcolor3 . ";\" cellspacing=\"1\" cellpadding=\"20\">\n"
-                . "<tr><td style=\"background: " . $bgcolor1 . ";\" align=\"center\"><big><b>" . _LOGINPROGRESS . "</b></big></td></tr></table></body></html>";
+				. "<table width=\"400\" style=\"margin-left: auto;margin-right: auto;text-align: center;\" cellspacing=\"0\" cellpadding=\"20\">\n"
+				. "<tr><td><div class=\"login_succes\" style=\" align=\"center\"><big><b>" . _LOGINPROGRESS . "</b></big><br />\n"
+				. "Vous avez <b>" . $user[5] . "</b> nouveau(x) message(s).<br />\n"
+				. "Votre ip : <b>" . $user[3] . "</b><br /></div></td></tr></table></body></html>\n";
 
         redirect($url, 2);
     }

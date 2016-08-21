@@ -120,7 +120,7 @@ define("_MAILBANNED","Ce mail est banni");
 define("_MAILINUSE","Cet Email est déjà réservé");
 define("_BADUSERNAME","Pseudo incorrect, Certains caractères sont interdits.");
 define("_NICKTOLONG","Votre pseudo est trop long.");
-define("_LOGINPROGRESS","Login en cours...");
+define("_LOGINPROGRESS","Authentification réussie !");
 define("_SESSIONIPOPEN","Attention, vous êtes en session provisoire, vous serez déconnecté au bout de " . $nuked['sess_inactivemins'] . " minutes d'inactivité !");
 define("_ERRORCOOKIE","Votre navigateur n'autorise pas les cookies, veuillez régler vos paramètres de confidentialité sur <b>accepter tous les cookies</b>, pour plus d'information sur ce sujet, allez sur le site de <a href=\"http://support.microsoft.com/default.aspx?scid=kb;fr;175662&Product=ieINT\" target=\"_blank\"><b>Microsoft France</b></a>");
 define("_INFOMODIF","Infos modifiées avec succès");
