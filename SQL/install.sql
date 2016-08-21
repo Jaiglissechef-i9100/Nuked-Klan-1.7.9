@@ -825,6 +825,25 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table nuked_mumble
+--
+
+CREATE TABLE IF NOT EXISTS nuked_mumble (
+  `name` varchar(255) collate latin1_general_ci NOT NULL default '',
+  `mumble_jsonurl` text collate latin1_general_ci NOT NULL,
+  PRIMARY KEY (name)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Contenu de la table nuked_mumble
+--
+
+INSERT INTO nuked_mumble (name, mumble_jsonurl) VALUES
+('config', '');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_nbconnecte`
 --
 
@@ -1272,6 +1291,20 @@ CREATE TABLE IF NOT EXISTS `nuked_team_rank` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table nuked_themes_slide
+--
+
+CREATE TABLE IF NOT EXISTS nuked_themes_slide (
+  `id` int(11) NOT NULL auto_increment,
+  `titre` text collate latin1_general_ci NOT NULL,
+  `url` varchar(200) collate latin1_general_ci NOT NULL default '',
+  `img` varchar(200) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_tmpses`
 --
 
@@ -1408,40 +1441,6 @@ CREATE TABLE IF NOT EXISTS `nuked_vote` (
   PRIMARY KEY (`id`),
   KEY `vid` (`vid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `mumble`
---
-
-DROP TABLE IF EXISTS `mumble`;
-CREATE TABLE IF NOT EXISTS `mumble` (
-    `name` varchar(255) NOT NULL default '',
-    `mumble_jsonurl` text NOT NULL,
-   PRIMARY KEY  (`name`)
-) ENGINE=MyISAM";
-
---
--- Contenu de la table `mumble`
---
-
-INSERT INTO `mumble` (`config`) VALUES ( '');
-
--- --------------------------------------------------------
-
---
--- Structure de la table `themes slide`
---
-
-DROP TABLE IF EXISTS `themes_slide`;
-CREATE TABLE IF NOT EXISTS `themes_slide` (
-    `id` int(11) NOT NULL AUTO_INCREMENT,
-    `titre` text NOT NULL,
-    `url` varchar(200) NOT NULL DEFAULT '',
-    `img` varchar(200) NOT NULL DEFAULT '',
-   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
