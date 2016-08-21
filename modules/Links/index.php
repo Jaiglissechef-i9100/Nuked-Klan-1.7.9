@@ -9,7 +9,7 @@
 // -------------------------------------------------------------------------//
 defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $nuked, $language, $user;
+global $nuked, $language, $user, $bgcolor2, $bgcolor1, $bgcolor3;
 translate('modules/Links/lang/' . $language . '.lang.php');
 
 $visiteur = ($user) ? $user[1] : 0;
@@ -20,6 +20,46 @@ if ($visiteur >= $level_access && $level_access > -1){
     include ('modules/Vote/index.php');
     compteur('Links');
 
+					?>
+					<style type="text/css">
+					.boutonhaut {
+						
+						font-family:times new roman,times,serif;
+						text-align: center;
+						padding: 10px 20px 10px 20px;
+						-moz-box-shadow: 5px 5px 10px <?php echo $bgcolor2; ?>;
+                        -webkit-box-shadow: 5px 5px 10px <?php echo $bgcolor2; ?>;
+                        -o-box-shadow: 5px 5px 10px <?php echo $bgcolor2; ?>;
+                        box-shadow: 5px 5px 10px <?php echo $bgcolor2; ?>;
+                        -moz-border-radius: 5px;
+                        -webkit-border-radius: 5px;
+                        border-radius: 5px;
+                        border: 1px solid <?php echo $bgcolor3; ?>;
+                        background:<?php echo $bgcolor1; ?>;
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="<?php echo $bgcolor1; ?>", endColorstr="<?php echo $bgcolor3; ?>"); /* Pour IE seulement et mode gradient à linear */
+                        background: -webkit-gradient(linear, left top, left bottom, from(<?php echo $bgcolor1; ?>), to(<?php echo $bgcolor3; ?>));
+                        background: -webkit-linear-gradient(<?php echo $bgcolor1; ?>, <?php echo $bgcolor3; ?>);
+                        background: -moz-linear-gradient(<?php echo $bgcolor1; ?>, <?php echo $bgcolor3; ?>);
+                        background: -o-linear-gradient(<?php echo $bgcolor1; ?>, <?php echo $bgcolor3; ?>); 
+                        background: -ms-linear-gradient(<?php echo $bgcolor1; ?>, <?php echo $bgcolor3; ?>); 
+                        background: linear-gradient(<?php echo $bgcolor1; ?>, <?php echo $bgcolor3; ?>); 
+                        text-decoration: none;
+					}
+                        .boutonhaut:hover {
+                        background:<?php echo $bgcolor3; ?>;
+                        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="<?php echo $bgcolor3; ?>", endColorstr="<?php echo $bgcolor1; ?>"); /* Pour IE seulement et mode gradient à linear */
+                        background: -webkit-gradient(linear, left top, left bottom, from(<?php echo $bgcolor3; ?>), to(<?php echo $bgcolor1; ?>));
+                        background: -webkit-linear-gradient(<?php echo $bgcolor3; ?>, <?php echo $bgcolor1; ?>);
+                        background: -moz-linear-gradient(<?php echo $bgcolor3; ?>, <?php echo $bgcolor1; ?>);
+                        background: -o-linear-gradient(<?php echo $bgcolor3; ?>, <?php echo $bgcolor1; ?>); 
+                        background: -ms-linear-gradient(<?php echo $bgcolor3; ?>, <?php echo $bgcolor1; ?>); 
+                        background: linear-gradient(<?php echo $bgcolor3; ?>, <?php echo $bgcolor1; ?>); 
+                        text-decoration: none;
+
+					}
+					</style>
+					<?php
+					
     function index(){
         global $nuked;
 
@@ -27,10 +67,10 @@ if ($visiteur >= $level_access && $level_access > -1){
 
         echo '<br /><div style="text-align: center"><big><b>' . _WEBLINKS . '</b></big></div>'."\n"
 		. '<div style="text-align: center"><br />'."\n"
-		. '[ <b>' . _INDEXLINKS . '</b> | '
-		. '<a href="index.php?file=Links&amp;op=classe&amp;orderby=news">' . _NEWSLINK . '</a> | '
-		. '<a href="index.php?file=Links&amp;op=classe&amp;orderby=count">' . _TOPLINKS . '</a> | '
-		. '<a href="index.php?file=Suggest&amp;module=Links">' . _SUGGESTLINK . '</a> ]</div>'."\n";
+		. '<b class="boutonhaut">' . _INDEXLINKS . '</b>  '
+		. '<a class="boutonhaut" href="index.php?file=Links&amp;op=classe&amp;orderby=news">' . _NEWSLINK . '</a>  '
+		. '<a class="boutonhaut" href="index.php?file=Links&amp;op=classe&amp;orderby=count">' . _TOPLINKS . '</a>  '
+		. '<a class="boutonhaut" href="index.php?file=Suggest&amp;module=Links">' . _SUGGESTLINK . '</a> </div>'."\n";
 
         $sql = mysql_query('SELECT id FROM ' . LINKS_TABLE);
         $nb_links = mysql_num_rows($sql);
@@ -178,7 +218,12 @@ if ($visiteur >= $level_access && $level_access > -1){
 
 			$upd = mysql_query('UPDATE ' . LINKS_TABLE . ' SET count = ' . $new_count . ' WHERE id = ' . $link_id);
 
-			header('location: ' . $link_url);
+		//	header('location: ' . $link_url);
+		echo '<script language="Javascript">
+             <!--
+             document.location.replace("'.$link_url.'");
+             // -->
+             </script>';
 		}
     }
 
@@ -195,12 +240,12 @@ if ($visiteur >= $level_access && $level_access > -1){
     function description($link_id){
         global $nuked, $user, $visiteur, $bgcolor1, $bgcolor2, $bgcolor3;
 
-        $sql = mysql_query('SELECT id, date, titre, description, webmaster, country, cat, count FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
+        $sql = mysql_query('SELECT id, date, titre, description, webmaster, country, cat, count, url FROM ' . LINKS_TABLE . ' WHERE id = ' . $link_id);
         if(mysql_num_rows($sql) <= 0){
             redirect('index.php?file=404', 0);
         }
 		else{
-			list($link_id, $date, $titre, $description, $webmaster, $country, $cat, $count) = mysql_fetch_array($sql);
+			list($link_id, $date, $titre, $description, $webmaster, $country, $cat, $count, $url) = mysql_fetch_array($sql);
 
 			$titre = printSecuTags($titre);
 			$description = icon($description);
@@ -252,8 +297,12 @@ if ($visiteur >= $level_access && $level_access > -1){
 			. '<tr><td style="background: ' . $bgcolor2 . ';border: 1px solid ' . $bgcolor3 . '" align="center">'."\n"
 			. '<table width="100%" border="0" cellspacing="0" cellpadding="0">'."\n"
 			. '<tr><td style="width: 5%">&nbsp;</td>'."\n"
-			. '<td style="width: 90%" align="center"><big><b>' . $titre . '</b></big></td>'."\n"
-			. '<td style="width: 5%" align="center">' . $link_pays . '</td></tr></table></td></tr>'."\n";
+			. '<td style="width: 90%" align="center"><big><b>' . $titre . '</b></big>'."\n"
+			. '&nbsp;<iframe allowtransparency="true" frameborder="0" scrolling="no" src="http://www.facebook.com/plugins/like.php?href='.$url.'&amp;layout=button_count&amp;show_faces=true&amp;width=100&amp;action=like&amp;font=verdana&amp;colorscheme=light&amp;height=21" style="vertical-align:middle;color: rgb(100, 30, 63); font-family: Verdana; font-size: small; text-align: -webkit-center; border-style: none; overflow: hidden; width: 100px; height: 21px;"></iframe>
+			</td>'."\n"
+			. '<td style="width: 5%" align="center">' . $link_pays . '</td></tr></table></td></tr>'."\n"
+			. '<tr><td style="background: ' . $bgcolor1 . ';border: 1px dashed ' . $bgcolor3 . ';width: 100%" align="center"><img alt="'.$titre.'" src="http://www.robothumb.com/src/?url='.$url.'&size=320x240" style="margin-top:2px;margin-bottom:2px;width: 320px; height: 240px;" /></td></tr>'."\n";
+
 
 			if (!empty($description)){
 				echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '">' . $description . '</td></tr>'."\n"
@@ -272,6 +321,10 @@ if ($visiteur >= $level_access && $level_access > -1){
 			}
 
 			echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>' . _VISIT . ' :</b> ' . $count . '&nbsp;' . _TIMES . '</td></tr>'."\n";
+			echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '"><b>PageRank actuel :</b>'."\n";
+            echo '&nbsp;<img style="vertical-align:middle;" src="http://www.test-pagerank.com/pagerankCurrent.php?url='.$url.'&color=g" title="PageRank de '.$titre.'"/></a></td></tr>'."\n";	
+            echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '">Merci à <a href="http://www.robothumb.com/">Robothumb</a>&nbsp;et&nbsp;<a href="http://www.test-pagerank.com/">PageRank</a></td></tr>'."\n";
+
 
 			if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1){
 				echo '<tr style="background: ' . $bgcolor1 . '"><td style="border: 1px dashed ' . $bgcolor3 . '">';
@@ -306,19 +359,19 @@ if ($visiteur >= $level_access && $level_access > -1){
         if ($_REQUEST['op'] == 'classe'){
             echo '<br /><div style="text-align: center"><big><b>' . _WEBLINKS . '</b></big></div>'."\n"
             . '<div style="text-align: center"><br />'."\n"
-            . '[ <a href="index.php?file=Links">' . _INDEXLINKS . '</a> | ';
+            . ' <a class="boutonhaut" href="index.php?file=Links">' . _INDEXLINKS . '</a>  ';
 
             if ($_REQUEST['orderby'] == 'news')
-				echo '<b>' . _NEWSLINK . '</b> | ';
+				echo '<b class="boutonhaut">' . _NEWSLINK . '</b>  ';
             else
-                echo '<a href="index.php?file=Links&amp;op=classe&amp;orderby=news">' . _NEWSLINK . '</a> | ';
+                echo '<a class="boutonhaut" href="index.php?file=Links&amp;op=classe&amp;orderby=news">' . _NEWSLINK . '</a>  ';
 
             if ($_REQUEST['orderby'] == 'count')
-                echo '<b>' . _TOPLINKS . '</b> | ';
+                echo '<b class="boutonhaut">' . _TOPLINKS . '</b>  ';
             else
-                echo '<a href="index.php?file=Links&amp;op=classe&amp;orderby=count">' . _TOPLINKS . '</a> | ';
+                echo '<a class="boutonhaut" href="index.php?file=Links&amp;op=classe&amp;orderby=count">' . _TOPLINKS . '</a>  ';
 
-            echo '<a href="index.php?file=Suggest&amp;module=Links">' . _SUGGESTLINK . '</a> ]</div><br />'."\n";
+            echo '<a class="boutonhaut" href="index.php?file=Suggest&amp;module=Links">' . _SUGGESTLINK . '</a> </div><br />'."\n";
         }
 
         $nb_liens = $nuked['max_liens'];
@@ -338,7 +391,7 @@ if ($visiteur >= $level_access && $level_access > -1){
             $order = 'ORDER BY L.id DESC';
         }
 
-        $sql = mysql_query('SELECT L.id, L.date, L.titre, L.description, L.count, L.country, AVG(V.vote) AS note  FROM ' . LINKS_TABLE . ' AS L LEFT JOIN ' . VOTE_TABLE . ' AS V ON L.id = V.vid AND V.module = \'Links\' ' . $where . ' GROUP BY L.id ' . $order);
+        $sql = mysql_query('SELECT L.id, L.date, L.titre, L.description, L.count, L.country, L.url, L.webmaster, L.cat, AVG(V.vote) AS note  FROM ' . LINKS_TABLE . ' AS L LEFT JOIN ' . VOTE_TABLE . ' AS V ON L.id = V.vid AND V.module = \'Links\' ' . $where . ' GROUP BY L.id ' . $order);
         $nb_lk = mysql_num_rows($sql);
 
         if ($nb_lk > 1 && !empty($cat)){
@@ -371,11 +424,14 @@ if ($visiteur >= $level_access && $level_access > -1){
 
             $seek = mysql_data_seek($sql, $start);
             for($i = 0;$i < $nb_liens;$i++){
-                if (list($link_id, $date, $titre, $description, $count, $country) = mysql_fetch_array($sql)){
+                if (list($link_id, $date, $titre, $description, $count, $country, $url, $webmaster, $cat) = mysql_fetch_array($sql)){
                     $titre = printSecuTags($titre);
                     $newsdate = time() - 604800;
                     $att = '';
 
+        $sqlcattitre = mysql_query('SELECT titre FROM ' . LINKS_CAT_TABLE . ' WHERE cid = '.$cat.'');
+        list($namecat) = mysql_fetch_array($sqlcattitre);
+        
                     if (!empty($date) && $date > $newsdate) $att = '&nbsp;&nbsp;' . _NEW;
 
                     if (!empty($description)){
@@ -409,20 +465,32 @@ if ($visiteur >= $level_access && $level_access > -1){
                     }
                     else
                         $link_pays = '&nbsp;';           
+   
+				                        // ----- Affiche le nombre de commentaires -----
+                    $sql_com_links = mysql_query("SELECT id FROM " . COMMENT_TABLE . " WHERE im_id = '" . $link_id . "' AND module = 'Links'");
+                    $nb_comment = mysql_num_rows($sql_com_links);
+                    
+					                    
+                    $box = "<img style=\"cursor: pointer; overflow: auto; max-width: 160px; max-height: 120px; width: expression(this.scrollWidth >= 160? '160px' : 'auto'); height: expression(this.scrollHeight >= 120? '120px' : 'auto');\" src=\"http://www.robothumb.com/src/".$url."@160x120.jpg\" onclick=\"document.location='index.php?file=Links&amp;op=description&amp;link_id=" . $link_id . "'\" border=\"0\" title=\"" . $titre . "\" alt=\"" . $titre . "\" />";
+           
+                    echo "<table style=\"background: " . $bgcolor2 . ";border: 1px solid " . $bgcolor3 . ";margin-left: auto;margin-right: auto;text-align: left;\" width=\"90%\" border=\"0\" cellspacing=\"1\" cellpadding=\"2\">\n"
+                       . "<tr style=\"background: " . $bgcolor3 . ";\"><td colspan=\"2\">" . $img . "&nbsp;<a href=\"index.php?file=Links&amp;op=description&amp;link_id=" . $link_id . "\"><big><b>" . $titre . "</b></big></a>" . $att . "<xx style=\"float: right;\">\n";
+                       
+                        vote_index('Links', $link_id);
+                        
+                    echo "</xx></td></tr>\n"
+                       . "<tr style=\"background: " . $bgcolor1 . ";height: 140px;text-align: center;\"><td style=\"width: 170px;vertical-align: middle;\">" . $box . "</td><td style=\"vertical-align: top;\">\n"
+                       . "<table style=\"text-align: left;\" width=\"100%\" cellspacing=\"1\" cellpadding=\"1\">\n"
+                       . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;</td></tr>\n"
+                       . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _ADDTHE . " :</b> " . nkDate($date) . "</td></tr>\n"
+                       . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _CAT . " :</b> " . $namecat . "</td></tr>\n"
+                       . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>Webmaster :</b> " . $webmaster . "</td></tr>\n"
+                       . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>Commentaires :</b> " . $nb_comment . "</td></tr>\n"
+                       . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<b>" . _HITS . " :</b> " . $count . "&nbsp;" . _TIMES . "</td></tr>\n"
+					   . "<tr style=\"background: " . $bgcolor1 . ";\"><td>&nbsp;&nbsp;»&nbsp;<i>" . $texte . "</i></td></tr>\n"             
+                       . "</td></tr></table>\n"
+                       . "</td></tr></table><br />\n";                       
 
-                    echo '<table style="background: ' . $bgcolor3 . ';margin: auto" width="90%" cellspacing="1" cellpadding="0">'."\n"
-                    . '<tr><td><table style="background: ' . $bgcolor2 . '" width="100%" border="0" cellspacing="1" cellpadding="2">'."\n"
-                    . '<tr><td style="width: 100%">' . $img . '&nbsp;<a href="index.php?file=Links&amp;op=description&amp;link_id=' . $link_id . '"><big><b>' . $titre . '</b></big></a>' . $att . '</td>'."\n"
-                    . '<td>' . $link_pays . '</td></tr>';
-
-                    if (!empty($texte))
-                        echo '<tr><td colspan="2">' . $texte . '</td></tr>',"\n";
-
-                    echo '<tr style="background: ' . $bgcolor1 . '"><td colspan="2">&nbsp;<b>' . _HITS . ' :</b> ' . $count . ' &nbsp;';
-                    if($visiteur >= nivo_mod('Vote') && nivo_mod('Vote') > -1)
-                    vote_index('Links', $link_id);
-
-                    echo '</td></tr></table></td></tr></table><br />'."\n";
                 } 
             } 
 
@@ -436,7 +504,10 @@ if ($visiteur >= $level_access && $level_access > -1){
         else{
             if ($nb_subcat == 0 && $cat > 0) echo '<div style="text-align: center"><br />' . _NOLINKS . '</div><br /><br />'."\n";
             if ($_REQUEST['op'] == 'classe') echo '<div style="text-align: center"><br />' . _NOLINKINDB . '</div><br /><br />'."\n";
-        } 
+        }
+	echo '<div style="text-align: center;">
+	<span style="font-family:times new roman,times,serif;">Patch par <a href="http://kotshiro.free.fr">InconnueTeam</a> Miniatures par <a href="http://www.robothumb.com/">Robothumb</a>&nbsp;</span><span style="font-family: \'times new roman\', times, serif;">&copy;2013</span></div>';
+       
     } 
 
     switch ($_REQUEST['op']){
