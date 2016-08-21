@@ -5,6 +5,8 @@ if (!defined("INDEX_CHECK"))
 }
 define("_POSTMESS","Poster un message");
 define("_AUTHOR","Auteur");
+define("_INBOX","Boîte de réception");
+define("_OUTBOX","Messages envoyées");
 define("_USERFOR","Pour");
 define("_SUBJECT","Sujet");
 define("_USERMESS","Message");
@@ -31,6 +33,7 @@ define("_DELCONFIRM","Confirmer");
 define("_CANCEL","Annuler");
 define("_DELBOX","Sup");
 define("_FROM","Provenant de");
+define("_DEST","Destinataire");
 define("_DATE","Date");
 define("_SEEDETAILUSER","Voir les détails de l'auteur");
 define("_READMESS","Lire message");

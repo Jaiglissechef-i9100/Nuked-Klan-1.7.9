@@ -117,7 +117,7 @@ function show_message($mid){
 	
 	echo '<br /><div style="text-align:center;"><big><b>'._PRIVATEMESS.'</b></big></div><br /><br />';
 	
-	$sql2 = mysql_query("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $_REQUEST['mid'] . "' AND user_for = '" . $user[0] . "'");
+	$sql2 = mysql_query("SELECT titre, message, user_from, date FROM " . USERBOX_TABLE . " WHERE mid = '" . $_REQUEST['mid'] . "' AND (user_for = '" . $user[0] . "' OR user_from = '" . $user[0] . "')");
 	$row = mysql_fetch_assoc($sql2);
 
     if ($row > 1) {
@@ -136,9 +136,12 @@ function show_message($mid){
                 <br /><form method="post" action="index.php?file=Userbox&amp;op=post_message&amp;for='.$row['user_from'].'">
                 <div style="text-align:center;">
                 <input type="hidden" name="message" value="'.htmlentities($row['message']).'" />
-                <input type="hidden" name="titre" value="'.htmlentities($row['titre']).'" />
-                <input type="submit" value="'._REPLY.'" />&nbsp;
-                <input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
+                <input type="hidden" name="titre" value="'.htmlentities($row['titre']).'" />';
+				if($row['user_from'] != $user[0]) {
+				echo '<input type="submit" value="'._REPLY.'" />&nbsp;';
+				}
+      
+        echo 	'<input type="button" value="'._DEL.'" onclick="javascript:del_mess(\''.mysql_real_escape_string(stripslashes($pseudo)).'\', \''.$mid.'\');" />
                 <br /><br />[ <a href="index.php?file=Userbox"><b>'._BACK.'</b></a> ]</div></form><br />';
     }
     else {
@@ -227,17 +230,30 @@ function index(){
 		
 		echo '<script type="text/javascript">function setCheckboxes(checkbox, nbcheck, do_check){for (var i = 0; i < nbcheck; i++){cbox = checkbox + i;document.getElementById(cbox).checked = do_check;}return true;}</script>
                 <form method="post" action="index.php?file=Userbox&amp;op=del_message_form">
-                <div style="text-align:center;"><br /><big><b>'._PRIVATEMESS.'</b></big><br /></div>
-                <table style="background:'.$bgcolor2.';border:1px solid '.$bgcolor3.';" width="100%" cellpadding="2" cellspacing="1">
+                <div style="text-align:center;"><br /><big><b>'._PRIVATEMESS.'</b></big><br /></div>';
+				if ($_REQUEST['type']=="outbox") {
+		echo 	'<div style="text-align:center;"><br /><big><b><a href="index.php?file=Userbox">'._INBOX.'</a></b></big> | <big><b>'._OUTBOX.'</b></big><br /><br /></div>';
+				}
+				else {
+		echo 	'<div style="text-align:center;"><br /><big><b>'._INBOX.'</b></big> | <big><b><a href="index.php?file=Userbox&type=outbox">'._OUTBOX.'</a></b></big><br /><br /></div>';
+				}
+        echo 	'<table style="background:'.$bgcolor2.';border:1px solid '.$bgcolor3.';" width="100%" cellpadding="2" cellspacing="1">
                 <tr style="background:'.$bgcolor3.';">
-                <td style="width:3%;" align="center">&nbsp;</td>
-                <td align="center"><b>'._FROM.'</b></td>
-                <td align="center"><b>'._SUBJECT.'</b></td>
+                <td style="width:3%;" align="center">&nbsp;</td>';
+				if ($_REQUEST['type']=="outbox") {
+				echo '<td align="center"><b>'. _DEST .'</b></td>';
+				} else {
+				echo '<td align="center"><b>'. _FROM .'</b></td>';
+				}
+        echo    '<td align="center"><b>'._SUBJECT.'</b></td>
                 <td align="center"><b>'._DATE.'</b></td>
                 <td align="center"><b>'._STATUS.'</b></td>
                 <td align="center"><b>'._READMESS.'</b></td></tr>';
-		
+		if ($_REQUEST['type']=="outbox") {
+		$sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_from = '{$user[0]}' ORDER BY date DESC");
+		} else {
 		$sql = mysql_query("SELECT mid, titre, user_from, date, status FROM " . USERBOX_TABLE . " WHERE user_for = '{$user[0]}' ORDER BY date DESC");
+		}
 		$nb_mess = mysql_num_rows($sql);
 		$i = 0;
 		while($row = mysql_fetch_assoc($sql)){
