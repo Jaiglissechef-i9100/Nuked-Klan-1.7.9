@@ -1070,8 +1070,6 @@ CREATE TABLE IF NOT EXISTS `nuked_smilies` (
 --
 
 INSERT INTO `nuked_smilies` (`id`, `code`, `url`, `name`) VALUES
-
-
 (1, ':rolleyes:', 'rolleyes.gif', 'Rolleyes'),
 (2, ':)', 'smile.gif', 'Smile'),
 (3, ';)', 'wink.gif', 'Wink'),
