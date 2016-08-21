@@ -13,6 +13,10 @@ global $user, $language;
 translate('modules/Admin/lang/' . $language . '.lang.php');
 include('modules/Admin/design.php');
 
+#bloc Top Posteurs
+if($language == 'french') define('_BLOCKTOPPOSTERS', 'Top Posteurs');
+elseif($language == 'english') define('_BLOCKTOPPOSTERS', 'Top Posters');
+
 $visiteur = $user ? $user[1] : 0;
 
 if ($visiteur == 9)
@@ -40,6 +44,8 @@ if ($visiteur == 9)
                     else if ($blok == 'language') $blokname = _BLOCKLANG;
                     else if ($blok == 'theme') $blokname = _BLOCKTHEME;
                     else if ($blok == 'counter') $blokname = _BLOCKCOUNTER;
+                    # Bloc Top Posteurs
+                    else if ($blok == 'top_posteurs') $blokname = _BLOCKTOPPOSTERS;
                     else $blokname = $blok;
 
                     array_push($blocks, $blokname . '|' . $blok);
