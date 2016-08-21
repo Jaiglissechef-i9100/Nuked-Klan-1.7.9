@@ -1,0 +1,228 @@
+.glidecontentwrapper{
+position: relative;
+width:553px;
+height: 180px; 
+overflow: hidden;
+float:left;
+z-index:5;
+}
+.glidecontent{ 
+position: relative;
+z-index:5;
+width:563px;
+position: absolute;
+background-color:red;
+background-image: url(../images/bg_rost.jpg);
+background-repeat:repeat-x;
+visibility: hidden;
+float:left;
+
+}
+.glidecontenttoggler{
+text-align: center; 
+float:left;
+}
+
+
+.glidecontentwrapper2{
+position: relative;
+width:550px;
+height:300px;
+overflow: hidden;
+margin-left:12px;
+float:left;
+z-index:2;
+}
+.glidecontent2{ 
+position: absolute;
+width:550px;
+height:300px;
+background: #0e0e0e;
+visibility: hidden;
+z-index:2;
+float:left;
+
+}
+.glidecontenttoggler2{
+text-align: center; 
+float:left;
+}
+.title_cov{
+margin: 0;
+padding: 0 1em;
+padding-top:10px;
+position: relative;
+top: -80px;
+height: 80px;
+width:530px;
+font-family: "Tahoma", Arial, Helvetica, sans-serif; 
+background-image: url(../images/title_cov.png);
+}
+.title_cov a 
+{
+
+font-size: 11px;
+font-weight:bold;
+color:#c9ebff;
+}
+.cov_txt
+{
+font-size:11px;
+color:#284875;
+}
+
+.glidecontentwrapper3{
+position: relative;
+width:368px;
+height:221px;
+overflow: hidden;
+float:left;
+z-index:2;
+}
+.glidecontent3{ 
+position: absolute;
+width:379px;
+height:221px;
+background-image: url(../images/headlines_bg.png);
+visibility: hidden;
+z-index:2;
+float:left;
+
+}
+.glidecontenttoggler3{
+text-align: center; 
+float:left;
+}
+.squadsBox {
+overflow:hidden;
+width :350px;
+height:120px;
+}
+.glidecontentwrapper4{
+position: relative;
+width: 863px;
+height:110px;
+overflow: hidden;
+float:left;
+z-index:2;
+}
+.glidecontent4{ 
+position: absolute;
+width: 863px;
+height:110px;
+visibility: hidden;
+z-index:2;
+background-repeat:repeat-x;
+display: block;
+background-image: url(../images/bg_sponsors.png);
+}
+
+#slider4 .contentdiv
+{
+width :350px;
+height:150px;
+overflow:hidden;
+margin-top:3px;
+visibility: hidden; /*leave as is*/
+text-align:center;
+padding-top:20px;
+
+}
+#slider4 .name
+{
+color:#cecece;
+font-family: "Tahoma", Arial, Helvetica, sans-serif; 
+font-size:10px;
+padding-top:5px;
+
+}
+#slider4 .picture
+{
+border: 2px solid #787878;
+}
+#slider4 .picture:hover
+{
+border: 2px solid #43a9ff;
+}
+#container {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  overflow: hidden;
+  border: 1px solid #EFEFEF;
+}
+#slider2 .contentdiv
+{
+width:423px;
+height:91px;
+float:left;
+padding-top:20px;
+padding-left:4px;
+
+}
+
+
+
+.bottomE{
+
+overflow: hidden; /*leave as is*/
+width:277px;
+height:120px;
+}
+
+
+
+.bottomE .contentdiv{
+visibility: hidden; /*leave as is*/
+overflow: hidden; /*leave as is*/
+width:277px;
+height:120px;
+}
+.paginationBox {
+	padding-left:5px;
+}
+
+.paginationBox a{
+text-decoration: none; 
+	font-size:10px;
+	color:white;
+	width:25px;
+	height:23px;
+	display:block;  
+	float:left;
+	padding-top:3px;
+	text-align:center;
+}
+
+.paginationBox a:hover, .paginationBox a.selected{
+color: #66b716;
+background-image: url(../images/selected.png);
+background-repeat:no-repeat;
+width:25px;
+height:23px;
+float:left;
+display:block;  
+font-size:10px;
+}
+.pagination a:hover, .pagination a.selected {
+color:white;
+text-shadow: 1px 1px 1px black; 
+}
+#paginate-slider4
+{
+	width: 329px;
+	padding-top:33px;
+	margin:auto;
+	overflow:hidden;
+	text-align:center;
+	float:left;
+	
+}
+
+
+
+
+
+
+
+

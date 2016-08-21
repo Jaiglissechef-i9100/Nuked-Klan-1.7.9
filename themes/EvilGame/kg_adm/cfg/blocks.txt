@@ -1,0 +1,8 @@
+
+			 <?php 
+			 $block1   = "1";
+			 $block2   = "1";
+			 $block3   = "1";
+			 $block4   = "1";
+			 $activeBlock  = "1";
+			?>

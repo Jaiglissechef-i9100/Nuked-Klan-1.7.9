@@ -1,0 +1,6 @@
+
+			 <?php 
+			 $play  = "1";
+			 $jw_code  = "http://www.youtube.com/watch?v=oCZ_rIvI7eE";
+			 $daily_code  = "http://www.dailymotion.com/swf/k23SIDbYxzijxn4qxK";
+			 ?>

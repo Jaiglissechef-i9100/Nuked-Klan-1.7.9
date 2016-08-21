@@ -1,0 +1,4 @@
+
+			 <?php
+			 $article_mode = "2";
+			 ?>

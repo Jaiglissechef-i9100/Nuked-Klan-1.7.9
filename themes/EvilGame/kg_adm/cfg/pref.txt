@@ -1,0 +1,13 @@
+
+			 <?php 
+			 $key     = "";	
+			 $desc    = "";
+			 $lang1   = "1";
+			 $copy_desc = "The FnaticMSI Team is a professional video gaming team, consisting of players from across the globe.";
+			 $copy_detail = "All Rights Reserved \'Copyright\' 2008-2016";
+			 $fb = "https://www.facebook.com/Freddy.La.Mouche";
+			 $tw = "";
+			 $steam = "";
+			 
+
+			 ?>

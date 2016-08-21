@@ -1,0 +1,88 @@
+﻿/* Par Default : */
+
+body 
+{ 
+	font-size: 11px;
+	padding:0px;
+	margin: auto;
+	background-image: url("../images/fond.jpg");
+	background-color: black;
+	margin:auto;
+	background-image: url(../images/fond.jpg);
+	background-position: top center;
+	background-repeat:no-repeat;
+	color:#eeeeee;
+	font-family: "Verdana", Tahoma, Arial, sans-serif;
+	padding-top:30px;
+	
+}
+img
+{
+	border: none;
+}
+h1
+{
+	font-size: 15px;
+	font-family: "Verdana", Tahoma, Arial, sans-serif;
+	 text-shadow: 1px 1px 1px #353535; 
+}
+ .last
+ {
+	color: #eeeeee;
+	font-size: 11px;
+	font-family: "Tahoma", Arial, Verdana, serif;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px black; 
+	background-color: none;
+ }
+ .tableaux3
+{
+	font-size: 11px;
+	border: solid 1px #6FBB62;
+	color: #4C8914;
+	background-color: #DCFFBF;
+}
+.tableaux2
+{
+	font-size: 11px;
+	border: solid 1px #DB756C;
+	color: #AB3C32;
+	background-color: #FFEDEF;
+}
+
+a:link,a:active,a:visited {  
+	color: #eeeeee;
+	font-size: 11px;
+	font-family: "Verdana", Arial, Verdana, serif;
+	text-decoration: none;
+	text-shadow: 1px 1px 1px #353535; 
+	background-color: none;
+ }
+a:hover	{  
+	 color: #c5e8ff;
+	 font-size:11px;
+	 font-family: "Verdana", Arial, Verdana, serif;
+	 text-decoration: none;
+	 background-color: none;
+ }
+ a.link:link,a.link:active,a.link:visited {  
+	color: #ffafad;
+	 font-size: 11px;
+	 font-family: "Verdana", Arial, serif;
+	 text-decoration: none;
+	background-color: none;
+ }
+a.link:hover	{  
+	 color: #7d6060;
+	 font-size:11px;
+	 font-family: "Verdana", Arial, Verdana, serif;
+	 text-decoration: none;
+	 background-color: none;
+ }
+ input {  
+    font-family:  "Tahoma", Verdana, Arial, sans-serif;
+    font-size: 11px; 
+    color: #000000; 
+
+    border: 1px solid #585657;
+}
