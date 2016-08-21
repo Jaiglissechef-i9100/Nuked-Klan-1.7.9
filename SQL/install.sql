@@ -1070,17 +1070,31 @@ CREATE TABLE IF NOT EXISTS `nuked_smilies` (
 --
 
 INSERT INTO `nuked_smilies` (`id`, `code`, `url`, `name`) VALUES
-(1, ':D', 'biggrin.gif', 'Very Happy'),
+
+
+(1, ':rolleyes:', 'rolleyes.gif', 'Rolleyes'),
 (2, ':)', 'smile.gif', 'Smile'),
-(3, ':(', 'frown.gif', 'Sad'),
-(4, ':o', 'eek.gif', 'Surprised'),
-(5, ':?', 'confused.gif', 'Confused'),
-(6, '8)', 'cool.gif', 'Cool'),
-(7, ':P', 'tongue.gif', 'Razz'),
-(8, ':x', 'mad.gif', 'Mad'),
-(9, ';)', 'wink.gif', 'Wink'),
-(10, ':red:', 'redface.gif', 'Embarassed'),
-(11, ':roll:', 'rolleyes.gif', 'Rolling Eyes');
+(3, ';)', 'wink.gif', 'Wink'),
+(4, 'B)', 'cool.gif', 'Cool'),
+(5, ':P', 'tongue.gif', 'Tongue'),
+(6, ':(', 'sad.gif', 'Sad'),
+(7, ':D', 'biggrin.gif', 'Very Happy'),
+(8, ':unsure:', 'unsure.gif', 'Unsure'),
+(9, ':mellow:', 'mellow.gif', 'Mellow'),
+(10, ':wacko:', 'wacko.gif', 'Wacko'),
+(11, ':angry:', 'angry.gif', 'Angry'),
+(12, ':blink:', 'blink.gif', 'Blink'),
+(13, ':ph34r:', 'ph34r.gif', 'Ph34r'),
+(14, ':blush:', 'blush.gif', 'Blush'),
+(15, ':excl:', 'excl.gif', 'Excl'),
+(16, ':wub:', 'wub.gif', 'Wub'),
+(17, ':huh:', 'huh.gif', 'Huh'),
+(18, ':lol:', 'laugh.gif', 'Laugh'),
+(19, ':mad:', 'mad.gif', 'Mad'),
+(20, '<_<', 'dry.gif', 'Dry'),
+(21, '-_-', 'sleep.gif', 'Sleep'),
+(22, '^_^', 'happy.gif', 'Happy'),
+(23, ':o', 'ohmy.gif', 'Ohmy');
 
 -- --------------------------------------------------------
 
