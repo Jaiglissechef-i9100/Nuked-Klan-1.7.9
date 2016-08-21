@@ -825,17 +825,18 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table nuked_mumble
+-- Structure de la table `nuked_mumble`
 --
 
-CREATE TABLE IF NOT EXISTS nuked_mumble (
+DROP TABLE IF EXISTS `nuked_mumble`;
+CREATE TABLE IF NOT EXISTS `nuked_mumble` (
   `name` varchar(255) collate latin1_general_ci NOT NULL default '',
   `mumble_jsonurl` text collate latin1_general_ci NOT NULL,
   PRIMARY KEY (name)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
--- Contenu de la table nuked_mumble
+-- Contenu de la table `nuked_mumble`
 --
 
 INSERT INTO nuked_mumble (name, mumble_jsonurl) VALUES
@@ -1291,10 +1292,11 @@ CREATE TABLE IF NOT EXISTS `nuked_team_rank` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table nuked_themes_slide
+-- Structure de la table `nuked_themes_slide`
 --
 
-CREATE TABLE IF NOT EXISTS nuked_themes_slide (
+DROP TABLE IF EXISTS `nuked_themes_slide`;
+CREATE TABLE IF NOT EXISTS `nuked_themes_slide` (
   `id` int(11) NOT NULL auto_increment,
   `titre` text collate latin1_general_ci NOT NULL,
   `url` varchar(200) collate latin1_general_ci NOT NULL default '',
