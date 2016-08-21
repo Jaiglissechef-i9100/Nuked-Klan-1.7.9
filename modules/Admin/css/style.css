@@ -134,3 +134,270 @@ body#login{color:#fff;background:#222 url('../images/bg-login.gif')}
 #screen{display:none;position:fixed;width:100%;height:100%;background:url('../images/bg.png') repeat;z-index:10000}
 #iframe{margin-left:5%;margin-top:5%;width:90%;height:100%}
 #iframe_close{display:block;width:66px;height:22px;background:url('../../../images/closelabel.gif') no-repeat;position:absolute;right:3%;bottom:3%;z-index:20000}
+
+
+/* **************************** */ 
+
+.hide-col{ display: none }
+.word-wrap{
+table-layout:fixed;
+word-wrap: break-word; 
+}
+
+#main-content-container{
+width:100%;
+height:auto;
+display:block;
+padding-bottom:30px
+}
+
+#facebox{
+left:50%;
+width: 400px;
+margin-left:-200px;
+background:transparent
+}
+#facebox .content {
+width: auto;
+}
+#facebox tbody tr {
+background: transparent
+}
+
+form textarea {
+width: 100%!important;
+font-family: Arial,Helvetica,sans-serif;
+}
+
+@media (max-width: 767px) {
+
+	body {
+	padding: 0;
+	background: url('../images/bg-login.gif');
+	height: 100%;
+	min-height:100%
+	}
+	
+	.container{
+	position:relative
+	}
+	
+	#bgfix {
+    background: url('../images/bg-login.gif');
+    position: absolute;
+    width: 100%; 
+	height: 100%;
+    z-index:-999;
+	}
+
+	#sidebar {
+	background: url('../images/bg-sidebar-resp.gif') repeat-x;
+	width: 100%;
+	color: #888;
+	font-size: 11px;
+	position: static;
+	height:auto;
+	}
+	
+	#sidebar #sidebar-wrapper {
+	margin: 0;
+	}
+	
+	#sidebar #lien_logo {
+	display: block;
+	text-align: center;
+	}
+	
+	#sidebar #logo {
+	margin: 10px 0 10px 0;
+	}
+	
+	#sidebar #main-nav {
+	width: 100%;
+	padding: 0;
+	margin: 0px;
+	}
+	
+	#sidebar #main-nav li a.nav-top-item {
+	background: transparent url('../images/bg-menu-item-green-resp.gif') right center no-repeat;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	padding: 10px 15px;
+	color: white;
+	font-size: 14px;
+	cursor: pointer;
+	text-decoration: none;
+	}
+	
+	#sidebar #main-nav li a.current {
+	background-image: none !important;
+	background-color:#fff;
+	color: #333;
+	font-weight: bold;
+	}
+	
+	#main-content {
+	min-height:580px;
+	width:100%;
+	background: #F0F0F0;
+	margin:0px;
+	padding:20px 0 40px 0;
+	margin:10px 0 0 0
+    }	
+	
+	.column-left, .column-right{
+	width: 100%;
+	float: none;
+	}
+	
+	#copyleft {
+	padding:10px 0 0 0
+    }
+	
+	ul.shortcut-buttons-set li {
+	float: none;
+	margin:0
+	}
+	
+	.shortcut-button {
+	width: 100%;
+	margin: 0 0 20px 0;
+	}
+	
+}
+
+@media (max-width: 480px) {
+	
+	#sidebar {
+	width:300px;
+	margin:auto
+	}
+	
+	#main-content-container{
+	width:300px;
+	margin:auto;
+	height: auto;
+	}
+	
+	.content-box-header h3 {
+	padding: 12px 10px 10px;
+	}
+	h3 {
+	font-size: 14px;
+	padding: 0 0 10px 0;
+	}
+	
+	#facebox{
+	left:50%;
+	width: 280px;
+	margin-left:-140px
+	}
+	
+	.editor-resp{
+	width: 150px;
+	background: lightGrey;
+	overflow: auto;
+	}
+	.editor-resp-full{
+	width: 275px;
+	background: lightGrey;
+	overflow: auto;
+	}
+	
+		.cke_toolbox{
+		width: 620px;
+		}	
+		
+		.cke_skin_kama .cke_wrapper {
+		background-image:none		
+		}
+		
+	
+	input{
+	max-width: 140px;
+	}
+	select{
+	max-width: 140px;
+	}
+}
+
+@media (min-width: 480px) and (max-width: 767px) {
+	
+	#sidebar {
+	width:440px;
+	margin:auto
+	}
+	
+	#main-content-container{
+	width:440px;
+	margin:auto;
+	height: auto
+	}
+	
+	input{
+	max-width: 200px;
+	}
+	select{
+	max-width: 200px;
+	}
+	
+	.editor-resp{
+	width: 200px;
+	background: lightGrey;
+	overflow: auto;
+	}
+	.editor-resp-full{
+	width: 400px;
+	background: lightGrey;
+	overflow: auto;
+	}
+	
+		.cke_toolbox{
+		width: 620px;
+		}	
+		
+		.cke_skin_kama .cke_wrapper {
+		background-image:none		
+		}
+	
+
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+
+		
+	input{
+	max-width: 280px;
+	}
+	select{
+	max-width: 280px;
+	}
+	
+	.editor-resp{
+	width: 280px;
+	background: lightGrey;
+	overflow: auto;
+	}
+	.editor-resp-full{
+	width: 400px;
+	background: lightGrey;
+	overflow: auto;
+	}
+	
+		.cke_toolbox{
+		width: 620px;
+		}	
+		
+		.cke_skin_kama .cke_wrapper {
+		background-image:none		
+		}
+		
+}	
+
+@media (max-width: 979px) {
+
+	.hide-phone-pad-pclow{
+	display:none
+	}
+}
