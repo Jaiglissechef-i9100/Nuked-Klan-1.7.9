@@ -653,4 +653,20 @@ A whole team nuked-klan.org, and his community that has allowed us to quickly fi
 
 <h3>GNU Licence:</h3>
 Thank you not to remove the copyleft respect for the cms and follow the GNU.<br />');
+
+// patch themes slide
+define("_URLT","Url of theme");
+define("_TITRE","Title of theme");
+define("_IMG","Theme image");
+define("_TSLIDEADMIN","Administration of slide themes");
+define("_SLIDEADD","theme successfully added");
+define("_SLIDENOTADD","theme not added");
+define("_ACTIONADDSLIDE","added to the theme");
+define("_EDITSLIDE","Add slide themes");
+define("_DOWNSLIDE","Download the theme");
+define("_CLICTOSCREEN","Click on the image to enlarge");
+define("_CLICTOVIEW","Click to see the description of the theme");
+define("_SLIDEEDIT","Theme edited successfully");
+define("_SLIDENOTEDIT","theme unedited");
+define("_ACTIONEDITSLIDE","published in the issue");
 ?>

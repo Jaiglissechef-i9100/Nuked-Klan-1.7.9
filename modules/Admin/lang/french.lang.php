@@ -491,4 +491,19 @@ A toute l\'équipe nuked-klan.org, ainsi qu\'à sa communauté qui nous a permis de
 <h3>Licence GNU :</h3>
 Merci de ne pas supprimer le <acronym title="Le terme copyleft est un double jeu de mots faisant référence au copyright traditionnel" style="text-decoration: underline">copyleft</acronym> par respect pour le cms et respecter la licence GNU.<br />');
 
+// patch themes slide
+define("_URLT","Url du thème");
+define("_TITRE","Titre du thème");
+define("_IMG","Image du thème");
+define("_TSLIDEADMIN","Administration du slide des thèmes");
+define("_SLIDEADD","thème ajouté avec succès");
+define("_SLIDENOTADD","thème non ajouté");
+define("_ACTIONADDSLIDE","à ajouté le thème");
+define("_EDITSLIDE","Ajouter des thèmes slide");
+define("_DOWNSLIDE","Télécharger le thème");
+define("_CLICTOSCREEN","Cliquez sur l'image pour l'agrandir");
+define("_CLICTOVIEW","Cliquez pour voir la description du thème");
+define("_SLIDEEDIT","thème édité avec succès");
+define("_SLIDENOTEDIT","thème non édité");
+define("_ACTIONEDITSLIDE","à édité le thème");
 ?>
