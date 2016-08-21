@@ -1409,6 +1409,21 @@ CREATE TABLE IF NOT EXISTS `nuked_vote` (
   KEY `vid` (`vid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `themes slide`
+--
+
+DROP TABLE IF EXISTS `themes_slide`;
+CREATE TABLE IF NOT EXISTS `themes_slide` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `titre` text NOT NULL,
+    `url` varchar(200) NOT NULL DEFAULT '',
+    `img` varchar(200) NOT NULL DEFAULT '',
+   PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
