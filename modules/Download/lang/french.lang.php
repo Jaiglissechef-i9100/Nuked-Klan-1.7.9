@@ -1,6 +1,8 @@
 <?php
-defined("INDEX_CHECK") or die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-
+if (!defined("INDEX_CHECK"))
+{
+	exit('You can\'t run this file alone.');
+}
 define("_NEWSFILE","Nouveaux");
 define("_POPULAR","Populaires");
 define("_TOPFILE","Popularité");
@@ -115,4 +117,8 @@ define("_ACTIONMODIFPREFDL","a modifié les préférences du module téléchargement"
 define("_ACTIONPOSMODIFCATDL","a modifié la position de la catégorie téléchargement");
 define("_AUTHOR","Auteur");
 define("_CATERRORPOS","Impossible la position serait inférieur à zéro.");
+
+// Début patch block téléchargement avec miniature //
+define("__INDEXTODL","Voir plus de téléchargements");
+// Fin patch block téléchargement avec miniature //
 ?>
