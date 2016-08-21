@@ -198,7 +198,7 @@ function index()
 
         $visiteur = $user ? $user[1] : 0;
 
-        if ($visiteur >= 2) {
+        if ($visiteur >= $level_admin) {
             echo "<script type=\"text/javascript\">\n"
             . "<!--\n"
             . "\n"
@@ -220,13 +220,20 @@ function index()
         $pseudo_max = $max_pseudo;
         $level_admin = admin_mod('Textbox');
         $level_mod = nivo_mod('Textbox');
+        
+        $nb_messages = 40;
+        
+        $sql = mysql_query('SELECT count(id) FROM '.TEXTBOX_TABLE.' ');
+        list($index_limit) = mysql_fetch_array($sql);
+        $index_start = $index_limit - $nb_messages;
+        $index_start = $index_start < 0 ? 0 : $index_start;
 
-        $sql = mysql_query("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id DESC LIMIT 0, 20");
+        $sql = mysql_query("SELECT id, auteur, ip, texte, date FROM " . TEXTBOX_TABLE . " ORDER BY id ASC LIMIT ".$index_start.", ".$index_limit." ")or die(mysql_error());
         while (list($id, $auteur, $ip, $texte, $date) = mysql_fetch_array($sql)) {
             // On coupe le texte si trop long
             if (strlen($texte) > $mess_max) $texte = substr($texte, 0, $mess_max) . '...';
 
-            $date = nkDate($date);
+            $date_jour = nkDate($date);
 
             $block_text = '';
 
@@ -273,7 +280,7 @@ function index()
             $sql2 = mysql_query("SELECT niveau FROM " . USER_TABLE . " WHERE pseudo = '" . $auteur . "'");
             list($niveau) = mysql_fetch_array($sql2);
 
-            $coloring = ($niveau >= 2) ? 'fa1200' : '8452bf';
+            $coloring = ($niveau >= $level_admin) ? 'fa1200' : '8452bf';
 
             if($i2 == 0) {
                 $bg = $bgcolor1;
@@ -284,19 +291,40 @@ function index()
                 $i2 =0;
             }
 
-            $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '">' . $auteurDisplay . '</a>' : $auteurDisplay;
+            $url_auteur = ($test_aut == 1) ? '<a href="index.php?file=Members&amp;op=detail&amp;autor=' . urlencode($auteur) . '" style="color: #' . $coloring . '" title="' . $date_jour . '">' . $auteurDisplay . '</a>' : $auteurDisplay;
 
+            $post_time =strftime("%H:%M:%S", $date);
+       
+
+//            echo "<table width=\"100%\" style=\"background: #" . $bg . "\" cellspacing=\"0\" cellpadding=\"0\">\n"
+//            . "<tr>\n"
+//            . "<td width=\"95%\"><span style=\"margin-left: 2px;\">" . $pays . "&nbsp;<b>" . $url_auteur . "</b></span></td>\n";
+//            if ($visiteur >= $level_admin) {
+ //               echo "<td width=\"5%\"><a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $id . "');\"><img style=\"margin-top: 5px; margin-left: 2px;\" src=\"modules/Textbox/images/delete.png\" alt=\"\" title=\"" . _DELTHISMESS . "\" /></a></td>\n";
+//            }
+
+//            echo "<td width=\"5%\" style=\"padding-right: 2px;\">". $online ."</td></tr>\n"
+//            . "<tr><td>" . $date . "</td></tr><tr><td>" . $block_text . "<br />&nbsp;</td></tr>\n"
+//            . "</table>\n";
+
+
+//mmode large
+//$sqllarge = mysql_query("SELECT bid, active FROM " . BLOCK_TABLE . " WHERE bid = '" . $bid . "'");
+//list($idblock, $activeblock) = mysql_fetch_array($sqllarge);
+
+//if ($activeblock == 3 || $activeblock == 4)
+//{
             echo "<table width=\"100%\" style=\"background: #" . $bg . "\" cellspacing=\"0\" cellpadding=\"0\">\n"
             . "<tr>\n"
-            . "<td width=\"95%\"><span style=\"margin-left: 2px;\">" . $pays . "&nbsp;<b>" . $url_auteur . "</b></span></td>\n";
-            if ($visiteur >= 2) {
+            . "<td width=\"95%\"><span style=\"margin-left: 2px;\">" . $pays . "&nbsp;<<b>" . $url_auteur . "</b>>" . $block_text . "</span></td>\n";
+            if ($visiteur >= $level_admin) {
                 echo "<td width=\"5%\"><a href=\"javascript:del_shout('" . mysql_real_escape_string(stripslashes($auteur)) . "', '" . $id . "');\"><img style=\"margin-top: 5px; margin-left: 2px;\" src=\"modules/Textbox/images/delete.png\" alt=\"\" title=\"" . _DELTHISMESS . "\" /></a></td>\n";
             }
 
             echo "<td width=\"5%\" style=\"padding-right: 2px;\">". $online ."</td></tr>\n"
-            . "<tr><td>" . $date . "</td></tr><tr><td>" . $block_text . "<br />&nbsp;</td></tr>\n"
             . "</table>\n";
-
+//}
+//fin mode large
         }
     }
 

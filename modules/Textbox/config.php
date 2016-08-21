@@ -24,7 +24,7 @@ $mbox_width = "100%";
 
 
 // Longeur de la tribune libre (centre)
-$mbox_height = "200px";
+$mbox_height = "300px";
 
 
 // nombre de caractéres maximal par mot (côté)

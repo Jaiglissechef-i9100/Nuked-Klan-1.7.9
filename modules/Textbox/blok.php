@@ -60,6 +60,10 @@ function maj_shoutbox() {
 			document.getElementById("textbox").style.textAlign = "left";
 			document.getElementById("textbox").innerHTML = requete.responseText;
 			document.getElementById("textbox").style.paddingTop = "0px";
+<!--scrollbar inversé-->			
+			element = document.getElementById("textbox");
+      element.scrollTop = element.scrollHeight;
+<!--fin-->			
 			setTimeout('suivant()','25000');
 		}
 	}
@@ -117,7 +121,7 @@ function maFonctionAjax(auteur,texte,code)
 		}
 	}
   }
-  	texte = texte.replace("+","%2B");
+  texte = encodeURIComponent(texte);
 	OAjax.setRequestHeader('Content-type', 'application/x-www-form-urlencoded; charset=iso-8859-1');
 	OAjax.send('auteur='+auteur+'&texte='+texte+'&code_confirm='+code+'');
 	return true;
@@ -166,6 +170,7 @@ echo "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" wi
 . "</p></div></td></tr></table>\n"
 . "<script type=\"text/javascript\">maj_shoutbox();</script>\n";
 echo "<div id=\"affichetextbox\"></div><div>\n";
+//mmode large
 if ($active == 3 || $active == 4)
 {
     if ($visiteur >= nivo_mod("Textbox"))
@@ -174,23 +179,24 @@ if ($active == 3 || $active == 4)
 
         if (!$user)
         {
-            echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" size=\"40\" maxlength=\"100\" value=\"" . _NICKNAME . "\" onclick=\"if(this.value=='" . _NICKNAME . "'){this.value=''}\" /><br />\n";
+            echo "<input id=\"textbox_auteur\" type=\"text\" name=\"auteur\" size=\"10%\" maxlength=\"100\" value=\"" . _NICKNAME . "\" onclick=\"if(this.value=='" . _NICKNAME . "'){this.value=''}\" />\n";
         }
         else
         {
             echo "<input id=\"textbox_auteur\" type=\"hidden\" name=\"auteur\" value=\"" . $user[2] . "\" />\n";
         }
 
-        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"50\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" /><br />\n";
+        echo "<input id=\"textbox_texte\" type=\"text\" name=\"texte\" size=\"90%\" value=\"" . _YOURMESS . "\"  onclick=\"if(this.value=='" . _YOURMESS . "'){this.value=''}\" />\n";
 
 		if ($captcha == 1) create_captcha(3);
 		else echo "<input id=\"code\" type=\"hidden\" value=\"0\" />\n";
 
-	echo "<br /><input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
-	. "<a href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\">\n"
-	. "<b>" . _SMILEY . "</b></a></div><div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Textbox\">" . _SEEARCHIVES . "</a> ]</div></form><br />\n";
+	echo "<input type=\"submit\" value=\"" . _SEND . "\" />&nbsp;<br /><br />\n"
+	. "[ <a href=\"#\" onclick=\"javascript:window.open('index.php?file=Textbox&amp;nuked_nude=index&amp;op=smilies&amp;textarea=textbox_texte','smilies','toolbar=0,location=0,directories=0,status=0,scrollbars=1,resizable=0,copyhistory=0,menuBar=0,width=200,height=350,top=100,left=470');return(false)\">\n"
+	. "<b>" . _SMILEY . "</b></a> ] [ <a href=\"index.php?file=Textbox\"><b>" . _ARCHIVES . "</b></a> ]</div></form><br />\n";
     }
 }
+//fin mode large
 else
 {
     if ($visiteur >= nivo_mod("Textbox"))
