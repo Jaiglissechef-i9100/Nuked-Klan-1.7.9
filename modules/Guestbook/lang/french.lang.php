@@ -14,7 +14,7 @@ define("_SEND","Envoyer");
 define("_CANCEL","Annuler");
 define("_BACK","Retour");
 define("_MODIF","Modifier");
-define("_NONICK","Vous n'avez pas entré votre pseudo !");
+define("_NONICK","Vous n\'avez pas entré votre pseudo !");
 define("_NOTEXT","Vous n\'avez pas entré votre texte !");
 define("_RESERVNICK","Ce pseudo est déjà réservé");
 define("_BANNEDNICK","Ce pseudo est banni");
@@ -30,8 +30,12 @@ define("_THEREIS","Il y a");
 define("_SIGNINDB","signatures dans le livre d'or");
 define("_PREVIOUSPAGE","Page Précédente");
 define("_NEXTPAGE","Page Suivante");
-define("_NOSIGN","Il n'y a pas encore de message");
+define("_NOSIGN","Il n\'y a pas encore de message");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
+define("_WROTE","a écrit");
+define("_READMORE","Lire la suite...");
+
+
 
 define("_ADMINGUESTBOOK","Administration Livre D'or");
 define("_HELP","Aides");

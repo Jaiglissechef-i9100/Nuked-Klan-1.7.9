@@ -32,6 +32,8 @@ define("_PREVIOUSPAGE","Previous Page");
 define("_NEXTPAGE","Next Page");
 define("_NOSIGN","There are yet no signatures");
 define("_NOFLOOD","Do not flood! Please wait a moment...");
+define("_WROTE","has written");
+define("_READMORE","Read More...");
 
 define("_ADMINGUESTBOOK","Guestbook Administration");
 define("_HELP","Help");
