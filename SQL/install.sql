@@ -1036,6 +1036,97 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `nuked_mod_frms`
+--
+
+DROP TABLE IF EXISTS `nuked_mod_frms`;
+CREATE TABLE IF NOT EXISTS `nuked_mod_frms` (
+  `id` int(13) NOT NULL auto_increment,
+  `titre` varchar(255) collate latin1_general_ci NOT NULL,
+  `descr` text collate latin1_general_ci,
+  `niveau` int(1) NOT NULL,
+  `nivresp` int(1) NOT NULL,
+  `chkmail` varchar(3) collate latin1_general_ci NOT NULL,
+  `mail` varchar(60) collate latin1_general_ci default NULL,
+  `nbr_chps` int(2) NOT NULL,
+  `captch` varchar(3) collate latin1_general_ci NOT NULL,
+  `etat` int(1) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `nuked_mod_frms`
+--
+
+INSERT INTO `nuked_mod_frms` (`id`, `titre`, `descr`, `niveau`, `nivresp`, `chkmail`, `mail`, `nbr_chps`, `captch`, `etat`) VALUES
+(1, 'Exemple de formulaire', 'Courte description', 0, 2, '', 'mail@hotmail.com', 5, '', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_mod_frms_details`
+--
+
+DROP TABLE IF EXISTS `nuked_mod_frms_details`;
+CREATE TABLE IF NOT EXISTS `nuked_mod_frms_details` (
+  `id` int(13) NOT NULL auto_increment,
+  `idform` int(5) NOT NULL,
+  `label` varchar(60) collate latin1_general_ci NOT NULL,
+  `type` varchar(12) collate latin1_general_ci NOT NULL,
+  `defaut` varchar(255) collate latin1_general_ci default NULL,
+  `requis` varchar(2) collate latin1_general_ci NOT NULL,
+  `position` int(2) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `idform` (`idform`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=6 ;
+
+--
+-- Contenu de la table `nuked_mod_frms_details`
+--
+
+INSERT INTO `nuked_mod_frms_details` (`id`, `idform`, `label`, `type`, `defaut`, `requis`, `position`) VALUES
+(1, 1, 'Nom', 'input', '', 'on', 1),
+(2, 1, 'Prenom', 'input', '', '', 2),
+(3, 1, 'Email', 'mail', 'mail@domaine.com', 'on', 3),
+(4, 1, 'Age', 'numeric', 'Numerique', '', 4),
+(5, 1, 'Commentaire', 'textarea', '', '', 5);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_mod_frms_rec`
+--
+
+DROP TABLE IF EXISTS `nuked_mod_frms_rec`;
+CREATE TABLE IF NOT EXISTS `nuked_mod_frms_rec` (
+  `id` int(13) NOT NULL auto_increment,
+  `id_form` int(5) NOT NULL,
+  `id_user` varchar(20) collate latin1_general_ci NOT NULL,
+  `ip` varchar(16) collate latin1_general_ci NOT NULL,
+  `date` varchar(16) collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `id_form` (`id_form`),
+  KEY `id_user` (`id_user`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_mod_frms_rec_details`
+--
+
+DROP TABLE IF EXISTS `nuked_mod_frms_rec_details`;
+CREATE TABLE IF NOT EXISTS `nuked_mod_frms_rec_details` (
+  `id_rec` int(5) NOT NULL,
+  `id_frm_details` int(5) NOT NULL,
+  `valeur` varchar(255) collate latin1_general_ci NOT NULL,
+  KEY `id_rec` (`id_rec`),
+  KEY `id_frm_details` (`id_frm_details`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_mumble`
 --
 

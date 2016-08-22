@@ -1,0 +1,139 @@
+<style type="text/css">
+#clear
+{
+	clear:both;
+}
+#button
+{
+	text-align:center;
+	margin: 10px;
+}
+#back
+{
+	font-weight: bold;
+	text-align:center;
+	margin: 20px;
+}
+#form_user h3, #see_user h3, #form_see h3
+{
+	text-align:center;
+	margin: 10px 20px;
+}
+#see_user h4
+{
+	text-align:center;
+	margin-top: 20px;
+	margin-bottom: 30px;
+}
+#form_user table
+{
+	padding: 0 10px;
+	width:100%;
+}
+#form_user td
+{
+	text-align:center;
+	padding:3px;
+}
+#form_user tr.champs td
+{
+	font-weight: bold;
+	height: 25px;
+}
+#form_index, #form_see
+{
+	position:relative;
+}
+#form_index .search, #form_search .search
+{
+	position: absolute;
+	top: -42px;
+	right: 10px;
+}
+#form_index .search input, #form_search .search input, #form_index td
+{
+	text-align:center;
+}
+#form_index table
+{
+	width:100%;
+}
+#form_index tr.champs td
+{
+	font-weight: bold;
+}
+#form_index .opaq, #form_user .opaq
+{
+	opacity : 0.4;
+	-moz-opacity : 0.4;
+	-ms-filter: "alpha(opacity=40)"; /* IE 8 */
+	filter : alpha(opacity=40); /* IE 7 */
+} 
+#form_search
+{
+	position:relative;
+	padding: 20px;
+	line-height: 20px;
+}
+#form_search .colonne
+{
+	float:left;
+	width:33%;
+}
+#form_index .purge
+{
+	position: absolute;
+	top: -47px;
+	right: 250px;
+}
+
+#form_see h4
+{
+	text-align:center;
+	margin-top: 20px;
+	margin-left: 20px;
+	margin-right: 20px;
+	margin-bottom: 10px;
+}
+#form_see h5
+{
+	position:absolute;
+	top:-5px;
+	text-align:center;
+	width: 300px;
+	background-color:green;
+	color: #FFF;
+	font-size: 14px;
+	padding:10px;
+	margin-left:10px;
+}
+#form_see p span.label, #form_add p span.label, #form_edit p span.label, #see_user p span.label
+{
+	display:inline-block;
+	width:40%;
+	text-align:right;
+	font-weight: bold;
+}
+#form_see p span.champs, #form_add p span.champs, #form_edit p span.champs, #see_user p span.champs
+{
+	display:inline-block;
+	width:50%;
+	text-align:left;
+	margin-left:20px;
+	vertical-align:middle;
+}
+.descr
+{
+	text-align:center;
+	font-size: 11px;
+	color: #CCC;
+	margin-bottom: 20px;
+	font-style: italic;
+}
+.nothing, #form_index .nothing, #form_see .nothing
+{
+	text-align:center;
+	margin: 10px;
+	line-height: 20px;
+}
+</style>
