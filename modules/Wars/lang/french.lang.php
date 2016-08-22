@@ -85,4 +85,6 @@ define("_ACTIONADDWAR","a ajouté un match");
 define("_ACTIONDELWAR","a supprimé un match");
 define("_ACTIONMODIFWAR","a modifié un match");
 define("_ACTIONCONFWAR","a modifié les préférences du module wars");
+
+define("_URL_LOGO","URL du logo des adversaires");
 ?>

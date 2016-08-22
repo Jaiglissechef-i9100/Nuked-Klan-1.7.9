@@ -267,7 +267,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
                 . "</select>&nbsp;&nbsp;<b>" . _HOUR . " :</b> <input type=\"text\" name=\"heure\" size=\"5\" maxlength=\"5\" value=\"" . $heure . "\" /></td></tr></table>\n"
                 . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
                 . "<tr><td align=\"center\"><big>" . _OPPONENT . "</big></td></tr>\n"
-                . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"adversaire\" maxlength=\"100\" size=\"20\" value=\"" . $adv_name . "\" />&nbsp;&nbsp;<b>" . _URL . " : </b><input type=\"text\" name=\"url_adv\" size=\"30\" maxlength=\"100\" value=\"" . $adv_url . "\" /></td></tr>\n"
+                . "<tr><td><b>" . _NAME . " : </b><input type=\"text\" name=\"adversaire\" maxlength=\"100\" size=\"20\" value=\"" . $adv_name . "\" />&nbsp;&nbsp;<b>" . _URL . " : </b><input type=\"text\" name=\"url_adv\" size=\"30\" maxlength=\"100\" value=\"" . $adv_url . "\" />&nbsp;&nbsp;<b>" . _URL_LOGO . " : </b><input type=\"text\" name=\"style\" maxlength=\"100\" size=\"20\" value=\"" . $style . "\" /></td></tr>\n"
                 . "<tr><td><b>" . _COUNTRY . " : </b> <select name=\"country\">\n";
 
         if ($_REQUEST['do'] == "add" && $language == "french"){
@@ -301,7 +301,7 @@ if ($visiteur >= $level_admin && $level_admin > -1){
         echo "</select><input type=\"hidden\" name=\"game\" value=\"".$_REQUEST['game']."\"/></td></tr></table>\n"
         . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\"><tr><td>&nbsp;</td></tr>\n"
         . "<tr><td align=\"center\"><big>" . _MATCH . "</big></td></tr>\n"
-        . "<tr><td><b>" . _TYPE . " : </b><input type=\"text\" name=\"type\" maxlength=\"100\" size=\"20\" value=\"" . $type . "\" />&nbsp;&nbsp;<b>" . _STYLE . " : </b><input type=\"text\" name=\"style\" maxlength=\"100\" size=\"20\" value=\"" . $style . "\" /></td></tr>\n"
+        . "<tr><td><b>" . _TYPE . " : </b><input type=\"text\" name=\"type\" maxlength=\"100\" size=\"20\" value=\"" . $type . "\" /></td></tr>\n"
         . "<input type=\"hidden\" name=\"nbr\" value=\"" . $nbr . "\" />\n";
         
         $sql3 = mysql_query("SELECT map FROM " . GAMES_TABLE . " WHERE id=".mysql_real_escape_string($_REQUEST['game']) ." ORDER BY name");

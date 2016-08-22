@@ -12,6 +12,14 @@ defined('INDEX_CHECK') or die('<div style="text-align:center;">You cannot open t
 global $nuked, $language, $bgcolor3, $theme;
 translate('modules/Wars/lang/' . $language . '.lang.php');
 
+echo '<script type="text/javascript"><!--'."\n"
+. 'document.write(\'<link rel="stylesheet" type="text/css" href="media/shadowbox/shadowbox.css">\');'."\n"
+. '--></script>'."\n"
+. '<script type="text/javascript" src="media/shadowbox/shadowbox1.js"></script>'."\n"
+. '<script type="text/javascript">'."\n"
+. 'Shadowbox.init();'."\n"
+. '</script>'."\n";
+
 $sql2 = mysql_query('SELECT active FROM ' . BLOCK_TABLE . ' WHERE bid = \'' . $bid . '\' ');
 list($active) = mysql_fetch_array($sql2);
 if ($active == 3 || $active == 4){
@@ -68,7 +76,7 @@ if ($active == 3 || $active == 4){
 		}
 
 		echo '<tr><td style="width: 60%;"><img src="images/flags/' . $pays_adv2 . '" alt="" title="' . $pays2 . '" />&nbsp;&nbsp;<a href="index.php?file=Calendar&amp;m=' . $m2 . '&amp;y=' . $y2 . '"><b>' . $adv_name2 . '</b></a></td>
-				<td style="width: 40%;text-align:center;">' . $date . '</td></tr>';
+				<td style="width: 40%;text-align:center;">' . $date . ' <a href="#" rel="shadowbox">dispo</a></td></tr>';
     }
 
 	if (mysql_num_rows($sql2) == NULL) echo '<tr><td colspan="2" style="text-align:center;">' . _NOMATCH . '</td></tr>';
@@ -130,7 +138,8 @@ else{
 
             echo '<tr><td style="width: 60%"><img src="images/flags/' . $pays_adv2 . '" alt="" title="' . $pays2 . '" />
 					&nbsp;&nbsp;<a href="index.php?file=Calendar&amp;m=' . $m2 . '&amp;y=' . $y2 . '"><b>' . $adv_name2 . '</b></a></td>
-					<td style="width: 40%text-align:center;">' . $date . '</td></tr>';
+					<td style="width: 40%text-align:center;">' . $date . '
+					<a rel="shadowbox[Mixed];width=320;height=220" href="index.php?file=Calendar&nuked_nude=index&op=show_event&eid=' . $war_id2 . '&type=match&d=' . $d2 . '&m=' . $m2 . '&y=' . $y2 . '" ">dispo</a></td></tr>';
         }
     }
 	

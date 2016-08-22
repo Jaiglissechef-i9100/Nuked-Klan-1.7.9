@@ -80,4 +80,6 @@ define("_ACTIONADDWAR","has added a war");
 define("_ACTIONDELWAR","has deleted a war");
 define("_ACTIONMODIFWAR","has modified a war");
 define("_ACTIONCONFWAR","has modified the preference of wars module");
+
+define("_URL_LOGO","Logo URL opponents");
 ?>
