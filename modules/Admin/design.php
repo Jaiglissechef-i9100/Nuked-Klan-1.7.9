@@ -117,12 +117,14 @@ function admintop(){
         <script type="text/javascript" src="modules/Admin/scripts/config.js"></script>
         </head>
     <body>
-    
+    <!-- DEBUT: Patch iframe administration - Par persogamer -->   
     <div id="screen" onclick="screenoff()">
-        <div id="iframe"></div>
-        <div id="iframe_close">&nbsp;</div>
+	<div id="boxframe"> 
+            <div id="iframe_close" title="Fermer"></div>
+            <div id="iframe" align="right"></div>
+	</div>
     </div>
-    
+    <!-- FIN: Patch iframe administration - Par persogamer -->   
 	<div class="container">
 	
 		<div id="bgfix"></div>
