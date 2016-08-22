@@ -530,6 +530,36 @@ CREATE TABLE IF NOT EXISTS `nuked_facebook` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `nuked_faqs`
+--
+
+DROP TABLE IF EXISTS `nuked_faqs`;
+CREATE TABLE IF NOT EXISTS `nuked_faqs` (
+  `id` int(10) NOT NULL auto_increment,
+  `questions` text NOT NULL,
+  `reponses` text NOT NULL,
+  `cat` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `cat` (`cat`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_faqs_cat
+--
+
+DROP TABLE IF EXISTS `nuked_faqs_cat`;
+CREATE TABLE IF NOT EXISTS `nuked_faqs_cat` (
+  `cid` int(11) NOT NULL auto_increment,
+  `titre` varchar(50) NOT NULL default '',
+  PRIMARY KEY  (`cid`),
+  KEY `titre` (`titre`)
+) ENGINE=MyISAM;";
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_forums`
 --
 
@@ -995,7 +1025,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (25, 'Facebook', 1, 9),
 (26, 'Horoscope', 1, 9),
 (27, 'Banlist', 1, 9),
-(28, 'Page', 0, 9);
+(28, 'Page', 0, 9),
+(29, 'Faqs', 0, 3);
 
 -- --------------------------------------------------------
 
