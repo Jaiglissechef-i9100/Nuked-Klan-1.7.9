@@ -123,22 +123,154 @@ function com_index($module, $im_id){
         }
     -->
     </script>
+    <style>
+.commentslistnono:after { border-color: #fff; }
+.commentslistnono:before { background-color: #fff; }
+.commentslistnono .comment {
+  background: #fff;
+  border-radius: 10px;
+  font-size: 11px;
+  padding: 10px 15px;
+}
+.commentslistnono [class*="level-"] .photo:before { background-color: #fff; }
+.commentslistnono .meta { color: #ccc; }
+.commentslistnono .meta a { color: inherit; }
+.commentslistnono .meta a:hover { color: #34b5d0; }
+.commentslistnono .body { color: #888; }
+
+/**
+ * commentslistnono Thread
+ */
+.commentslistnono {
+  list-style-type: none;
+  padding: 5px 0 0 46px;
+  position: relative;
+  margin-left:auto;margin-right:auto;
+  width: 90%;
+  
+}
+.commentslistnono:before,
+.commentslistnono .comment,
+.commentslistnono .comment:after,
+.commentslistnono .comment:before,
+.commentslistnono .photo img,
+.commentslistnono [class*="level-"] .photo:before {
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,.4);
+  box-shadow: 0 1px 3px rgba(0,0,0,.4);
+}
+.commentslistnono:after,
+.commentslistnono:before {
+  display: block;
+  content: '';
+  position: absolute;
+}
+.commentslistnono:before {
+  -webkit-border-radius: 0 0 5px 5px;
+  -moz-border-radius: 0 0 5px 5px;
+  border-radius: 0 0 5px 5px;
+  height: 100%;
+  width: 8px;
+  left: 0;
+  top: 0;
+}
+.commentslistnono:after {
+  box-shadow: 0 1px 3px rgba(0,0,0,.4), 0 1px 3px rgba(0,0,0,.4) inset;
+  border-width: 4px;
+  border-style: solid;
+  -webkit-border-radius: 18px;
+  -moz-border-radius: 18px;
+  border-radius: 18px;
+  height: 10px;
+  width: 10px;
+  left: -5px;
+  top: -18px;
+  z-index: 99999;
+}
+.commentslistnono .comment {
+  margin-bottom: 10px;
+  position: relative;
+}
+.commentslistnono .comment:after,
+.commentslistnono .comment:before {
+  -webkit-border-radius: 10px;
+  -moz-border-radius: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+  position: absolute;
+  display: block;
+  content: '';
+}
+.commentslistnono .comment:after {
+  width: 12px;
+  height: 12px;
+  left: -14px;
+  top: 7px;
+}
+.commentslistnono .comment:before {
+  width: 5px;
+  height: 5px;
+  left: -22px;
+  top: 16px;
+}
+.commentslistnono .photo {
+  position: absolute;
+  left: -60px;
+  top: 2px;
+}
+.commentslistnono .photo img {
+  background: <?php echo $bgcolor3; ?>;
+  height: 32px;
+  width: 32px;
+  padding:1px;
+  border: 1px solid #fff;
+  border-radius: 32px;
+  overflow: hidden;
+}
+.commentslistnono .meta { margin-bottom: 5px; }
+.commentslistnono .meta .reply { display: none; float: right; }
+.commentslistnono .comment:hover .reply { display: block; }
+.commentslistnono [class*="level-"] .photo:before {
+  display: block;
+  content: '';
+  position: absolute;
+  margin-top: -2px;
+  height: 4px;
+  width: 20px;
+  left: -10px;
+  top: 50%;
+  z-index: -1;
+}
+.commentslistnono .level-2 { margin-left: 30px; }
+.commentslistnono .level-3 { margin-left: 50px; }
+.commentslistnono .level-4 { margin-left: 70px; }
+.commentslistnono .level-5 { margin-left: 90px; }
+.commentslistnono .level-6 { margin-left: 110px; }
+.commentslistnono .level-3 .photo:before { width: 40px; left: -30px;}
+.commentslistnono .level-4 .photo:before { width: 60px; left: -50px;}
+.commentslistnono .level-5 .photo:before { width: 80px; left: -70px;}
+.commentslistnono .level-6 .photo:before { width: 100px; left: -90px;}
+</style>
+
     <?php
+
     $level_access = nivo_mod("Comment");
     $level_admin = admin_mod("Comment");
     $NbComment = NbComment($im_id, $module);
     
     if(verification($_REQUEST['file'],$im_id)){
-
+/*
         echo '<h3 style="text-align: center">' . _LAST4COMS . '</h3>
         <table style="background:'.$bgcolor3.';margin:5px" width="98%" cellpadding="3" cellspacing="1">
             <tr style="background:'.$bgcolor3.';">
                 <td style="width:30%;text-align:center"><b>'._AUTHOR.'</b></td>
                 <td style="width:70%;text-align:center"><b>'._COMMENT.'</b></td>
             </tr>';
-
+*/
         $sql = mysql_query("SELECT id, titre, comment, autor, autor_id, date, autor_ip FROM ".COMMENT_TABLE." WHERE im_id = '$im_id' AND module = '$module' ORDER BY id DESC LIMIT 0, 4");
         $count = mysql_num_rows($sql);
+                if ( $count > 0 ) {
+        echo '<ul class="commentslistnono">';
         while($row = mysql_fetch_assoc($sql)){
             $test = 0;
             $row['date'] = nkDate($row['date']);
@@ -168,7 +300,7 @@ function com_index($module, $im_id){
                 $admin = '<a href="index.php?file=Comment&amp;page=admin&amp;op=edit_com&amp;cid='.$row['id'].'"><img style="border:none;" src="modules/Forum/images/buttons/'.$language.'/edit.gif" alt="" title="'._EDITTHISCOM.'" /></a>&nbsp;<a href="javascript:delmess(\''.mysql_real_escape_string(stripslashes($autor)).'\', \''.$row['id'].'\');"><img style="border:none;" src="modules/Forum/images/delete.gif" alt="" title="'._DELTHISCOM.'" /></a>';
 
             }else $admin = '';
-
+/*
             echo '<tr style="background:'.$bg.';">
                     <td style="width:30%;" valign="top"><img src="images/flags/'.$country.'" alt="'.$country.'" />&nbsp;<b>'.$autor.'</b>';
 
@@ -188,9 +320,16 @@ function com_index($module, $im_id){
                       <td style="width:30%;">&nbsp;</td>
                     <td colspan="2">'.$profil.'&nbsp;'.$admin.'<br /></td>
                   </tr>';
+                  */
+                              echo '<li class="comment">
+    <a href="index.php?file=Members&amp;op=detail&amp;autor='.urlencode($autor).'" title="Profil de '.urlencode($autor).'" class="photo"><img src="'.$avatar.'" alt="'.urlencode($autor).'"></a>
+    <div class="meta">'.urlencode($autor).' | '._POSTED.' '.$row['date'].' <a href="#message" class="reply">Réagir</a></div>
+    <div class="body">'.$texte.'</div>
+  </li>';
             unset($avatar, $autor, $country);
         }
-
+         }
+         echo '</ul>';
         if ($count == "0") echo '<tr style="background:'.$bgcolor2.';"><td align="center" colspan="2">'._NOCOMMENT.'</td></tr>';
 
         echo '</table>';
@@ -392,6 +531,21 @@ function post_com($module, $im_id){
 function post_comment($im_id, $module, $titre, $texte, $pseudo){
     global $user, $nuked, $bgcolor2, $theme, $user_ip, $visiteur, $captcha;
     
+if ($user)
+    	   {
+    	   $nb_points = $nuked['commentaire'];
+    	   $sql = mysql_query("SELECT * FROM ".$nuked[prefix]."_users_points WHERE pseudo='".$user[2]."' ");
+    	   $countpoint = mysql_num_rows($sql);
+    	   if($countpoint == 0){mysql_query("INSERT INTO ".$nuked[prefix]."_users_points VALUES('','".$user[2]."','".$nb_points."') ");}
+    	   else{
+    	   $sql = mysql_query("SELECT * FROM ".$nuked[prefix]."_users_points WHERE pseudo='".$user[2]."' ");
+    	   $donnees = mysql_fetch_array($sql);
+    	   $point = $donnees['point']+$nb_points;
+    	   mysql_query("UPDATE ".$nuked[prefix]."_users_points SET point='".$point."' WHERE pseudo='".$user[2]."' ");
+    	    			}
+                }
+//// Fin Modification  Module Participation
+
     if(!isset($_REQUEST['noajax'])){
         $titre = utf8_decode($titre);
         $texte = utf8_decode($texte);
