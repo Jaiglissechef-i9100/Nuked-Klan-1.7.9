@@ -176,9 +176,6 @@ define("_NOTIFYISON","Notification was successfully activated.");
 define("_NOTIFYISOFF","Notification was successfully deactivated.");
 define("_NOTEXTRESUME","No resume available...");
 
-// Recaptcha patch
-define('_EMPTYCODE', 'The code that you have entered is not valid!');
-
 define("_ADMINFORUM","Forum Administration");
 define("_HELP","Help");
 define("_ADDFORUM","Add a Forum");

@@ -264,7 +264,7 @@ INSERT INTO `nuked_comment_mod` (`id`, `module`, `active`) VALUES
 (8, 'video', 0),
 (9, 'Steam_ban', 1),
 (10, 'gallery_v2', 1),
-(11, 'replays', 1);";
+(11, 'replays', 1);
 
 -- --------------------------------------------------------
 
@@ -362,7 +362,7 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('nbc_timeout', '300'),
 ('screen', 'on'),
 ('contact_mail', 'admin@admin.com'),
-('contact_flood', '60');
+('contact_flood', '60'),
 ('forum_cat_prim', 'off'),
 ('image_forums', 'on'),
 ('image_cat_mini', 'on'),
@@ -524,7 +524,7 @@ CREATE TABLE IF NOT EXISTS `nuked_erreursql` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
-- --------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Structure de la table `nuked_espace_membre`
@@ -667,7 +667,7 @@ CREATE TABLE IF NOT EXISTS `nuked_faqs_cat` (
   `titre` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`cid`),
   KEY `titre` (`titre`)
-) ENGINE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -707,10 +707,12 @@ INSERT INTO `nuked_forums` (`id`, `cat`, `nom`, `comment`, `moderateurs`, `nivea
 
 DROP TABLE IF EXISTS `nuked_forums_cat`;
 CREATE TABLE IF NOT EXISTS `nuked_forums_cat` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(100) COLLATE latin1_general_ci DEFAULT NULL,
-  `ordre` int(5) NOT NULL DEFAULT '0',
-  `niveau` int(1) NOT NULL DEFAULT '0',
+  `id` int(11) NOT NULL auto_increment,
+  `cat_primaire` int(5) NOT NULL default '0',
+  `nom` varchar(100) collate latin1_general_ci default NULL,
+  `level` int(1) NOT NULL default '0',
+  `ordre` int(5) NOT NULL default '0',
+  `niveau` int(1) NOT NULL default '0',
   `moderateurs` text collate latin1_general_ci NOT NULL,
   `comment` text collate latin1_general_ci NOT NULL,
   `image` varchar(200) collate latin1_general_ci default NULL,
@@ -791,7 +793,6 @@ CREATE TABLE IF NOT EXISTS `nuked_forums_poll` (
 -- Structure de la table `nuked_forums_primaire`
 --
 
-DROP TABLE IF EXISTS `nuked_forums_primaire`;
 CREATE TABLE IF NOT EXISTS `nuked_forums_primaire` (
   `id` int(11) NOT NULL auto_increment,
   `nom` varchar(100) collate latin1_general_ci default NULL,
@@ -1235,7 +1236,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (41, 'Gallery_v2', 0, 9),
 (42, 'Strats', '3', '7'),
 (43, 'Espace_membre', 1, 9),
-(44, 'Private_Message', 9, 9);
+(44, 'Private_Message', 9, 9),
+(45, 'Guestbook', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -2556,7 +2558,14 @@ CREATE TABLE IF NOT EXISTS `nuked_users_config` (
   `lien` text collate latin1_general_ci NOT NULL,
   `nivoreq` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ; 
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `nuked_users_config`
+--
+
+INSERT INTO `nuked_users_config` (`id`, `mail`, `icq`, `msn`, `aim`, `yim`, `xfire`, `facebook`, `originea`, `steam`, `twiter`, `skype`, `lien`, `nivoreq`) VALUES
+(1, 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 0);
 
 -- --------------------------------------------------------
 
@@ -2650,11 +2659,12 @@ CREATE TABLE IF NOT EXISTS `nuked_vote` (
 
 DROP TABLE IF EXISTS `nuked_Wow_recrutement`;
 CREATE TABLE IF NOT EXISTS `nuked_Wow_recrutement` (
-char(20) NOT NULL,
+  `classes` varchar(50) NOT NULL,
+  `statut` varchar(20) NOT NULL,
   `role` mediumtext NOT NULL,
   `color` varchar(7) NOT NULL,
   KEY `statut` (`statut`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 --
 -- Contenu de la table `nuked_Wow_recrutement`

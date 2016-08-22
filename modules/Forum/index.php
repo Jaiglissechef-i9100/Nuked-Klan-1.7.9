@@ -17,10 +17,7 @@ translate("modules/Forum/lang/" . $language . ".lang.php");
 define('FORUM_PRIMAIRE_TABLE', $nuked['prefix'] . '_forums_primaire');
 
 // Inclusion système reCaptcha
-//include_once('Includes/nkCaptcha.php');
-include_once('Includes/recaptcha.php');
-include_once('Includes/hash.php');
-require_once('Includes/recaptchalib.php');
+include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == "off") $captcha = 0;
@@ -603,30 +600,13 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-        		// Verification code captcha
-		include("./Includes/keys.php");
-		
-			if($captcha == 1 && empty($_POST["recaptcha_response_field"])){
-	echo "<br /><br /><div style=\"text-align: center;\">" . _EMPTYCODE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-				closetable();
-				footer();
-				exit();
-	}
-		if ($_POST["recaptcha_response_field"]) {
-        $resp = recaptcha_check_answer ($privatekey,
-                                        $_SERVER["REMOTE_ADDR"],
-                                        $_POST["recaptcha_challenge_field"],
-                                        $_POST["recaptcha_response_field"]);
-
-        if ($resp->is_valid) {
-                $captchaflag = 1;
-        } else {
-				echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-				closetable();
-				footer();
-				exit();
+        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
+        {
+            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+            closetable();
+            footer();
+            exit();
         }
-	}
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {
@@ -838,30 +818,14 @@ if ($visiteur >= $level_access && $level_access > -1)
 
         opentable();
 
-			// Verification code captcha
-		include("./Includes/keys.php");
-		
-			if($captcha == 1 && empty($_POST["recaptcha_response_field"])){
-	echo "<br /><br /><div style=\"text-align: center;\">" . _EMPTYCODE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-				closetable();
-				footer();
-				exit();
-	}
-		if ($_POST["recaptcha_response_field"]) {
-        $resp = recaptcha_check_answer ($privatekey,
-                                        $_SERVER["REMOTE_ADDR"],
-                                        $_POST["recaptcha_challenge_field"],
-                                        $_POST["recaptcha_response_field"]);
-
-        if ($resp->is_valid) {
-                $captchaflag = 1;
-        } else {
-				echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-				closetable();
-				footer();
-				exit();
+        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
+        {
+            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+            closetable();
+            footer();
+            exit();
         }
-	}
+
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {
