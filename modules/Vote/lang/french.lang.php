@@ -16,4 +16,9 @@ define("_NICKINUSE","Ce pseudo est déjà  réservé");
 define("_NONICK","Vous devez rentrer un pseudo");
 define("_BACK","Retour");
 define("_VOTEADD","Votre vote a bien été enregistré");
+define("_NOENTRANCE_VOTE","D&eacute;sol&eacute; mais vous n'avez pas les droits pour voter");
+define("_USERENTRANCE_VOTE","D&eacute;sol&eacute; seul utilisateurs enregistr&eacute;s peuvent voter.");
+define("_MODULEOFF_VOTE","D&eacute;sol&eacute;, ce module n'est pas activ&eacute; !");
+define("_MODULEMAINTENANCE_VOTE","D&eacute;sol&eacute;, ce module est en maintenance !");
+
 ?>

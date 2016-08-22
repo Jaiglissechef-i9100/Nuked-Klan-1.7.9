@@ -1,4 +1,4 @@
-<?php 
+<?php
 // -------------------------------------------------------------------------//
 // Nuked-KlaN - PHP Portal                                                  //
 // http://www.nuked-klan.org                                                //
@@ -11,170 +11,129 @@ defined('INDEX_CHECK') or die ('<div style="text-align: center;">You cannot open
 
 translate('modules/Vote/lang/' . $language . '.lang.php');
 
-$visiteur = ($user) ? $user[1] : 0; 
+$visiteur = ($user) ? $user[1] : 0;
 
 function vote_index($module, $vid) {
-    global $user, $nuked, $visiteur;
 
-    $level_access = nivo_mod('Vote');
+    	global $user, $nuked, $visiteur, $user_ip;
 
-    echo '<b>' . _NOTE . ' :</b>&nbsp;';
+    	$level_access = nivo_mod('Vote');
 
-    $sql = mysql_query("SELECT id, ip, vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "'");
-    $count = mysql_num_rows($sql);
+        $theme_stars = '1';
+        $nb_star     = '10';
 
-    if ($count > 0) {
-        while (list($id, $ip, $vote) = mysql_fetch_array($sql)) {
-            $total = $total + $vote / $count;
-            $pourcent_arrondi = ceil($total);
-        } 
-        $note = $pourcent_arrondi;
+    	echo '<script type="text/javascript" src="modules/Admin/scripts/jquery-1.6.1.min.js"></script>'
+    	. '<script type="text/javascript" language="javascript" src="modules/Vote/vote.js"></script>';
 
-        for ($i = 2;$i <= $note;$i += 2) {
-            echo '<img style="border: 0;" src="modules/Vote/images/z1.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
-            $n++;
-        } 
-
-        if (($note - $i) != -2) {
-            echo '<img style="border: 0;" src="modules/Vote/images/z2.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
-            $n++;
-        } 
-
-        for ($z = $n;$z < 5;$z++) {
-            echo '<img style="border: 0;" src="modules/Vote/images/z3.png" alt="" title="' . $note . '/10 (' . $count . '&nbsp;' . _VOTES . ')" />';
-        } 
-    } else {
-        echo _NOTEVAL;
-    } 
-
-    if ($visiteur >= $level_access && $level_access > -1) {
-        echo '&nbsp;<small>[ <a href="#" onclick="javascript:window.open(\'index.php?file=Vote&amp;nuked_nude=index&amp;op=post_vote&amp;vid=' . $vid . '&amp;module=' . $module . '\',\'screen\',\'toolbar=0,location=0,directories=0,status=0,scrollbars=0,resizable=0,copyhistory=0,menuBar=0,width=350,height=150,top=30,left=0\');return(false)">' . _RATE . '</a> ]</small>'."\n";
-    } 
-} 
-
-function post_vote($module, $vid) {
-    global $user, $nuked, $bgcolor2, $theme, $visiteur,$user_ip;
-
-    $level_access = nivo_mod('Vote');
-
-    if ($visiteur >= $level_access) {
-
-        if ($user) {
-            $author = $user[2];
-        } else {
-            $author = _VISITOR;
-        } 
-
-        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "' AND ip = '" . $user_ip . "'");
+    	$sql = mysql_query("SELECT vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "'");
         $count = mysql_num_rows($sql);
-
         if ($count > 0) {
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-               . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-               . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-               . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-               . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-               . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-               . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-               . "<div style=\"text-align: center;\"><br /><br /><br />" . _ALREADYVOTE . "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOWS . "</b></a></div></body></html>";
-        } else {
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-               . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-               . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-               . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-               . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-               . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-               . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-               . "<form method=\"post\" action=\"index.php?file=Vote&amp;nuked_nude=index&amp;op=do_vote\">\n"
-               . "<div style=\"text-align: center;\"><br /><br />" . _ONEVOTEONLY . "<br /><br /><b>" . _NOTE . " : </b>"
-               . "<select name=\"vote\"><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option>"
-               . "<option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select>"
-               . "&nbsp;<b>/10</b><br /><br /><input type=\"hidden\" name=\"vid\" value=\"" . $vid . "\" />\n"
-               . "<input type=\"hidden\" name=\"module\" value=\"" . $module . "\" />\n"
-               . "<input type=\"submit\" name=\"Submit\" value=\"" . _TOVOTE . "\" /></div></form></body></html>";
+                $total = '0';
+                while(list($vote) = mysql_fetch_array($sql)) {
+                        $total = $total + $vote / $count;
+                }
+
+                $note = ceil($total);
+        } else $note = "0";
+
+      	?>
+        <script type="text/javascript">
+        //<![CDATA[
+        function submitRating_<?php echo $vid; ?>(evt) {
+	        //alert(l'ajax en jquery mais putain ca sux quoi !!!!);
+	        var xhr = getXhr();
+     		xhr.onreadystatechange = function(){
+          		if(xhr.readyState == 4) {
+		        	if(xhr.status == 200) {
+		            		leselect = xhr.responseText;
+			      		document.getElementById('resultat_vote_<?php echo $vid; ?>').innerHTML = leselect;
+			      		init_rating(<?php echo $vid; ?>,<?php echo $theme_stars; ?>,<?php echo $nb_star; ?>);
+		        	} else {
+			      		document.getElementById('resultat_vote_<?php echo $vid; ?>').innerHTML = "Erreur !";
+		        	}
+	   		} else {
+	       			document.getElementById('resultat_vote_<?php echo $vid; ?>').innerHTML = "Loading ...";
+	   		}
+     		}
+     		document.getElementById('vote_<?php echo $vid; ?>').style.display = 'none';
+     		var tmp = evt.target.getAttribute('id').substr(5);
+	        var widgetId = <?php echo $vid; ?>;
+	        var starNbr = tmp.substr(tmp.indexOf('_')+1);
+	        var module = '<?php echo addslashes($module); ?>';
+     		xhr.open("POST","index.php?file=Vote&op=a_voter&nuked_nude=index",true);
+		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+     		xhr.send("ratingID="+widgetId+"&value="+starNbr+"&moduleId="+module+"");
         }
-    } else {
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-           . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-           . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-           . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-           . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-           . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-           . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-           . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
-           . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
-    }
- 
-} 
-
-function do_vote($vid, $module, $vote) {
-    global $nuked, $user, $bgcolor2, $theme, $visiteur,$user_ip;
-
-    $level_access = nivo_mod('Vote');
-    $module = mysql_real_escape_string(stripslashes($module));
-
-    if ($visiteur >= $level_access && is_numeric($vote) && $vote<=10 && $vote>=0) {
-        if ($user) {
-            $author = $user[2];
-        } else {
-            $author =  _VISITOR;
-        } 
-
-        $sql = mysql_query("SELECT ip FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . $module . "' AND ip = '" . $user_ip . "'");
-        $count = mysql_num_rows($sql);
-
-        if ($count > 0) {
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-               . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-               . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-               . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-               . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-               . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-               . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-               . "<div style=\"text-align: center;\"><br /><br /><br />"  . _ALREADYVOTE .  "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close();\"><b>" . _CLOSEWINDOWS . "</b></a></b></div></body></html>";
-        } else {
-            $sql = mysql_query("INSERT INTO " . VOTE_TABLE . " ( `id` , `module` , `vid` , `ip` , `vote` ) VALUES ( '' , '" . $module . "' , '" . $vid . "' , '" . $user_ip . "' , '" . $vote . "' )");
-
-            echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-               . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-               . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-               . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-               . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-               . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-               . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-               . "<div style=\"text-align: center;\"><br /><br /><br />" . _VOTEADD . "<br /><br /><br />\n"
-               . "<a href=\"#\" onclick=\"javascript:window.close();window.opener.document.location.reload(true);\"><b>" . _CLOSEWINDOWS . "</b></a></b></div></body></html>";
+        function prototypeInit_<?php echo $vid; ?>() {
+        	init_rating(<?php echo $vid; ?>,<?php echo $theme_stars; ?>,<?php echo $nb_star; ?>);
+        	$('.rating_<?php echo $vid; ?>').bind('click', submitRating_<?php echo $vid; ?>);
         }
-    } else {
-        echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
-        . "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"fr\">\n"
-        . "<head><title>" . _VOTEFROM . "&nbsp;" . $author . "</title>\n"
-        . "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=iso-8859-1\" />\n"
-        . "<meta http-equiv=\"content-style-type\" content=\"text/css\" />\n"
-        . "<link title=\"style\" type=\"text/css\" rel=\"stylesheet\" href=\"themes/" . $theme . "/style.css\" /></head>\n"
-        . "<body style=\"background : " . $bgcolor2 . ";\">\n"
-        . "<div style=\"text-align: center;\"><br /><br /><br />" . _NOENTRANCE . "<br /><br /><br />\n"
-        . "<a href=\"#\" onclick=\"javascript:window.close()\"><b>" . _CLOSEWINDOW . "</b></a></div></body></html>";
-    }
-} 
+        $(document).ready( prototypeInit_<?php echo $vid; ?> );
+        //]]>
+        </script>
+        <?php
+        echo '<table style="width:450px;" id="vote_'. $vid .'" cellpadding="0" cellspacing="0"><tr>'
+        . '<td><div class="rating_'. $vid .'" id="rating_'. $vid .'">'. $note .'</div></td>'
+        . '<td style="width:10%;"><div style="border:1px solid #548732;color:#004000;text-align:center;padding:2px;background:#CEE7BE;">'. $note .'/'. $nb_star .'</div></td>'
+        . '<td style="padding-left:10px;">Nb de vote : '. $count .'</td>'
+        . '</tr></table>'
+        . '<div id="resultat_vote_'. $vid .'"></div>';
+}
+
+function a_voter() {
+
+	global $user, $user_ip, $visiteur;
+
+	$valeur_v = $_POST['value']+1;
+	$vid      = $_POST['ratingID'];
+	$module   = $_POST['moduleId'];
+
+        $level_access = nivo_mod("Vote");
+
+        $sql = mysql_query("SELECT ip FROM ". VOTE_TABLE ." WHERE vid = '". $vid ."' AND module = '". mysql_real_escape_string(stripslashes($module)) ."'  AND ip = '" . $user_ip . "'");
+	list($user_ip_bdd) = mysql_fetch_array($sql);
+
+	if($valeur_v != "" && $vid != "" && $module != "" && is_numeric($valeur_v)) {
+	        if ($visiteur >= $level_access && $level_access > -1) {
+	                if($user_ip != $user_ip_bdd)  {
+	                        $sql = mysql_query("INSERT INTO " . VOTE_TABLE . " ( `id` , `module` , `vid` , `ip` , `vote` ) VALUES ( '' , '" . $module . "' , '" . $vid . "' , '" . $user_ip . "' , '" . $valeur_v . "' )");
+
+	                        $theme_stars = '1';
+        			$nb_star     = '10';
+	                        $sql = mysql_query("SELECT vote FROM " . VOTE_TABLE . " WHERE vid = '" . $vid . "' AND module = '" . mysql_real_escape_string(stripslashes($module)) . "'");
+			        $count = mysql_num_rows($sql);
+			        if ($count > 0) {
+			                $total = '0';
+			                while(list($vote) = mysql_fetch_array($sql)) {
+			                        $total = $total + $vote / $count;
+			                }
+
+			                $note = ceil($total);
+			        } else $note = "0";
+	                        echo '<table style="width:450px;" cellpadding="0" cellspacing="0"><tr>'
+        			. '<td><div class="rating_'. $vid .'" id="rating_'. $vid .'">'. $note .'</div></td>'
+        			. '<td style="width:10%;"><div style="border:1px solid #548732;color:#004000;text-align:center;padding:2px;background:#CEE7BE;">'. $note .'/'. $nb_star .'</div></td>'
+        			. '<td style="padding-left:10px;">Nb de vote : '. $count .'</td>'
+        			. '</tr></table><br />'
+        			. '<img style="vertical-align:middle;" src="modules/Vote/images/rating_ok.png" alt="" />&nbsp;<span style="color:#034003;">'. _VOTEADD .'</span>';
+	                } else echo '<img style="vertical-align:middle;" src="modules/Vote/images/rating_error.png" alt="" />&nbsp;<span style="color:#BD1212;">'. _ALREADYVOTE .'</span>';
+	        } else if ($level_access == -1) echo '<span style="color:#BD1212;"><img style="vertical-align:middle;" src="modules/Vote/images/rating_error.png" alt="" />&nbsp;'. _MODULEOFF_VOTE .'</span>';
+	        else if ($level_access == 1 && $visiteur == 0) echo '<span style="color:#BD1212;"><img style="vertical-align:middle;" src="modules/Vote/images/rating_error.png" alt="" />&nbsp;'. _USERENTRANCE_VOTE .'</span>';
+	        else echo '<span style="color:#BD1212;"><img style="vertical-align:middle;" src="modules/Vote/images/rating_error.png" alt="" />&nbsp;'. _NOENTRANCE_VOTE .'</span>';
+	} else echo 'Erreur !';
+}
 
 switch ($_REQUEST['op']) {
-    case 'vote_index':
+    	case 'vote_index':
         vote_index($_REQUEST['module'], $_REQUEST['vid']);
         break;
 
-    case 'post_vote':
-        post_vote($_REQUEST['module'], $_REQUEST['vid']);
+    	case 'a_voter':
+        a_voter();
         break;
 
-    case 'do_vote':
-        do_vote($_REQUEST['vid'], $_REQUEST['module'], $_REQUEST['vote']);
+    	default:
         break;
-
-    default:
-        break;
-} 
+}
 
 ?>
