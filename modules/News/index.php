@@ -122,7 +122,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 			if ($_REQUEST['op'] == 'suite' || $_REQUEST['op'] == 'index_comment' && !empty($TabNews['suite'])) {
 				$data['texte'] = $TabNews['texte'].'<br /><br />'.$TabNews['suite'];
 			} elseif (!empty($TabNews['suite'])) {
-				// Bouton lire la suite du thème ou texte par défaut
+				// Bouton lire la suite du thÃ¨me ou texte par dÃ©faut
 				$data['bouton'] = (is_file('themes/' . $theme . '/images/readmore.png')) ? '<img src="themes/' . $theme . '/images/readmore.png" alt="" title="' . _READMORE . '" />' : _READMORE;
 
 				$data['texte'] = $TabNews['texte'].'<div style="text-align:right;"><a title="'._READMORE.'" href="index.php?file=News&amp;op=suite&amp;news_id='.$TabNews['id'].'">' . $data['bouton'] . '</a></div>';
@@ -228,7 +228,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 			$sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
 			$row = mysql_fetch_array($sql);
 
-			if ($nuked['news_forum'] == "" && $row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
+			if ($nuked['news_forum'] == "" && $row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
 				include ('modules/Comment/index.php');
 				com_index('news', $news_id);
 			}
