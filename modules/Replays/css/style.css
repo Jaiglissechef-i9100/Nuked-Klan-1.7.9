@@ -1,0 +1,30 @@
+div.formulaire {
+	margin: 0px auto;
+	width: 95%;
+}
+
+div.row {
+ 	clear: both;
+	padding-top: 5px;
+ }
+
+div.row label {
+ 	float: left;
+ 	width: 33%;
+ 	text-align: right;
+	font-weight: bold;
+}
+
+div.row label.imgMap {
+	margin-top: 50px;
+}
+
+div.row label.joueur {
+	margin-top: 3px;
+}
+
+div.row span.formw {
+	float: right;
+ 	width: 65%;
+ 	text-align: left;
+}

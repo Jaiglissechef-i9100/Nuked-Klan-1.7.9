@@ -46,12 +46,6 @@ function verification($module, $im_id){
         $sqlverif = "liens";
         $specification = "id";
 
-    elseif($module == "Wars" || $module == "match"):
-        
-        $WhereModule = 'wars';
-        $sqlverif = "match";
-        $specification = "warid";
-
     elseif($module == "Gallery" || $module == "gallery"):
         
         $WhereModule = 'gallery';
@@ -76,11 +70,23 @@ function verification($module, $im_id){
         $sqlverif = "sondage";
         $specification = "sid";
 
+    elseif($module == "Replays" || $module == "replays"):
+        
+        $WhereModule = 'replays';
+        $sqlverif = "replays";
+        $specification = "id"; 
+
     elseif($module == "Video" || $module == "video"):
         
         $WhereModule = 'video';
         $sqlverif = "video";
         $specification = "id";
+
+    elseif($module == "Wars" || $module == "match"):
+        
+        $WhereModule = 'wars';
+        $sqlverif = "match";
+        $specification = "warid";
     
     endif;
 

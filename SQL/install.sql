@@ -263,7 +263,8 @@ INSERT INTO `nuked_comment_mod` (`id`, `module`, `active`) VALUES
 (7, 'sections', 1),
 (8, 'video', 0),
 (9, 'Steam_ban', 1),
-(10, 'gallery_v2', 1);
+(10, 'gallery_v2', 1),
+(11, 'replays', 1);";
 
 -- --------------------------------------------------------
 
@@ -1560,6 +1561,124 @@ CREATE TABLE IF NOT EXISTS `nuked_reglement_details` (
   `ordre` int(5) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `id_reglement` (`id_reglement`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_replays`
+--
+
+DROP TABLE IF EXISTS `nuked_replays`;
+CREATE TABLE IF NOT EXISTS `nuked_replays` (
+  `id` int(30) NOT NULL auto_increment,
+  `titre` varchar(90) collate latin1_general_ci NOT NULL,
+  `texte` text collate latin1_general_ci NOT NULL,
+  `evenement` varchar(90) collate latin1_general_ci NOT NULL,
+  `map` varchar(30) collate latin1_general_ci NOT NULL,
+  `duree` varchar(10) collate latin1_general_ci NOT NULL,
+  `taille` varchar(10) collate latin1_general_ci NOT NULL,
+  `version` varchar(10) collate latin1_general_ci NOT NULL,
+  `url` varchar(90) collate latin1_general_ci NOT NULL,
+  `id_equipe` int(11) NOT NULL,
+  `type` int(11) NOT NULL,
+  `id_user` varchar(20) collate latin1_general_ci NOT NULL,
+  `date_ajout` varchar(12) collate latin1_general_ci NOT NULL,
+  `compteur` int(11) NOT NULL default '0',
+  `game` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_replays_config`
+--
+
+DROP TABLE IF EXISTS `nuked_replays_config`;
+CREATE TABLE IF NOT EXISTS `nuked_replays_config` (
+  `id` int(11) NOT NULL auto_increment,
+  `1vs1` text collate latin1_general_ci NOT NULL,
+  `2vs2` text collate latin1_general_ci NOT NULL,
+  `3vs3` text collate latin1_general_ci NOT NULL,
+  `4vs4` text collate latin1_general_ci NOT NULL,
+  `5vs5` text collate latin1_general_ci NOT NULL,
+  `2vs2vs2` text collate latin1_general_ci NOT NULL,
+  `2vs2vs2vs2` text collate latin1_general_ci NOT NULL,
+  `ffa3pl` text collate latin1_general_ci NOT NULL,
+  `ffa4pl` text collate latin1_general_ci NOT NULL,
+  `ffa5pl` text collate latin1_general_ci NOT NULL,
+  `ffa6pl` text collate latin1_general_ci NOT NULL,
+  `ffa8pl` text collate latin1_general_ci NOT NULL,
+  `max_replays` varchar(255) collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `nuked_replays_config`
+--
+
+INSERT INTO `nuked_replays_config` (`id`, `1vs1`, `2vs2`, `3vs3`, `4vs4`, `5vs5`, `2vs2vs2`, `2vs2vs2vs2`, `ffa3pl`, `ffa4pl`, `ffa5pl`, `ffa6pl`, `ffa8pl`, `max_replays`) VALUES
+(1, 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', 'on', '15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuked_replays_equipes`
+--
+
+DROP TABLE IF EXISTS `nuked_replays_equipes`;
+CREATE TABLE IF NOT EXISTS `nuked_replays_equipes` (
+  `joueur1` varchar(30) collate latin1_general_ci NOT NULL,
+  `joueur2` varchar(30) collate latin1_general_ci NOT NULL,
+  `joueur3` varchar(30) collate latin1_general_ci default NULL,
+  `joueur4` varchar(30) collate latin1_general_ci default NULL,
+  `joueur5` varchar(30) collate latin1_general_ci default NULL,
+  `joueur6` varchar(30) collate latin1_general_ci default NULL,
+  `joueur7` varchar(30) collate latin1_general_ci default NULL,
+  `joueur8` varchar(30) collate latin1_general_ci default NULL,
+  `joueur9` varchar(30) collate latin1_general_ci default NULL,
+  `joueur10` varchar(30) collate latin1_general_ci default NULL,
+  `racejoueur1` varchar(30) collate latin1_general_ci NOT NULL,
+  `racejoueur2` varchar(30) collate latin1_general_ci NOT NULL,
+  `racejoueur3` varchar(30) collate latin1_general_ci default NULL,
+  `racejoueur4` varchar(30) collate latin1_general_ci default NULL,
+  `racejoueur5` varchar(30) collate latin1_general_ci default NULL,
+  `racejoueur6` varchar(30) collate latin1_general_ci default NULL,
+  `racejoueur7` varchar(30) collate latin1_general_ci default NULL,
+  `racejoueur8` varchar(30) collate latin1_general_ci default NULL,
+  `racejoueur9` varchar(30) collate latin1_general_ci default NULL,
+  `racejoueur10` varchar(30) collate latin1_general_ci default NULL,
+  `id` int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuked_replays_maps`
+--
+
+DROP TABLE IF EXISTS `nuked_replays_maps`;
+CREATE TABLE IF NOT EXISTS `nuked_replays_maps` (
+  `id` int(11) NOT NULL auto_increment,
+  `nom` varchar(30) collate latin1_general_ci NOT NULL,
+  `image` varchar(30) collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuked_replays_race`
+--
+
+DROP TABLE IF EXISTS `nuked_replays_race`;
+CREATE TABLE IF NOT EXISTS `nuked_replays_race` (
+  `id` int(11) NOT NULL auto_increment,
+  `nom` varchar(30) collate latin1_general_ci NOT NULL,
+  `image` varchar(30) collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
