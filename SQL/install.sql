@@ -1234,7 +1234,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (40, 'Steam_ban', 0, 9),
 (41, 'Gallery_v2', 0, 9),
 (42, 'Strats', '3', '7'),
-(43, 'Espace_membre', 1, 9);
+(43, 'Espace_membre', 1, 9),
+(44, 'Private_Message', 9, 9);
 
 -- --------------------------------------------------------
 
