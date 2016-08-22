@@ -1031,7 +1031,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (30, 'Portfolio', 0, 3),
 (31, 'Wow_recrutement', 0, 9),
 (32, 'Ts3viewer', 1, 9),
-(33, 'FileEditor', 9, 9);
+(33, 'FileEditor', 9, 9),
+(34, 'Email', 9, 9);
 
 -- --------------------------------------------------------
 
