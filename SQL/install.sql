@@ -1186,7 +1186,83 @@ CREATE TABLE IF NOT EXISTS `nuked_page` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nuked_portfolio_cat`
+-- Structure de la table `nuked_paypal`
+--
+
+DROP TABLE IF EXISTS `nuked_paypal`;
+CREATE TABLE IF NOT EXISTS `nuked_paypal` (
+  `id` int(11) NOT NULL auto_increment,
+  `email` text collate latin1_general_ci NOT NULL,
+  `nom` text collate latin1_general_ci NOT NULL,
+  `montantdons` varchar(4) collate latin1_general_ci NOT NULL default '0',
+  `logo` text collate latin1_general_ci NOT NULL,
+  `affiche` text collate latin1_general_ci NOT NULL,
+  `flash` text collate latin1_general_ci NOT NULL,
+  `ok` text collate latin1_general_ci NOT NULL,
+  `ko` text collate latin1_general_ci NOT NULL,
+  `cible` char(3) collate latin1_general_ci NOT NULL,
+  `copy` text collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+
+--
+-- Contenu de la table `nuked_paypal`
+--
+
+INSERT INTO `nuked_paypal` (`id`, `email`, `nom`, `montantdons`, `logo`, `affiche`, `flash`, `ok`, `ko`, `cible`, `copy`) VALUES
+(1, '', '', '', 'modules/Paypal/img/boutons/bouton10.png', 'Flash', 'flash3', '<p>\r\n	merci, %donateur% de votre dons de %donner% en date du %date%</p>\r\n', '', 'non', '<a href=''http://www.palacewar.eu'' title=''PalaceWaR''>&copy;</a><a href=''http://www.nk-create.com'' title=''Nk-Create''>&copy;</a>');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_paypal_accepte`
+--
+
+DROP TABLE IF EXISTS `nuked_paypal_accepte`;
+CREATE TABLE IF NOT EXISTS `nuked_paypal_accepte` (
+  `id` int(11) NOT NULL auto_increment,
+  `autor` text collate latin1_general_ci NOT NULL,
+  `autor_id` varchar(20) collate latin1_general_ci NOT NULL default '',
+  `date` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `montant` text collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_paypal_flash`
+--
+
+DROP TABLE IF EXISTS `nuked_paypal_flash`;
+CREATE TABLE IF NOT EXISTS `nuked_paypal_flash` (
+  `id` int(11) NOT NULL auto_increment,
+  `var3` char(3) collate latin1_general_ci NOT NULL default '',
+  `var2` char(3) collate latin1_general_ci NOT NULL default '',
+  `var5` char(3) collate latin1_general_ci NOT NULL default '',
+  `var4` char(3) collate latin1_general_ci NOT NULL default '',
+  `var8` char(3) collate latin1_general_ci NOT NULL default '',
+  `var6` char(3) collate latin1_general_ci NOT NULL default '',
+  `var7` char(3) collate latin1_general_ci NOT NULL default '',
+  `flaw` char(3) collate latin1_general_ci NOT NULL default '',
+  `flah` char(3) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=5 ;
+
+--
+-- Contenu de la table `nuked_paypal_flash`
+--
+
+INSERT INTO `nuked_paypal_flash` (`id`, `var3`, `var2`, `var5`, `var4`, `var8`, `var6`, `var7`, `flaw`, `flah`) VALUES
+(1, '20', '200', '7', '5', '1', '0', '0', '220', '40'),
+(2, 'off', 'off', 'off', 'o', 'off', 'off', 'off', '200', '30'),
+(3, 'off', 'off', 'off', 'o', 'off', 'off', 'off', 'off', 'off'),
+(4, 'off', 'on', 'on', 'on', 'on', 'on', 'off', '160', '160');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_portfolio_cat`
 --
 
 DROP TABLE IF EXISTS `nuked_portfolio_cat`;
@@ -1719,7 +1795,7 @@ CREATE TABLE IF NOT EXISTS `nuked_tmpses` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nuked_ts3viewer`
+-- Structure de la table `nuked_ts3viewer`
 --
 
 DROP TABLE IF EXISTS `nuked_ts3viewer`;
@@ -1735,7 +1811,7 @@ CREATE TABLE IF NOT EXISTS `nuked_ts3viewer` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `nuked_ts3viewer_pref`
+-- Structure de la table `nuked_ts3viewer_pref`
 --
 
 DROP TABLE IF EXISTS `nuked_ts3viewer_pref`;
@@ -1748,7 +1824,7 @@ CREATE TABLE IF NOT EXISTS `nuked_ts3viewer_pref` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `nuked_ts3viewer_pref`
+-- Contenu de la table `nuked_ts3viewer_pref`
 --
 
 INSERT INTO `nuked_ts3viewer_pref` (`id`, `srvid`, `width_module`, `width_blok`) VALUES
