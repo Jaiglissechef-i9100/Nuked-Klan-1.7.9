@@ -455,6 +455,19 @@ CREATE TABLE IF NOT EXISTS `nuked_erreursql` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `nuked_facebook`
+--
+
+DROP TABLE IF EXISTS `nuked_facebook`;
+CREATE TABLE IF NOT EXISTS `nuked_facebook` (
+  `id` int(11) NOT NULL auto_increment,
+  `id_facebook` varchar(30) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_forums`
 --
 
@@ -917,6 +930,7 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (22, 'Equipe', 0, 2);
 (23, 'Video', 0, 9);
 (24, 'Annonces', 0, 3);
+(25, 'Facebook', 1, 9),
 
 -- --------------------------------------------------------
 
