@@ -1026,7 +1026,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (26, 'Horoscope', 1, 9),
 (27, 'Banlist', 1, 9),
 (28, 'Page', 0, 9),
-(29, 'Faqs', 0, 3);
+(29, 'Faqs', 0, 3),
+(30, 'Portfolio', 0, 3);
 
 -- --------------------------------------------------------
 
@@ -1158,7 +1159,6 @@ CREATE TABLE IF NOT EXISTS `nuked_notification` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
 
-
 -- --------------------------------------------------------
 
 --
@@ -1178,6 +1178,59 @@ CREATE TABLE IF NOT EXISTS `nuked_page` (
   PRIMARY KEY  (`id`),
   KEY `titre` (`titre`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuked_portfolio_cat`
+--
+
+DROP TABLE IF EXISTS `nuked_portfolio_cat`;
+CREATE TABLE IF NOT EXISTS `nuked_portfolio_cat` (
+  `id` int(11) NOT NULL auto_increment,
+  `nom` varchar(255) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`),
+  KEY `nom` (`nom`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_portfolio_crea`
+--
+
+DROP TABLE IF EXISTS `nuked_portfolio_crea`;
+CREATE TABLE IF NOT EXISTS `nuked_portfolio_crea` (
+  `id` int(20) NOT NULL auto_increment,
+  `titre` varchar(255) collate latin1_general_ci NOT NULL default '',
+  `description` text collate latin1_general_ci NOT NULL,
+  `cat` varchar(100) collate latin1_general_ci NOT NULL,
+  `date` int(20) NOT NULL default '0',
+  `url_site` varchar(100) collate latin1_general_ci NOT NULL default '',
+  `url_apercu` varchar(100) collate latin1_general_ci default NULL,
+  `url_vignette` varchar(100) collate latin1_general_ci default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `titre` (`titre`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_portfolio_pref`
+--
+
+DROP TABLE IF EXISTS `nuked_portfolio_pref`;
+CREATE TABLE IF NOT EXISTS `nuked_portfolio_pref` (
+  `nb_crea` int(20) NOT NULL default '10',
+  PRIMARY KEY  (`nb_crea`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Contenu de la table `nuked_portfolio_pref`
+--
+
+INSERT INTO `nuked_portfolio_pref` (`nb_crea`) VALUES
+(10);
 
 -- --------------------------------------------------------
 
