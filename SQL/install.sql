@@ -1038,7 +1038,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (35, 'Tournament', 0, 2),
 (36, 'Ticket', 0, 9),
 (37, 'Reglement', 0, 9),
-(38, 'Tags', '0', '3');
+(38, 'Tags', '0', '3'),
+(39, 'myliens', 0, 9);
 
 -- --------------------------------------------------------
 
