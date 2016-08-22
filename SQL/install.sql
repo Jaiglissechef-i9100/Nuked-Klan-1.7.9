@@ -926,11 +926,12 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (18, 'Comment', 0, 9),
 (19, 'Vote', 0, 9),
 (20, 'Stats', 0, 2),
-(21, 'Contact', 0, 3);
-(22, 'Equipe', 0, 2);
-(23, 'Video', 0, 9);
-(24, 'Annonces', 0, 3);
+(21, 'Contact', 0, 3),
+(22, 'Equipe', 0, 2),
+(23, 'Video', 0, 9),
+(24, 'Annonces', 0, 3),
 (25, 'Facebook', 1, 9),
+(26, 'Horoscope', 1, 9);
 
 -- --------------------------------------------------------
 
