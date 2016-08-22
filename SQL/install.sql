@@ -524,6 +524,108 @@ CREATE TABLE IF NOT EXISTS `nuked_erreursql` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
+- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_espace_membre`
+--
+
+DROP TABLE IF EXISTS `nuked_espace_membre`;
+CREATE TABLE IF NOT EXISTS `nuked_espace_membre` (
+  `id` int(30) NOT NULL auto_increment,
+  `user_id` varchar(200) collate latin1_general_ci NOT NULL default '',
+  `pseudo` varchar(60) collate latin1_general_ci NOT NULL default '',
+  `fichier` varchar(60) collate latin1_general_ci NOT NULL default '',
+  `date` varchar(200) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_espace_membre_commun`
+--
+
+DROP TABLE IF EXISTS `nuked_espace_membre_commun`;
+CREATE TABLE IF NOT EXISTS `nuked_espace_membre_commun` (
+  `id` int(30) NOT NULL auto_increment,
+  `user_id` varchar(200) collate latin1_general_ci NOT NULL default '',
+  `pseudo` varchar(60) collate latin1_general_ci NOT NULL default '',
+  `fichier` varchar(60) collate latin1_general_ci NOT NULL default '',
+  `date` varchar(200) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_espace_membre_galerie`
+--
+
+DROP TABLE IF EXISTS `nuked_espace_membre_galerie`;
+CREATE TABLE IF NOT EXISTS `nuked_espace_membre_galerie` (
+  `id` int(30) NOT NULL auto_increment,
+  `user_id` varchar(20) collate latin1_general_ci NOT NULL default '',
+  `value` varchar(20) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_espace_membre_prefs`
+--
+
+DROP TABLE IF EXISTS `nuked_espace_membre_prefs`;
+CREATE TABLE IF NOT EXISTS `nuked_espace_membre_prefs` (
+  `id` int(30) NOT NULL auto_increment,
+  `nom` varchar(20) collate latin1_general_ci NOT NULL default '',
+  `value` varchar(20) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=9 ;
+
+--
+-- Contenu de la table `nuked_espace_membre_prefs`
+--
+
+INSERT INTO `nuked_espace_membre_prefs` (`id`, `nom`, `value`) VALUES
+(1, 'nb_img', '5'),
+(2, 'galerie', 'on'),
+(3, 'nb_fichier', '10'),
+(4, 'nb_membre', '5'),
+(5, 'max_upload', '2'),
+(6, 'niveau_upload', '2'),
+(7, 'nb_quotas', '5'),
+(8, 'nb_quotas_commun', '20');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_espace_membre_statu`
+--
+
+DROP TABLE IF EXISTS `nuked_espace_membre_statu`;
+CREATE TABLE IF NOT EXISTS `nuked_espace_membre_statu` (
+  `id` int(30) NOT NULL auto_increment,
+  `nom` varchar(10) collate latin1_general_ci NOT NULL default '',
+  `statu` char(1) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=9 ;
+
+--
+-- Contenu de la table `nuked_espace_membre_statu`
+--
+
+INSERT INTO `nuked_espace_membre_statu` (`id`, `nom`, `statu`) VALUES
+(1, 'bmp', '1'),
+(2, 'gif', '1'),
+(3, 'png', '1'),
+(4, 'jpg', '1'),
+(5, 'jpeg', '1'),
+(6, 'zip', '1'),
+(7, 'rar', '1'),
+(8, 'ace', '1');
+
 -- --------------------------------------------------------
 
 --
@@ -1131,7 +1233,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (39, 'myliens', 0, 9),
 (40, 'Steam_ban', 0, 9),
 (41, 'Gallery_v2', 0, 9),
-(42, 'Strats', '3', '7');
+(42, 'Strats', '3', '7'),
+(43, 'Espace_membre', 1, 9);
 
 -- --------------------------------------------------------
 
