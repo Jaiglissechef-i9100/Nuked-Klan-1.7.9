@@ -32,6 +32,34 @@ $level_admin = admin_mod($ModName);
 
 if ($visiteur >= $level_admin && $level_admin > -1)
 {
+?>
+<script type="text/javascript">
+function checkType( type, action, id )
+{
+	var ids = document.getElementById('contents');
+	var spa = document.getElementById('cke_contents');
+	
+	if ( type == 'html' ) {
+		if ( action == 'add' )
+		{
+			window.location.href=('index.php?file=Page&page=admin&op=add');
+		}
+		else
+		{
+			window.location.href=('index.php?file=Page&page=admin&op=edit&page_id=' + id);
+		}
+	}
+	else {
+		ids.className  = 'noeditor';
+		ids.style.display  = 'block';
+		spa.parentNode.removeChild( spa ); 
+	}
+}
+</script>
+
+<?php
+
+
     function main()
     {
 	global $nuked, $language, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -101,479 +129,467 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     {
     	global $language;
 
-     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-	. "<div class=\"content-box-header\"><h3>Ajouter une Page</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Page&amp;page=admin\">" . _PAGE . "</a> | "
-	. "</b>" . _ADDPAGE . "<b> | "
-	. "<a href=\"index.php?file=Page&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Page&amp;page=admin&amp;op=do_add\" enctype=\"multipart/form-data\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-	. "<tr><td><b>" . _PAGENAME . " : </b> <input type=\"text\" name=\"titre\" maxlength=\"50\" size=\"30\" /></td></tr>\n"
-	. "<tr><td><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><b>" . _PAGETYPE . " :</b> <select name=\"type\"><option value=\"html\">HTML</option><option value=\"php\">PHP</option></select>&nbsp;</td>"
-	. "<td><b>" . _PAGELEVEL ." :</b> <select name=\"niveau\">\n" 
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select></td></tr></table></td></tr><tr><td>&nbsp;</td></tr>\n";
+		 echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+		. "<div class=\"content-box-header\"><h3>Ajouter une Page</h3>\n"
+		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		. "</div></div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Page&amp;page=admin\">" . _PAGE . "</a> | "
+		. "</b>" . _ADDPAGE . "<b> | "
+		. "<a href=\"index.php?file=Page&amp;page=admin&amp;op=main_pref\">" . _PREFS . "</a></b></div><br />\n"
+		. "<form method=\"post\" action=\"index.php?file=Page&amp;page=admin&amp;op=do_add\" enctype=\"multipart/form-data\">\n"
+		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
+		. "<tr><td><b>" . _PAGENAME . " : </b> <input type=\"text\" name=\"titre\" maxlength=\"50\" size=\"30\" /><span style=\"margin-left:30px;\"><b>" . _SHOWTITLE . " :</b> <input type=\"checkbox\" name=\"show_title\" value=\"" . $show_title . "\" /></span></td></tr>\n"
+		. "<tr><td><table cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"vertical-align:middle\"><b>" . _PAGETYPE . " :</b>\n"
+		. "<select name=\"type\" onchange=\"checkType(this.options[this.selectedIndex].value, 'add');\"><option value=\"html\">HTML</option><option value=\"php\">PHP</option></select>&nbsp;</td>"
+		. "<td style=\"vertical-align:middle\"><b>" . _PAGELEVEL ." :</b> <select name=\"niveau\">\n" 
+		. "<option>0</option>\n"
+		. "<option>1</option>\n"
+		. "<option>2</option>\n"
+		. "<option>3</option>\n"
+		. "<option>4</option>\n"
+		. "<option>5</option>\n"
+		. "<option>6</option>\n"
+		. "<option>7</option>\n"
+		. "<option>8</option>\n"
+		. "<option>9</option></select></td>\n"
+		. "<td style=\"vertical-align:middle\"><b>" . _MEMBERSAUTORIZ ." :</b> <select style=\"vertical-align:middle\" multiple=\"multiple\" name=\"members[]\">\n";
+		
+		$sql_list = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");
+		
+		while(list($mid, $pseudo) = mysql_fetch_array($sql_list))
+		{
+			echo '<option value="' . $mid . '">' . $pseudo . '</option>\n';
+		}
+		echo "</select></td></tr></table></td></tr><tr><td>&nbsp;</td></tr>\n"
+		. "<tr><td><big><b>" . _CONTENT . " :</b></big></td></tr>\n"
+		. "<tr><td align=\"center\"><textarea class=\"editor\" id=\"contents\" name=\"content\" cols=\"85\" rows=\"20\"></textarea></td></tr>\n"
+		. "<tr><td>&nbsp;</td></tr><tr><td><b>"._PAGEFILE." :</b> <select name=\"url\"><option value=\"\">". _NOFILE ."</option><option value=\"\">* HTML</option>\n";
+		
+		$rep = Array();
+		$handle = @opendir("modules/Page/html/");
+		while (false !== ($f = readdir($handle)))
+		{
+			if ($f != ".." && $f != ".")
+			{
+				$rep[] = $f;
+			}
+		}
 
-	echo "<tr><td><big><b>" . _CONTENT . " :</b></big></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea id=\"contents\" name=\"content\" cols=\"85\" rows=\"20\"></textarea></td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>"._PAGEFILE." :</b> <select name=\"url\"><option value=\"\">". _NOFILE ."</option><option value=\"\">* HTML</option>\n";
-	
-        $rep = Array();
-        $handle = @opendir("modules/Page/html/");
-        while (false !== ($f = readdir($handle)))
-        {
-            if ($f != ".." && $f != ".")
-            {
-                $rep[] = $f;
-            }
-	}
+		closedir($handle);
+		sort ($rep);
+		reset ($rep);
 
-        closedir($handle);
-	sort ($rep);
-	reset ($rep);
+		while (list ($key, $filename) = each ($rep)) 
+		{
+				echo "<option value=\"" . $filename . "\">&nbsp;&nbsp;&nbsp;" . $filename . "</option>\n";
+		} 
 
-	while (list ($key, $filename) = each ($rep)) 
-	{
-            echo "<option value=\"" . $filename . "\">&nbsp;&nbsp;&nbsp;" . $filename . "</option>\n";
-	} 
+		echo "<option value=\"\">* PHP</option>\n";
 
-        echo "<option value=\"\">* PHP</option>\n";
+		$rep2 = Array();
+		$handle2 = @opendir("modules/Page/php/");
+		while (false !== ($f2 = readdir($handle2)))
+		{
+			if ($f2 != ".." && $f2 != ".")
+			{
+				$rep2[] = $f2;
+			}
+		}
 
-        $rep2 = Array();
-        $handle2 = @opendir("modules/Page/php/");
-        while (false !== ($f2 = readdir($handle2)))
-        {
-            if ($f2 != ".." && $f2 != ".")
-            {
-                $rep2[] = $f2;
-            }
-	}
+		closedir($handle2);
+		sort ($rep2);
+		reset ($rep2);
 
-        closedir($handle2);
-	sort ($rep2);
-	reset ($rep2);
+		while (list ($key2, $filename2) = each ($rep2)) 
+		{
+				echo "<option value=\"" . $filename2 . "\">&nbsp;&nbsp;&nbsp;" . $filename2 . "</option>\n";
+		} 
 
-	while (list ($key2, $filename2) = each ($rep2)) 
-	{
-            echo "<option value=\"" . $filename2 . "\">&nbsp;&nbsp;&nbsp;" . $filename2 . "</option>\n";
-	} 
+		echo "</select></td></tr>\n"
+		. "<tr><td><b>" . _UPLOADPAGE . ":</b><br /><input type=\"file\" size=\"40\" name=\"pagefile\" /></td></tr>\n"
+		. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _ADDMENU . " :</b> <select name=\"menu\"><option value=\"\">". _NOFILE ."</option>\n";
+		
 
-	echo "</select></td></tr>\n"
-	. "<tr><td><b>" . _UPLOADPAGE . ":</b><br /><input type=\"file\" size=\"40\" name=\"pagefile\" /></td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _ADDMENU . " :</b> <select name=\"menu\"><option value=\"\">". _NOFILE ."</option>\n";
-	
+		$sql_menu = mysql_query("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
+		while (list($bid, $menu) = mysql_fetch_array($sql_menu))
+		{
+			echo "<option value=\"" . $bid . "\">" . $menu . "</option>\n";
+		}
 
-        $sql_menu = mysql_query("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
-        while (list($bid, $menu) = mysql_fetch_array($sql_menu))
-        {
-            echo "<option value=\"" . $bid . "\">" . $menu . "</option>\n";
-	}
-
-	echo "</select></td></tr><tr><td>&nbsp;</td></tr>\n"
-	. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDTHISPAGE . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Page&amp;page=admin\"><b>"._BACK."</b></a> ]</div></form><br /></div></div>\n";
+		echo "</select></td></tr>";
+		echo "<tr><td>&nbsp;</td></tr>\n"
+		. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _ADDTHISPAGE . "\" /></td></tr></table>\n"
+		. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Page&amp;page=admin\"><b>"._BACK."</b></a> ]</div></form><br /></div></div>\n";
     }
 
-    function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu)
+    function do_add($titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_title, $members)
     {
-	global $nuked;
+		global $nuked;
 
+		if (isset($members) AND is_array($members))
+		{
+			foreach($members AS $users)
+			{
+				$userslist .= $users . '|';
+			}
+		}
+		
         if ($_FILES['pagefile']['name'] != "")
         {
-	    $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
+			$temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
+			$a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
+			$b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+			$filename = str_replace(" ", "_", $_FILES['pagefile']['name']);
+			$filename = str_replace("'", "_", $filename);
+			$filename = str_replace("\"", "_", $filename);
+			$filename = strtr($filename, $a, $b);
+			$filename = strtolower($filename);
 
-	    if (ereg("\.\.", $temp_page) || eregi("global", $temp_page) || eregi("conf\.inc", $temp_page))
-	    {
-        echo "<div class=\"notification error png_bg\">\n"
+			$f = explode(".", $filename);
+			$end = count($f) - 1;
+			$ext = $f[$end];
+
+			if ($ext == "htm") $ext = "html";
+
+			if ($ext == $type)
+			{
+				$url_file = "modules/Page/" . $type . "/" . $filename;
+				move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />");
+			}
+			else
+			{
+				echo "<div class=\"notification error png_bg\">\n"
+					. "<div>\n"
+					. "" . _BADFILEFORMAT . ""
+					. "</div>\n"
+					. "</div>\n";
+				redirect("index.php?file=Page&page=admin&op=add", 5);
+				closetable();
+				footer();
+				exit();
+			}
+		}
+		else if ($url != "" && !ereg("." . $type, $url))
+		{
+				echo "<div class=\"notification error png_bg\">\n"
+				. "<div>\n"
+				. "" . _BADFILEFORMAT . ""
+				. "</div>\n"
+				. "</div>\n";
+				redirect("index.php?file=Page&page=admin&op=add", 5);
+				closetable();
+				footer();
+				exit();
+		}
+		else
+		{
+				$filename = $url;
+		}
+
+		$content = html_entity_decode($content);
+		$content = mysql_real_escape_string(stripslashes($content));
+		$a1 = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
+		$b1 = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+		$title = str_replace(" ", "_", $titre);
+		$title = str_replace("'", "_", $title);
+		$title = str_replace("\"", "_", $title);
+		$title = strtr($title, $a1, $b1);
+		
+		$show_title = (isset($show_title)) ? 1 : 0;
+
+		$sql = mysql_query("INSERT INTO " . PAGE_TABLE . " ( `id` , `niveau` , `titre` , `content` , `url` , `type` , `show_title` , `members` ) VALUES ( '', '" . $niveau . "' , '" . $title . "' , '" . $content . "' , '" . $filename . "' , '" . $type . "' , '" . $show_title . "' , '" . $userslist . "' )");
+
+		if ($menu != "")
+		{
+				$sql_menu = mysql_query("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
+				list($content) = mysql_fetch_array($sql_menu);
+				$content = stripslashes($content);
+				$url_page = "index.php?file=Page&name=" . $title;
+
+				$link = explode('NEWLINE', $content);
+				$new_line = $url_page . "|" . $title . "||||";
+				$count = count($link);
+				$link[$count] = $new_line;
+
+				$content = implode('NEWLINE', $link);
+				$content = addslashes($content);
+				$sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
+
+				$url_redirect = "index.php?file=Admin&page=menu&op=edit_line&bid=" . $menu . "&lid=" . $count;
+		}
+		else
+		{
+				$url_redirect = "index.php?file=Page&page=admin";
+		}
+
+		echo "<div class=\"notification success png_bg\">\n"
 			. "<div>\n"
-			. "" . _UNHAUTORIZEDCODE . ""
+			. "" . _PAGEADD . "\n"
 			. "</div>\n"
 			. "</div>\n";
-		redirect("index.php?file=Page&page=admin&op=add", 5);
-		closetable();
-		footer();
-		exit();
-	    }
-
-            $a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
-            $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-            $filename = str_replace(" ", "_", $_FILES['pagefile']['name']);
-            $filename = str_replace("'", "_", $filename);
-            $filename = str_replace("\"", "_", $filename);
-            $filename = strtr($filename, $a, $b);
-            $filename = strtolower($filename);
-
-            $f = explode(".", $filename);
-            $end = count($f) - 1;
-            $ext = $f[$end];
-
-            if ($ext == "htm") $ext = "html";
-
-            if ($ext == $type)
-            {
-		$url_file = "modules/Page/" . $type . "/" . $filename;
-		move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />");
-            }
-            else
-            {
-        echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "" . _BADFILEFORMAT . ""
-			. "</div>\n"
-			. "</div>\n";
-		redirect("index.php?file=Page&page=admin&op=add", 5);
-		closetable();
-		footer();
-		exit();
-            }
-        }
-	else if ($url != "" && !ereg("." . $type, $url))
-	{
-            echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "" . _BADFILEFORMAT . ""
-			. "</div>\n"
-			. "</div>\n";
-            redirect("index.php?file=Page&page=admin&op=add", 5);
-            closetable();
-            footer();
-            exit();
-	}
-	else
-	{
-            $filename = $url;
-	}
-
-	$content = addslashes($content);
-
-	if ((ereg("\.\.", $content) || eregi("global", $content) || eregi("conf\.inc", $content)))
-	{
-            echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "" . _UNHAUTORIZEDCODE . ""
-			. "</div>\n"
-			. "</div>\n";
-            redirect("index.php?file=Page&page=admin&op=add", 5);
-            closetable();
-            footer();
-            exit();
-	}
-
-	$a1 = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
-	$b1 = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-	$title = str_replace(" ", "_", $titre);
-	$title = str_replace("'", "_", $title);
-	$title = str_replace("\"", "_", $title);
-	$title = strtr($title, $a1, $b1);
-
-	$sql = mysql_query("INSERT INTO " . PAGE_TABLE . " ( `id` , `niveau` , `titre` , `content` , `url` , `type` ) VALUES ( '', '" . $niveau . "' , '" . $title . "' , '" . $content . "' , '" . $filename . "' , '" . $type . "' )");
-
-	if ($menu != "")
-	{
-            $sql_menu = mysql_query("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
-            list($content) = mysql_fetch_array($sql_menu);
-            $content = stripslashes($content);
-            $url_page = "index.php?file=Page&name=" . $title;
-
-            $link = explode('NEWLINE', $content);
-            $new_line = $url_page . "|" . $title . "||||";
-            $count = count($link);
-            $link[$count] = $new_line;
-
-            $content = implode('NEWLINE', $link);
-            $content = addslashes($content);
-            $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
-
-            $url_redirect = "index.php?file=Admin&page=menu&op=edit_line&bid=" . $menu . "&lid=" . $count;
-	}
-	else
-	{
-            $url_redirect = "index.php?file=Page&page=admin";
-	}
-
-	echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _PAGEADD . "\n"
-		. "</div>\n"
-		. "</div>\n";
-	redirect($url_redirect, 2);
+		redirect($url_redirect, 2);
     }
 
     function edit($page_id)
     {
     	global $nuked, $language;
 
-	$sql = mysql_query("SELECT niveau, titre, content, url, type FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
-	list($niveau, $titre, $content, $url, $type) = mysql_fetch_array($sql);
-	$content = stripslashes($content);
+		$sql = mysql_query("SELECT niveau, titre, content, url, type, show_title, members FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
+		list($niveau, $titre, $content, $url, $type, $show_title, $members) = mysql_fetch_array($sql);
+		$content = stripslashes($content);
 
-	if ($type == "html") $selected1 = "selected=\"selected\"";	 
-	else $selected1 = "";
+		if ($type == "html") $selected1 = "selected=\"selected\"";	 
+		else $selected1 = "";
 
-	if ($type == "php") $selected2 = "selected=\"selected\""; 
-	else $selected2 = "";
+		if ($type == "php") $selected2 = "selected=\"selected\""; 
+		else $selected2 = "";
 
-     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-	. "<div class=\"content-box-header\"><h3>Editer une Page</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">\n"	
-	. "<form method=\"post\" action=\"index.php?file=Page&amp;page=admin&amp;op=do_edit\" enctype=\"multipart/form-data\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
-	. "<tr><td><b>" . _PAGENAME . " : </b> <input type=\"text\" name=\"titre\" maxlength=\"50\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
-	. "<tr><td><table cellspacing=\"0\" cellpadding=\"0\"><tr><td><b>" . _PAGETYPE . " :</b> <select name=\"type\"><option value=\"html\" " . $selected1 . ">HTML</option><option value=\"php\" " . $selected2 . ">PHP</option></select>&nbsp;</td>"
-	. "<td><b>" . _PAGELEVEL ." :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n" 
-	. "<option>0</option>\n"
-	. "<option>1</option>\n"
-	. "<option>2</option>\n"
-	. "<option>3</option>\n"
-	. "<option>4</option>\n"
-	. "<option>5</option>\n"
-	. "<option>6</option>\n"
-	. "<option>7</option>\n"
-	. "<option>8</option>\n"
-	. "<option>9</option></select></td></tr></table></td></tr><tr><td>&nbsp;</td></tr>\n";
+		$show = ($show_title == 1) ? 'checked="checked"' : '';
+		
+		 echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+		. "<div class=\"content-box-header\"><h3>Editer une Page</h3>\n"
+		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		. "</div></div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\">\n"	
+		. "<form method=\"post\" action=\"index.php?file=Page&amp;page=admin&amp;op=do_edit\" enctype=\"multipart/form-data\">\n"
+		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"2\">\n"
+		. "<tr><td><b>" . _PAGENAME . " : </b> <input type=\"text\" name=\"titre\" maxlength=\"50\" size=\"30\" value=\"" . $titre . "\" /><span style=\"margin-left:30px;\"><b>" . _SHOWTITLE . " :</b> <input type=\"checkbox\" name=\"show_title\" " . $show . " /></span></td></tr>\n"
+		. "<tr><td><table cellspacing=\"0\" cellpadding=\"0\"><tr><td style=\"vertical-align:middle\"><b>" . _PAGETYPE . " :</b>\n"
+		. "<select name=\"type\" onchange=\"checkType(this.options[this.selectedIndex].value, 'edit', " . $page_id . ");\"><option value=\"html\" " . $selected1 . ">HTML</option><option value=\"php\" " . $selected2 . ">PHP</option></select>&nbsp;</td>"
+		. "<td style=\"vertical-align:middle\"><b>" . _PAGELEVEL ." :</b> <select name=\"niveau\"><option>" . $niveau . "</option>\n" 
+		. "<option>0</option>\n"
+		. "<option>1</option>\n"
+		. "<option>2</option>\n"
+		. "<option>3</option>\n"
+		. "<option>4</option>\n"
+		. "<option>5</option>\n"
+		. "<option>6</option>\n"
+		. "<option>7</option>\n"
+		. "<option>8</option>\n"
+			. "<option>9</option></select></td>\n"
+		. "<td style=\"vertical-align:middle\"><b>" . _MEMBERSAUTORIZ ." :</b> <select style=\"vertical-align:middle\" multiple=\"multiple\" name=\"members[]\">\n";
+		
+		$user_array = explode('|', $members);
+		
+		$sql_list = mysql_query("SELECT id, pseudo FROM " . USER_TABLE . " ORDER BY pseudo");		
+		while(list($mid, $pseudo) = mysql_fetch_array($sql_list))
+		{
+			$sel = (in_array($mid, $user_array)) ? 'selected="selected"' : '';
+			echo '<option value="' . $mid . '" ' . $sel . '>' . $pseudo . '</option>\n';
+		}
+		echo "</select></td></tr></table></td></tr><tr><td>&nbsp;</td></tr>\n"
+		. "<tr><td><big><b>" . _CONTENT . " :</b></big></td></tr>\n"
+		. "<tr><td align=\"center\"><textarea class=\"editor\" id=\"contents\" name=\"content\" cols=\"85\" rows=\"20\">" . $content . "</textarea></td></tr>\n"
+		. "<tr><td>&nbsp;</td></tr><tr><td><b>"._PAGEFILE." :</b> <select name=\"url\"><option value=\"\">". _NOFILE ."</option><option value=\"\">* HTML</option>\n";
+		
+		$rep = Array();
+		$handle = @opendir("modules/Page/html/");
+		while (false !== ($f = readdir($handle)))
+		{
+			if ($f != ".." && $f != ".")
+			{
+				$rep[] = $f;
+			}
+		}
 
-	echo "<tr><td><big><b>" . _CONTENT . " :</b></big></td></tr>\n"
-	. "<tr><td align=\"center\"><textarea id=\"contents\" name=\"content\" cols=\"85\" rows=\"20\">" . $content . "</textarea></td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>"._PAGEFILE." :</b> <select name=\"url\"><option value=\"\">". _NOFILE ."</option><option value=\"\">* HTML</option>\n";
-	
-        $rep = Array();
-        $handle = @opendir("modules/Page/html/");
-        while (false !== ($f = readdir($handle)))
-        {
-            if ($f != ".." && $f != ".")
-            {
-                $rep[] = $f;
-            }
-	}
+		closedir($handle);
+		sort ($rep);
+		reset ($rep);
 
-        closedir($handle);
-	sort ($rep);
-	reset ($rep);
+		while (list ($key, $filename) = each ($rep)) 
+		{
+			if ($filename == $url)  $selected3 = "selected=\"selected\""; else $selected3 = "";
+			echo "<option value=\"" . $filename . "\" " . $selected3 . ">&nbsp;&nbsp;&nbsp;" . $filename . "</option>\n";
+		} 
 
-	while (list ($key, $filename) = each ($rep)) 
-	{
-            if ($filename == $url)  $selected3 = "selected=\"selected\""; else $selected3 = "";
-            echo "<option value=\"" . $filename . "\" " . $selected3 . ">&nbsp;&nbsp;&nbsp;" . $filename . "</option>\n";
-	} 
+		echo "<option value=\"\">* PHP</option>\n";
 
-        echo "<option value=\"\">* PHP</option>\n";
+		$rep2 = Array();
+		$handle2 = @opendir("modules/Page/php/");
+		while (false !== ($f2 = readdir($handle2)))
+		{
+			if ($f2 != ".." && $f2 != ".")
+			{
+				$rep2[] = $f2;
+			}
+		}
 
-        $rep2 = Array();
-        $handle2 = @opendir("modules/Page/php/");
-        while (false !== ($f2 = readdir($handle2)))
-        {
-            if ($f2 != ".." && $f2 != ".")
-            {
-                $rep2[] = $f2;
-            }
-	}
+		closedir($handle2);
+		sort ($rep2);
+		reset ($rep2);
 
-        closedir($handle2);
-	sort ($rep2);
-	reset ($rep2);
+		while (list ($key2, $filename2) = each ($rep2)) 
+		{
+			if ($filename2 == $url)  $selected4 = "selected=\"selected\""; else $selected4 = "";		
+			echo "<option value=\"" . $filename2 . "\" " . $selected4 . ">&nbsp;&nbsp;&nbsp;" . $filename2 . "</option>\n";
+		} 
 
-	while (list ($key2, $filename2) = each ($rep2)) 
-	{
-            if ($filename2 == $url)  $selected4 = "selected=\"selected\""; else $selected4 = "";		
-            echo "<option value=\"" . $filename2 . "\" " . $selected4 . ">&nbsp;&nbsp;&nbsp;" . $filename2 . "</option>\n";
-	} 
+		echo "</select></td></tr>\n"
+		. "<tr><td><b>" . _UPLOADPAGE . ":</b><br /><input type=\"file\" size=\"40\" name=\"pagefile\" /></td></tr>\n"
+		. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _ADDMENU . " :</b> <select name=\"menu\"><option value=\"\">". _NOFILE ."</option>\n";
+		
+		$sql_menu = mysql_query("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
+		while (list($bid, $menu) = mysql_fetch_array($sql_menu))
+		{
+			echo "<option value=\"" . $bid . "\">" . $menu . "</option>\n";
+		}
 
-	echo "</select></td></tr>\n"
-	. "<tr><td><b>" . _UPLOADPAGE . ":</b><br /><input type=\"file\" size=\"40\" name=\"pagefile\" /></td></tr>\n"
-	. "<tr><td>&nbsp;</td></tr><tr><td><b>" . _ADDMENU . " :</b> <select name=\"menu\"><option value=\"\">". _NOFILE ."</option>\n";
-	
-
-        $sql_menu = mysql_query("SELECT  bid, titre FROM " . BLOCK_TABLE . " WHERE type = 'menu'");
-        while (list($bid, $menu) = mysql_fetch_array($sql_menu))
-        {
-            echo "<option value=\"" . $bid . "\">" . $menu . "</option>\n";
-	}
-
-	echo "</select></td></tr><tr><td>&nbsp;<input type=\"hidden\" name=\"page_id\" value=\"" . $page_id . "\" /></td></tr>\n"
-	. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFTHISPAGE . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Page&amp;page=admin\"><b>"._BACK."</b></a> ]</div></form><br /></div></div>\n";
+		echo "</select></td></tr><tr><td>&nbsp;<input type=\"hidden\" name=\"page_id\" value=\"" . $page_id . "\" /></td></tr>\n"
+		. "<tr><td align=\"center\"><input type=\"submit\" value=\"" . _MODIFTHISPAGE . "\" /></td></tr></table>\n"
+		. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Page&amp;page=admin\"><b>"._BACK."</b></a> ]</div></form><br /></div></div>\n";
     }
 
-    function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $menu)
+    function do_edit($page_id, $titre, $type, $niveau, $content, $url, $pagefile, $menu, $show_title, $members)
     {
-	global $nuked;
+		global $nuked;
 
-        if ($_FILES['pagefile']['name'] != "")
+		if (isset($members) AND is_array($members))
+		{
+			foreach($members AS $users)
+			{
+				$userslist .= $users . '|';
+			}
+		}
+		
+		if ($_FILES['pagefile']['name'] != "")
         {
-	    $temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
+			$temp_page = trim(@fread(@fopen($_FILES['pagefile']['tmp_name'], 'r'), $_FILES['pagefile']['size']));
+			$a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
+			$b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+			$filename = str_replace(" ", "_", $_FILES['pagefile']['name']);
+			$filename = str_replace("'", "_", $filename);
+			$filename = str_replace("\"", "_", $filename);
+			$filename = strtr($filename, $a, $b);
+			$filename = strtolower($filename);
 
-	    if (ereg("\.\.", $temp_page) || eregi("global", $temp_page) || eregi("conf\.inc", $temp_page))
-	    {
-		echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "" . _UNHAUTORIZEDCODE . ""
-			. "</div>\n"
-			. "</div>\n";
-		redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
-		closetable();
-		footer();
-		exit();
-	    }
+			$f = explode(".", $filename);
+			$end = count($f) - 1;
+			$ext = $f[$end];
 
-            $a = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
-            $b = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-            $filename = str_replace(" ", "_", $_FILES['pagefile']['name']);
-            $filename = str_replace("'", "_", $filename);
-            $filename = str_replace("\"", "_", $filename);
-            $filename = strtr($filename, $a, $b);
-            $filename = strtolower($filename);
+			if ($ext == "htm") $ext = "html";
 
-            $f = explode(".", $filename);
-            $end = count($f) - 1;
-            $ext = $f[$end];
-
-            if ($ext == "htm") $ext = "html";
-
-            if ($ext == $type)
-            {
-		$url_file = "modules/Page/" . $type . "/" . $filename;
-		move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />");
+			if ($ext == $type)
+			{
+				$url_file = "modules/Page/" . $type . "/" . $filename;
+				move_uploaded_file($_FILES['pagefile']['tmp_name'], $url_file) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload page failed !!!</b></div><br /><br />");
             }
             else
             {
-        echo "<div class=\"notification error png_bg\">\n"
-			. "<div>\n"
-			. "" . _BADFILEFORMAT . ""
-			. "</div>\n"
-			. "</div>\n";
-		redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
-		closetable();
-		footer();
-		exit();
+				echo "<div class=\"notification error png_bg\">\n"
+					. "<div>\n"
+					. "" . _BADFILEFORMAT . ""
+					. "</div>\n"
+					. "</div>\n";
+				redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
+				closetable();
+				footer();
+				exit();
             }
         }
-	else if ($url != "" && !ereg("." . $type, $url))
-	{
-            echo "<div class=\"notification error png_bg\">\n"
+		else if ($url != "" && !ereg("." . $type, $url))
+		{
+			echo "<div class=\"notification error png_bg\">\n"
 			. "<div>\n"
 			. "" . _BADFILEFORMAT . ""
 			. "</div>\n"
 			. "</div>\n";
-            redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
-            closetable();
-            footer();
-            exit();
-	}
-	else
-	{
-            $filename = $url;
-	}
+			redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
+			closetable();
+			footer();
+			exit();
+		}
+		else
+		{
+			$filename = $url;
+		}
+		
+		$content = html_entity_decode($content);
+		$content = mysql_real_escape_string(stripslashes($content));
+		$a1 = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
+		$b1 = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+		$title = str_replace(" ", "_", $titre);
+		$title = str_replace("'", "_", $title);
+		$title = str_replace("\"", "_", $title);
+		$title = strtr($title, $a1, $b1);
+		
+		$show_title = (isset($show_title)) ? 1 : 0;
 
-	$content = addslashes($content);
+		$upd = mysql_query("UPDATE " . PAGE_TABLE . " SET titre = '" . $title . "', content = '" . $content . "', url = '" . $filename . "', niveau = '" . $niveau . "', type = '" . $type . "', show_title = '" . $show_title . "', members = '" . $userslist . "' WHERE id = '" . $page_id . "'");
 
-	if ((ereg("\.\.", $content) || eregi("global", $content) || eregi("conf\.inc", $content)))
-	{
-            echo "<div class=\"notification error png_bg\">\n"
+		if ($menu != "")
+		{
+			$sql_menu = mysql_query("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
+			list($content) = mysql_fetch_array($sql_menu);
+			$content = stripslashes($content);
+			$url_page = "index.php?file=Page&name=" . $title;
+
+			$link = explode('NEWLINE', $content);
+			$new_line = $url_page . "|" . $title . "||||";
+			$count = count($link);
+			$link[$count] = $new_line;
+
+			$content = implode('NEWLINE', $link);
+			$content = addslashes($content);
+			$sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
+
+			$url_redirect = "index.php?file=Admin&page=menu&op=edit_line&bid=" . $menu . "&lid=" . $count;
+		}
+		else
+		{
+				$url_redirect = "index.php?file=Page&page=admin";
+		}
+		echo "<div class=\"notification success png_bg\">\n"
 			. "<div>\n"
-			. "" . _UNHAUTORIZEDCODE . ""
+			. "" . _PAGEMODIF . "\n"
 			. "</div>\n"
 			. "</div>\n";
-            redirect("index.php?file=Page&amp;page=admin&op=edit&page_id=" . $page_id, 5);
-            closetable();
-            footer();
-            exit();
-	}
-
-	$a1 = "¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò";
-	$b1 = "AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-	$title = str_replace(" ", "_", $titre);
-	$title = str_replace("'", "_", $title);
-	$title = str_replace("\"", "_", $title);
-	$title = strtr($title, $a1, $b1);
-
-	$upd = mysql_query("UPDATE " . PAGE_TABLE . " SET titre = '" . $title . "', content = '" . $content . "', url = '" . $filename . "', niveau = '" . $niveau . "', type = '" . $type . "' WHERE id = '" . $page_id . "'");
-
-	if ($menu != "")
-	{
-            $sql_menu = mysql_query("SELECT content FROM " . BLOCK_TABLE . " WHERE bid = '" . $menu . "'");
-            list($content) = mysql_fetch_array($sql_menu);
-            $content = stripslashes($content);
-            $url_page = "index.php?file=Page&name=" . $title;
-
-            $link = explode('NEWLINE', $content);
-            $new_line = $url_page . "|" . $title . "||||";
-            $count = count($link);
-            $link[$count] = $new_line;
-
-            $content = implode('NEWLINE', $link);
-            $content = addslashes($content);
-            $sql = mysql_query("UPDATE " . BLOCK_TABLE . " SET content = '" . $content . "' WHERE bid = '" . $menu . "'");
-
-            $url_redirect = "index.php?file=Admin&page=menu&op=edit_line&bid=" . $menu . "&lid=" . $count;
-	}
-	else
-	{
-            $url_redirect = "index.php?file=Page&page=admin";
-	}
-    echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _PAGEMODIF . "\n"
-		. "</div>\n"
-		. "</div>\n";
-		redirect($url_redirect, 2);
+			redirect($url_redirect, 2);
     }
 
     function del($page_id)
     {
-	global  $nuked;
+		global  $nuked;
 
-	$del = mysql_query("DELETE FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
-    echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _PAGEDELETE . "\n"
-		. "</div>\n"
-		. "</div>\n";
-		redirect("index.php?file=Page&page=admin",2);
+		$del = mysql_query("DELETE FROM " . PAGE_TABLE . " WHERE id = '" . $page_id . "'");
+		echo "<div class=\"notification success png_bg\">\n"
+			. "<div>\n"
+			. "" . _PAGEDELETE . "\n"
+			. "</div>\n"
+			. "</div>\n";
+			redirect("index.php?file=Page&page=admin",2);
     }
 
     function main_pref()
     {
         global $nuked, $language;
 
-     echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-	. "<div class=\"content-box-header\"><h3>Gestion des PrÈfÈrences</h3>\n"
-    . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"
-	. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Page&amp;page=admin\">" . _PAGE . "</a> | "
-	. "<a href=\"index.php?file=Page&amp;page=admin&amp;op=add\">" . _ADDPAGE . "</a> | "
-	. "</b>" . _PREFS . "</div><br />\n"
-	. "<form method=\"post\" action=\"index.php?file=Page&amp;page=admin&amp;op=change_pref\">\n"
-	. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-	. "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
-	. "<tr><td>" . _PAGEINDEX . " :</td><td><select name=\"index_page\"><option value=\"\">" . _NONE . "</option>\n";
+		 echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+		. "<div class=\"content-box-header\"><h3>Gestion des PrÈfÈrences</h3>\n"
+		. "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Page.html\" rel=\"modal\">\n"
+		. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		. "</div></div>\n"
+		. "<div class=\"tab-content\" id=\"tab2\"><div style=\"text-align: center;\"><b><a href=\"index.php?file=Page&amp;page=admin\">" . _PAGE . "</a> | "
+		. "<a href=\"index.php?file=Page&amp;page=admin&amp;op=add\">" . _ADDPAGE . "</a> | "
+		. "</b>" . _PREFS . "</div><br />\n"
+		. "<form method=\"post\" action=\"index.php?file=Page&amp;page=admin&amp;op=change_pref\">\n"
+		. "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
+		. "<tr><td align=\"center\" colspan=\"2\"><big>" . _PREFS . "</big></td></tr>\n"
+		. "<tr><td>" . _PAGEINDEX . " :</td><td><select name=\"index_page\"><option value=\"\">" . _NONE . "</option>\n";
 
-	$sql = mysql_query("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
-	while (list($titre) = mysql_fetch_array($sql))
-	{ 
-	    if ($titre == $nuked['index_page']) $selected = "selected=\"selected\"";
-	    else $selected = "";
+		$sql = mysql_query("SELECT titre FROM " . PAGE_TABLE . " ORDER BY titre");
+		while (list($titre) = mysql_fetch_array($sql))
+		{ 
+			if ($titre == $nuked['index_page']) $selected = "selected=\"selected\"";
+			else $selected = "";
 
-	    echo "<option value=\"" . $titre . "\" " . $selected . ">" . $titre . "</option>\n";
-	}
+			echo "<option value=\"" . $titre . "\" " . $selected . ">" . $titre . "</option>\n";
+		}
 
-	echo "</select></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div><br />\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Page&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
+		echo "</select></td></tr></table>\n"
+		. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div><br />\n"
+		. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Page&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
     } 
 
     function change_pref($index_page)
@@ -600,7 +616,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	break;
 
 	case "do_edit":
-	do_edit($_REQUEST['page_id'], $_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['url'], $_REQUEST['pagefile'], $_REQUEST['menu']);
+	do_edit($_REQUEST['page_id'], $_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['url'], $_REQUEST['pagefile'], $_REQUEST['menu'], $_REQUEST['show_title'], $_REQUEST['members']);
 	break;
 
 	case "edit":
@@ -608,7 +624,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	break;
 
 	case "do_add":
-	do_add($_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['url'], $_REQUEST['pagefile'], $_REQUEST['menu']);
+	do_add($_REQUEST['titre'], $_REQUEST['type'], $_REQUEST['niveau'], $_REQUEST['content'], $_REQUEST['url'], $_REQUEST['pagefile'], $_REQUEST['menu'], $_REQUEST['show_title'], $_REQUEST['members']);
 	break;
 
 	case "main_pref":

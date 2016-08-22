@@ -387,7 +387,8 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('news_forum', '1'),
 ('img_cat', '100'),
 ('nb_img_lignes', '3'),
-('img_none', 'modules/Annonces/images/no_foto.gif');
+('img_none', 'modules/Annonces/images/no_foto.gif'),
+('index_page', '');
 
 -- --------------------------------------------------------
 
@@ -993,7 +994,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (24, 'Annonces', 0, 3),
 (25, 'Facebook', 1, 9),
 (26, 'Horoscope', 1, 9),
-(27, 'Banlist', 1, 9);
+(27, 'Banlist', 1, 9),
+(28, 'Page', 0, 9);
 
 -- --------------------------------------------------------
 
