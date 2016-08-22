@@ -1029,7 +1029,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (28, 'Page', 0, 9),
 (29, 'Faqs', 0, 3),
 (30, 'Portfolio', 0, 3),
-(31, 'Wow_recrutement', 0, 9);
+(31, 'Wow_recrutement', 0, 9),
+(32, 'Ts3viewer', 1, 9);
 
 -- --------------------------------------------------------
 
@@ -1081,6 +1082,7 @@ INSERT INTO `nuked_nbconnecte` (`IP`, `type`, `date`, `user_id`, `username`) VAL
 -- Structure de la table `nuked_nbconnect_jour`
 --
 
+DROP TABLE IF EXISTS `nuked_nbconnect_jour`;
 CREATE TABLE IF NOT EXISTS `nuked_nbconnect_jour` (
   `id` int(11) NOT NULL auto_increment,
   `nom` varchar(30) collate latin1_general_ci NOT NULL default '',
@@ -1713,6 +1715,44 @@ CREATE TABLE IF NOT EXISTS `nuked_tmpses` (
   `session_start` bigint(20) NOT NULL,
   PRIMARY KEY (`session_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuked_ts3viewer`
+--
+
+DROP TABLE IF EXISTS `nuked_ts3viewer`;
+CREATE TABLE IF NOT EXISTS `nuked_ts3viewer` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(255) collate latin1_general_ci NOT NULL default '',
+  `ip` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `q_port` varchar(10) collate latin1_general_ci NOT NULL default '',
+  `s_port` varchar(10) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuked_ts3viewer_pref`
+--
+
+DROP TABLE IF EXISTS `nuked_ts3viewer_pref`;
+CREATE TABLE IF NOT EXISTS `nuked_ts3viewer_pref` (
+  `id` int(11) NOT NULL auto_increment,
+  `srvid` int(10) NOT NULL default '1',
+  `width_module` int(10) NOT NULL default '500',
+  `width_blok` int(10) NOT NULL default '200',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `nuked_ts3viewer_pref`
+--
+
+INSERT INTO `nuked_ts3viewer_pref` (`id`, `srvid`, `width_module`, `width_blok`) VALUES
+(1, 1, 500, 250);
 
 -- --------------------------------------------------------
 
