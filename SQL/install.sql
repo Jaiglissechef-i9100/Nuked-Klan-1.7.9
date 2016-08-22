@@ -89,6 +89,7 @@ INSERT INTO `nuked_block` (`bid`, `active`, `position`, `module`, `titre`, `cont
 (9, 0, 0, '', 'Suggestion', '', 'suggest', 1, 'Tous'),
 (10, 0, 0, 'Textbox', 'Tribune libre', '', 'module', 0, 'Tous'),
 (11, 1, 4, '', 'Partenaires', '<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="Location de serveurs de jeux" /></a></div>', 'html', 0, 'Tous');
+(12, 1, 0, 'Video', 'Nos videos', '', 'module', 0, 'Tous');
 
 -- --------------------------------------------------------
 
@@ -155,7 +156,8 @@ INSERT INTO `nuked_comment_mod` (`id`, `module`, `active`) VALUES
 (4, 'survey', 1),
 (5, 'wars', 1),
 (6, 'gallery', 1),
-(7, 'sections', 1);
+(7, 'sections', 1),
+(8, 'video', 0);
 
 -- --------------------------------------------------------
 
@@ -277,7 +279,9 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('forum_quick_modo', 'non'),
 ('forum_quick_user', 'non'),
 ('Guestbookpost', '0'),
-('Guestbooktemplate', '0');
+('Guestbooktemplate', '0'),
+('max_video', '10'),
+('cat_idem', '0');
 
 -- --------------------------------------------------------
 
@@ -866,6 +870,7 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (20, 'Stats', 0, 2),
 (21, 'Contact', 0, 3);
 (22, 'Equipe', 0, 2);
+(23, 'Video', 0, 9);
 
 -- --------------------------------------------------------
 
@@ -1585,6 +1590,40 @@ CREATE TABLE IF NOT EXISTS `nuked_users_detail` (
   `pref_5` text COLLATE latin1_general_ci NOT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_video`
+--
+
+DROP TABLE IF EXISTS `nuked_video`;
+CREATE TABLE IF NOT EXISTS `nuked_video` (
+  `id` int(11) NOT NULL auto_increment,
+  `cat_id` text collate latin1_general_ci NOT NULL,
+  `type` text collate latin1_general_ci NOT NULL,
+  `titre` text collate latin1_general_ci NOT NULL,
+  `description` text collate latin1_general_ci NOT NULL,
+  `image` text collate latin1_general_ci NOT NULL,
+  `status` text collate latin1_general_ci NOT NULL,
+  `lien` text collate latin1_general_ci NOT NULL,
+  `vue` text collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_video_cat`
+--
+
+DROP TABLE IF EXISTS `nuked_video_cat`;
+CREATE TABLE IF NOT EXISTS `nuked_video_cat` (
+  `idcat` int(11) NOT NULL auto_increment,
+  `categorie` text collate latin1_general_ci NOT NULL,
+  `statuscat` text collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`idcat`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 

@@ -63,6 +63,12 @@ function verification($module, $im_id){
         $WhereModule = 'survey';
         $sqlverif = "sondage";
         $specification = "sid";
+
+    elseif($module == "Video" || $module == "video"):
+        
+        $WhereModule = 'video';
+        $sqlverif = "video";
+        $specification = "id";
     
     endif;
 
