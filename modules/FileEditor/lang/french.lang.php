@@ -1,0 +1,52 @@
+<?php
+define('_ADMINFILE', 'Editeur de fichiers en ligne');
+define('_CREATEFILE', 'Nouveau fichier');
+define('_CREATEFOLDER', 'Nouveau dossier');
+define('_DECONEX', 'Se déconnecter du module');
+define('_DATE', 'Date');
+define('_DELTHISFILE', 'Effacer ce fichier');
+define('_EDITTHISFILE', 'Editer ce fichier');
+define('_ERROR_OB', 'Si vous obtenez une erreur du type <i>headers already sent</i>, demandez à votre hébergeur d\'activer le tampon de sortie ou ajouter cette ligne dans le fichier "index.php" qui se trouve à la racine de votre site, à la ligne 130, juste après <b>top();</b>:<br /><br /><b>if ($_REQUEST[\'file\'] == \'FileEditor\') ob_start();</b>');
+define('_EXPLPASSW', 'Ce mot de passe est défini dans le fichier "config.php" du module. Vous pouvez le retirer à vos risques et périls !');
+define('_FILE', 'Fichier');
+define('_MODPASSW', 'Mot de passe d\'accès au module');
+define('_NEWFILE', 'Nom du nouveau fichier :');
+define('_NEWFILENAME', 'exemple.txt');
+define('_NEWFOLDER', 'Nom du nouveau dossier :');
+define('_NEWFOLDERNAME', 'Nouveau dossier');
+define('_OPER', 'Actions');
+define('_PREVIEW', 'Prévisualisation');
+define('_RENAMEFILE', 'Renommage du fichier :');
+define('_RENAMETHISFILE', 'Renommer ce fichier');
+define('_SAVEFILE', 'Enregistrer');
+define('_SAVEFOLDER', 'Sauvegarde effectuée dans le dossier "saves"');
+define('_SAVETHISFILE', 'Sauvegarder ce fichier');
+define('_SIZE', 'Taille');
+define('_TOTALSIZE', 'Taille totale :');
+define('_UNAUTOEXT', 'Opération non autorisée pour ce type de fichier !');
+define('_UPLOADFILE', 'Uploader un fichier');
+
+//installation
+define('_NEARGLOBAL', 'Le fichier install.php doit être placé à côté du fichier globals.php');
+define('_NEARCONF', 'Le fichier install.php doit être placé à côté du fichier conf.inc.php');
+define('_NEARNUKED', 'Le fichier install.php doit être placé à côté du fichier nuked.php');
+define('_FEINSTALL', 'Installation du module FileEditor');
+define('_MODDESC', 'Description du module "FileEditor"');
+define('_EXPL1', 'Ce module permet une gestion <u>en ligne</u> complète des thèmes Nuked-Klan.');
+define('_EXPL2', 'Avec ce module, vous pourrez, via votre administration NK :');
+define('_EXPL3', 'parcourir l\'arborescence de vos thèmes');
+define('_EXPL4', 'créer des nouveaux fichiers et dossiers');
+define('_EXPL5', 'renommer les fichiers existants');
+define('_EXPL6', 'faire des sauvegardes de vos fichiers');
+define('_EXPL7', 'uploader de nouveaux fichiers');
+define('_EXPL8', 'supprimer des fichiers');
+define('_EXPL9', 'et, surtout, éditer le code source de vos fichiers !!');
+define('_EXPL10', 'Plus besoin de client FTP pour concevoir et modifier vos thèmes.');
+define('_EXPL11', 'La configuration (facultative) est possible en éditant le fichier "config.php" du module. Ainsi, vous pourrez déterminer les extensions autorisées pour chaque action et également renseigner le répertoire racine (à définir avec prudence et à vos risques et périls) qui, par défaut, est réglé pour ne permettre que la modification des thèmes. Aussi, un mot de passe (défini dans ce même fichier) protègera votre module des accès non sollicités.');
+define('_EXPL12', 'Module développé par Pepere<br />Pour Nuked-Klan (versions NK1.7.9 et SP4.6)');
+define('_GO_ON', 'Poursuivre l\'installation');
+define('_CANCEL', 'Annuler');
+define('_WRONGVER', '<b>Erreur : Mauvaise version</b><br />Ce module fonctionne uniquement avec les versions 1.7.9 et SP4.6 !');
+define('_INSTALLOK', '<b>Installation réussie !</b><br />Le fichier "install.php" va maintenant être supprimé de votre FTP.');
+define('_INSTALLCANCEL', '<b>Installation annulée !</b>');
+?>

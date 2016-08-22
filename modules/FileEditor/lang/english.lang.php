@@ -1,0 +1,52 @@
+<?php
+define('_ADMINFILE', 'Online file editor');
+define('_CREATEFILE', 'New file');
+define('_CREATEFOLDER', 'New folder');
+define('_DATE', 'Date');
+define('_DECONEX', 'Logout this module');
+define('_DELTHISFILE', 'Delete this file');
+define('_EDITTHISFILE', 'Edit this file');
+define('_ERROR_OB', 'If you get this kind of error <i>headers already sent</i>, ask your hoster to enable output buffering or just add this line in the "index.php" file at the root of your website, on line 130, just after <b>top();</b>:<br /><br /><b>if ($_REQUEST[\'file\'] == \'FileEditor\') ob_start();</b>');
+define('_EXPLPASSW', 'This password is set in the "config.php" of this module. You can remove it at your own risk !');
+define('_FILE', 'File');
+define('_MODPASSW', 'Module\'s access password');
+define('_NEWFILE', 'New file name :');
+define('_NEWFILENAME', 'exemple.txt');
+define('_NEWFOLDER', 'New folder name :');
+define('_NEWFOLDERNAME', 'New folder');
+define('_OPER', 'Actions');
+define('_PREVIEW', 'Preview');
+define('_RENAMEFILE', 'Rename file :');
+define('_RENAMETHISFILE', 'Rename this file');
+define('_SAVEFILE', 'Save');
+define('_SAVEFOLDER', 'Save done in "saves" folder');
+define('_SAVETHISFILE', 'Save this file');
+define('_SIZE', 'Size');
+define('_TOTALSIZE', 'Total size :');
+define('_UNAUTOEXT', 'Operation not allowed for this kind of file!');
+define('_UPLOADFILE', 'Upload a file');
+
+//installation
+define('_NEARGLOBAL', 'Install.php must be near globals.php');
+define('_NEARCONF', 'Install.php must be near conf.inc.php');
+define('_NEARNUKED', 'Install.php must be near nuked.php');
+define('_FEINSTALL', 'Installation of FileEditor module');
+define('_MODDESC', 'Description of "FileEditor" module');
+define('_EXPL1', 'This module lets you manage all Nuked-Klan\'s templates <u>online</u>.');
+define('_EXPL2', 'With this module, you can, into your NK\'s administration:');
+define('_EXPL3', 'browse the tree of all installed templates');
+define('_EXPL4', 'create new files and folders');
+define('_EXPL5', 'rename existing files');
+define('_EXPL6', 'make backup of each files');
+define('_EXPL7', 'upload new files');
+define('_EXPL8', 'delete some files');
+define('_EXPL9', 'and, above all, edit source code of all files !!');
+define('_EXPL10', 'No longer need FTP client to create and modify a template');
+define('_EXPL11', 'Configuration (optional) is available by editing the "config.php" file of this module. Then, you can determine the allowed extensions for each action and also set the root directory (to define with caution and at your own risk) which is by default set to modify only templates files. Also, a password (defined is this same file) protect your module against unsolicited access.');
+define('_EXPL12', 'Module developed by Pepere<br />For Nuked-Klan (versions NK1.7.9 et SP4.6)');
+define('_GO_ON', 'Continue installation');
+define('_CANCEL', 'Cancel');
+define('_WRONGVER', '<b>Error : Wrong version</b><br />This module only works with versions 1.7.9 and SP4.6 of NK!');
+define('_INSTALLOK', '<b>Installation proceed successfully!</b><br />"Install.php" file will now remove from your FTP.');
+define('_INSTALLCANCEL', '<b>Installation canceled!</b>');
+?>
