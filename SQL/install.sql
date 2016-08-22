@@ -1234,7 +1234,7 @@ DROP TABLE IF EXISTS `nuked_mumble`;
 CREATE TABLE IF NOT EXISTS `nuked_mumble` (
   `name` varchar(255) collate latin1_general_ci NOT NULL default '',
   `mumble_jsonurl` text collate latin1_general_ci NOT NULL,
-  PRIMARY KEY (name)
+  PRIMARY KEY (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 --
@@ -2063,7 +2063,7 @@ CREATE TABLE IF NOT EXISTS `nuked_strat` (
   `title` text collate latin1_general_ci NOT NULL,
   `text` text collate latin1_general_ci NOT NULL,
   `picture` text collate latin1_general_ci NOT NULL,
-  PRIMARY KEY  (`sid`)
+  PRIMARY KEY  (`strat_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -2076,7 +2076,7 @@ DROP TABLE IF EXISTS `nuked_strats_map`;
 CREATE TABLE IF NOT EXISTS `nuked_strats_map` (
   `strat_map_id` int(10) NOT NULL auto_increment,
   `map_name` text collate latin1_general_ci NOT NULL,
-  PRIMARY KEY  (`sid`)
+  PRIMARY KEY  (`strat_map_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
@@ -2196,7 +2196,7 @@ CREATE TABLE IF NOT EXISTS `nuked_themes_slide` (
   `titre` text collate latin1_general_ci NOT NULL,
   `url` varchar(200) collate latin1_general_ci NOT NULL default '',
   `img` varchar(200) collate latin1_general_ci NOT NULL default '',
-  PRIMARY KEY (id)
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
