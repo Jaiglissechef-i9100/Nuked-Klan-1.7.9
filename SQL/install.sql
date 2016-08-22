@@ -261,7 +261,8 @@ INSERT INTO `nuked_comment_mod` (`id`, `module`, `active`) VALUES
 (5, 'wars', 1),
 (6, 'gallery', 1),
 (7, 'sections', 1),
-(8, 'video', 0);
+(8, 'video', 0),
+(9, 'Steam_ban', 1);
 
 -- --------------------------------------------------------
 
@@ -391,7 +392,11 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('nb_img_lignes', '3'),
 ('img_none', 'modules/Annonces/images/no_foto.gif'),
 ('index_page', ''),
-('tags', 'keyword');
+('tags', 'keyword'),
+('max_ban', '5'),
+('adm_ban', '5'),
+('pref1_ban', '5'),
+('pref2_ban', '9');
 
 -- --------------------------------------------------------
 
@@ -1039,7 +1044,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (36, 'Ticket', 0, 9),
 (37, 'Reglement', 0, 9),
 (38, 'Tags', '0', '3'),
-(39, 'myliens', 0, 9);
+(39, 'myliens', 0, 9),
+(40, 'Steam_ban', 0, 9);
 
 -- --------------------------------------------------------
 
@@ -1816,6 +1822,28 @@ CREATE TABLE IF NOT EXISTS `nuked_stats_visitor` (
   KEY `os` (`os`),
   KEY `referer` (`referer`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_steam_ban`
+--
+
+DROP TABLE IF EXISTS `nuked_steam_ban`;
+CREATE TABLE IF NOT EXISTS `nuked_steam_ban` (
+  `sid` int(11) NOT NULL auto_increment,
+  `pseudo` varchar(200) collate latin1_general_ci NOT NULL default '',
+  `steamid` varchar(200) collate latin1_general_ci NOT NULL default '',
+  `raison` varchar(60) collate latin1_general_ci NOT NULL default '',
+  `temps` varchar(60) collate latin1_general_ci NOT NULL default '',
+  `ki` varchar(60) collate latin1_general_ci NOT NULL default '',
+  `url_video` varchar(200) collate latin1_general_ci NOT NULL default '',
+  `screenshot` varchar(200) collate latin1_general_ci NOT NULL default '',
+  `commentaire` text collate latin1_general_ci NOT NULL,
+  `date` varchar(60) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`sid`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
 
 -- --------------------------------------------------------
 

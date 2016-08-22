@@ -58,6 +58,12 @@ function verification($module, $im_id){
         $sqlverif = "gallery";
         $specification = "sid";
 
+    elseif($module == "Steam_ban" || $module == "Steam_ban"):
+        
+        $WhereModule = 'Steam_ban';
+        $sqlverif = "Steam_ban";
+        $specification = "sid";
+
     elseif($module == "Survey" || $module == "survey"):
         
         $WhereModule = 'survey';
