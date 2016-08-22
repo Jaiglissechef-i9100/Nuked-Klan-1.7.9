@@ -262,7 +262,8 @@ INSERT INTO `nuked_comment_mod` (`id`, `module`, `active`) VALUES
 (6, 'gallery', 1),
 (7, 'sections', 1),
 (8, 'video', 0),
-(9, 'Steam_ban', 1);
+(9, 'Steam_ban', 1),
+(10, 'gallery_v2', 1);
 
 -- --------------------------------------------------------
 
@@ -820,6 +821,88 @@ CREATE TABLE IF NOT EXISTS `nuked_gallery_cat` (
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `nuked_gallery_v2`
+--
+
+DROP TABLE IF EXISTS `nuked_gallery_v2`;
+CREATE TABLE IF NOT EXISTS `nuked_gallery_v2` (
+  `sid` int(11) NOT NULL auto_increment,
+  `titre` text NOT NULL,
+  `description` text NOT NULL,
+  `url` varchar(200) NOT NULL default '',
+  `url_file` varchar(200) NOT NULL default '',
+  `cat` int(11) NOT NULL default '0',
+  `date` varchar(12) NOT NULL default '',
+  `count` int(10) NOT NULL default '0',
+  `count_dl` int(10) NOT NULL default '0',
+  `autor` text NOT NULL,
+  `level` int(1) NOT NULL default '0',
+  `type` varchar(50) NOT NULL,
+  `statut` int(1) NOT NULL default '0',
+  `taille` varchar(6) NOT NULL,
+  `mot_cle` text NOT NULL,
+  `actif` int(1) NOT NULL default '0',
+  PRIMARY KEY  (`sid`),
+  KEY `cat` (`cat`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_gallery_v2_cat`
+--
+
+DROP TABLE IF EXISTS `nuked_gallery_v2_cat`;
+CREATE TABLE IF NOT EXISTS `nuked_gallery_v2_cat` (
+  `cid` int(11) NOT NULL auto_increment,
+  `parentid` int(11) NOT NULL default '0',
+  `titre` varchar(50) NOT NULL default '',
+  `image` varchar(50) NOT NULL,
+  `description` text NOT NULL,
+  `position` int(2) unsigned NOT NULL default '0',
+  `level` int(1) NOT NULL default '0',
+  PRIMARY KEY  (`cid`),
+  KEY `parentid` (`parentid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_gallery_v2_config`
+--
+
+DROP TABLE IF EXISTS `nuked_gallery_v2_config`;
+CREATE TABLE IF NOT EXISTS `nuked_gallery_v2_config` (
+  `name` varchar(255) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY  (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Contenu de la table `nuked_gallery_v2_config`
+--
+
+INSERT INTO `nuked_gallery_v2_config` (`name`, `value`) VALUES
+('mess_admin_page', '20'),
+('color_player', '5D6953'),
+('max_cat', '9'),
+('rep_img', 'upload/Gallery_v2/'),
+('mess_guest_page', '6'),
+('aff_prev_next', 'off'),
+('title', ''),
+('dl_lvl', '1'),
+('dl_ok', 'on'),
+('suggest', '1'),
+('max_size', '5'),
+('lvl_suggest', '1'),
+('dl_zip', '0'),
+('lvl_dl_zip', '9'),
+('make_thumb', '0'),
+('block_type', '1');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_games`
 --
 
@@ -1045,7 +1128,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (37, 'Reglement', 0, 9),
 (38, 'Tags', '0', '3'),
 (39, 'myliens', 0, 9),
-(40, 'Steam_ban', 0, 9);
+(40, 'Steam_ban', 0, 9),
+(41, 'Gallery_v2', 0, 9);
 
 -- --------------------------------------------------------
 
@@ -1793,7 +1877,8 @@ INSERT INTO `nuked_stats` (`nom`, `type`, `count`) VALUES
 ('Server', 'pages', 0),
 ('Members', 'pages', 0),
 ('Team', 'pages', 0),
-('Forum', 'pages', 0);
+('Forum', 'pages', 0),
+('Gallery_v2', 'pages', 0);
 
 -- --------------------------------------------------------
 
@@ -1861,37 +1946,6 @@ CREATE TABLE IF NOT EXISTS `nuked_suggest` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `nuked_Wow_recrutement`
---
-
-DROP TABLE IF EXISTS `nuked_Wow_recrutement`;
-CREATE TABLE IF NOT EXISTS `nuked_Wow_recrutement` (
-char(20) NOT NULL,
-  `role` mediumtext NOT NULL,
-  `color` varchar(7) NOT NULL,
-  KEY `statut` (`statut`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1
-
---
--- Contenu de la table `nuked_Wow_recrutement`
---
-
-INSERT INTO `nuked_Wow_recrutement` (`classes`, `statut`, `role`, `color`) VALUES
-('_SHAMAN', 'on', '1|1|1', '1353DE'),
-('_ROGUE', 'on', '1|1|1', 'DEF569'),
-('_PRIEST', 'on', '1|1|1', 'FFFFFF'),
-('_PALADIN', 'on', '1|1|1', 'F58CBA'),
-('_DK', 'on', '1|1|1', 'A91F3B'),
-('_MAGE', 'on', '1|1|1', '69CCD1'),
-('_HUNT', 'on', '1|1|1', 'ABD464'),
-('_DRUID', 'on', '1|1|1', 'E38512'),
-('_WARLOCK', 'on', '1|1|1', '764B80'),
-('_WARRIOR', 'on', '1|1|1', '804000'),
-('_PANDAREN', 'on', '1|1|1', '008467');
 
 -- --------------------------------------------------------
 
@@ -2334,6 +2388,37 @@ CREATE TABLE IF NOT EXISTS `nuked_vote` (
   PRIMARY KEY (`id`),
   KEY `vid` (`vid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_Wow_recrutement`
+--
+
+DROP TABLE IF EXISTS `nuked_Wow_recrutement`;
+CREATE TABLE IF NOT EXISTS `nuked_Wow_recrutement` (
+char(20) NOT NULL,
+  `role` mediumtext NOT NULL,
+  `color` varchar(7) NOT NULL,
+  KEY `statut` (`statut`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+--
+-- Contenu de la table `nuked_Wow_recrutement`
+--
+
+INSERT INTO `nuked_Wow_recrutement` (`classes`, `statut`, `role`, `color`) VALUES
+('_SHAMAN', 'on', '1|1|1', '1353DE'),
+('_ROGUE', 'on', '1|1|1', 'DEF569'),
+('_PRIEST', 'on', '1|1|1', 'FFFFFF'),
+('_PALADIN', 'on', '1|1|1', 'F58CBA'),
+('_DK', 'on', '1|1|1', 'A91F3B'),
+('_MAGE', 'on', '1|1|1', '69CCD1'),
+('_HUNT', 'on', '1|1|1', 'ABD464'),
+('_DRUID', 'on', '1|1|1', 'E38512'),
+('_WARLOCK', 'on', '1|1|1', '764B80'),
+('_WARRIOR', 'on', '1|1|1', '804000'),
+('_PANDAREN', 'on', '1|1|1', '008467');
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
