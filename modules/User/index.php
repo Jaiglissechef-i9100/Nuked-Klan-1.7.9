@@ -1713,6 +1713,8 @@ function logout(){
     setcookie($cookie_theme, "");
     setcookie($cookie_langue, "");
     setcookie($cookie_forum, "");
+    // On crée un cookie ip pour ne ne pas revérifier à chaque connexion
+    setcookie($cookie_userip, $user_ip, $sessionlimit);
 
     $_SESSION['admin'] = false;
 
