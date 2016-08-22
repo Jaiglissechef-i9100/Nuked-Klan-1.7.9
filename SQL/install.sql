@@ -191,7 +191,8 @@ INSERT INTO `nuked_block` (`bid`, `active`, `position`, `module`, `titre`, `cont
 (10, 0, 0, 'Textbox', 'Tribune libre', '', 'module', 0, 'Tous'),
 (11, 1, 4, '', 'Partenaires', '<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="Location de serveurs de jeux" /></a></div>', 'html', 0, 'Tous'),
 (12, 1, 0, 'Video', 'Nos videos', '', 'module', 0, 'Tous'),
-(13, 2, 2, 'Banlist', 'Derniers banni', '', 'module', 1, 'Tous');
+(13, 2, 2, 'Banlist', 'Derniers banni', '', 'module', 1, 'Tous'),
+(14, 1, 0, 'Wow_recrutement', 'Recrutement', '', 'module', 0, 'Tous');
 
 -- --------------------------------------------------------
 
@@ -1027,7 +1028,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (27, 'Banlist', 1, 9),
 (28, 'Page', 0, 9),
 (29, 'Faqs', 0, 3),
-(30, 'Portfolio', 0, 3);
+(30, 'Portfolio', 0, 3),
+(31, 'Wow_recrutement', 0, 9);
 
 -- --------------------------------------------------------
 
@@ -1618,6 +1620,37 @@ CREATE TABLE IF NOT EXISTS `nuked_suggest` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_Wow_recrutement`
+--
+
+DROP TABLE IF EXISTS `nuked_Wow_recrutement`;
+CREATE TABLE IF NOT EXISTS `nuked_Wow_recrutement` (
+char(20) NOT NULL,
+  `role` mediumtext NOT NULL,
+  `color` varchar(7) NOT NULL,
+  KEY `statut` (`statut`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1
+
+--
+-- Contenu de la table `nuked_Wow_recrutement`
+--
+
+INSERT INTO `nuked_Wow_recrutement` (`classes`, `statut`, `role`, `color`) VALUES
+('_SHAMAN', 'on', '1|1|1', '1353DE'),
+('_ROGUE', 'on', '1|1|1', 'DEF569'),
+('_PRIEST', 'on', '1|1|1', 'FFFFFF'),
+('_PALADIN', 'on', '1|1|1', 'F58CBA'),
+('_DK', 'on', '1|1|1', 'A91F3B'),
+('_MAGE', 'on', '1|1|1', '69CCD1'),
+('_HUNT', 'on', '1|1|1', 'ABD464'),
+('_DRUID', 'on', '1|1|1', 'E38512'),
+('_WARLOCK', 'on', '1|1|1', '764B80'),
+('_WARRIOR', 'on', '1|1|1', '804000'),
+('_PANDAREN', 'on', '1|1|1', '008467');
 
 -- --------------------------------------------------------
 
