@@ -1032,7 +1032,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (31, 'Wow_recrutement', 0, 9),
 (32, 'Ts3viewer', 1, 9),
 (33, 'FileEditor', 9, 9),
-(34, 'Email', 9, 9);
+(34, 'Email', 9, 9),
+(35, 'Tournament', 0, 2);
 
 -- --------------------------------------------------------
 
@@ -1869,6 +1870,102 @@ CREATE TABLE IF NOT EXISTS `nuked_themes_slide` (
   `url` varchar(200) collate latin1_general_ci NOT NULL default '',
   `img` varchar(200) collate latin1_general_ci NOT NULL default '',
   PRIMARY KEY (id)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_tournament_intro`
+--
+
+DROP TABLE IF EXISTS `nuked_tournament_intro`;
+CREATE TABLE IF NOT EXISTS `nuked_tournament_intro` (
+  `intro` text collate latin1_general_ci NOT NULL,
+  `type` int(10) NOT NULL default '4',
+  FULLTEXT KEY `intro` (`intro`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+--
+-- Contenu de la table `nuked_tournament_intro`
+--
+
+INSERT INTO `nuked_tournament_intro` (`intro`, `type`) VALUES
+('Welcome to the Tournament. Please register!', 4),
+('Welcome to the Tournament. Please register!', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_tournament_match`
+--
+
+DROP TABLE IF EXISTS `nuked_tournament_match`;
+CREATE TABLE IF NOT EXISTS `nuked_tournament_match` (
+  `id` int(11) NOT NULL auto_increment,
+  `title` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `date` varchar(12) collate latin1_general_ci NOT NULL default '',
+  `winner` int(11) NOT NULL default '0',
+  `score1` int(11) NOT NULL default '0',
+  `score2` int(11) NOT NULL default '0',
+  `report` varchar(200) collate latin1_general_ci NOT NULL default '',
+  `screen1` varchar(100) collate latin1_general_ci NOT NULL default '',
+  `screen2` varchar(100) collate latin1_general_ci NOT NULL default '',
+  `screen3` varchar(100) collate latin1_general_ci NOT NULL default '',
+  `screen4` varchar(100) collate latin1_general_ci NOT NULL default '',
+  `status1` varchar(100) collate latin1_general_ci NOT NULL default '',
+  `status2` varchar(100) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=16 ;
+
+--
+-- Contenu de la table `nuked_tournament_match`
+--
+
+INSERT INTO `nuked_tournament_match` (`id`, `title`, `date`, `winner`, `score1`, `score2`, `report`, `screen1`, `screen2`, `screen3`, `screen4`, `status1`, `status2`) VALUES
+(1, '_TOURNAMENTWIN', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(2, '_TOURNAMENTHALFWIN1', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(3, '_TOURNAMENTHALFWIN2', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(4, '_TOURNAMENTQUARTER1', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(5, '_TOURNAMENTQUARTER2', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(6, '_TOURNAMENTQUARTER3', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(7, '_TOURNAMENTQUARTER4', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(8, '_TOURNAMENTEIGHTER1', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(9, '_TOURNAMENTEIGHTER2', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(10, '_TOURNAMENTEIGHTER3', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(11, '_TOURNAMENTEIGHTER4', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(12, '_TOURNAMENTEIGHTER5', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(13, '_TOURNAMENTEIGHTER6', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(14, '_TOURNAMENTEIGHTER7', '1471739338', 0, 0, 0, '', '', '', '', '', '', ''),
+(15, '_TOURNAMENTEIGHTER8', '1471739338', 0, 0, 0, '', '', '', '', '', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_tournament_team`
+--
+
+DROP TABLE IF EXISTS `nuked_tournament_team`;
+CREATE TABLE IF NOT EXISTS `nuked_tournament_team` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `tag` varchar(10) collate latin1_general_ci NOT NULL default '',
+  `url` varchar(100) collate latin1_general_ci NOT NULL default '',
+  `picture` varchar(100) collate latin1_general_ci NOT NULL default '',
+  `leader` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `leadersteam` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `leaderid` varchar(20) collate latin1_general_ci NOT NULL default '',
+  `mail` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `member1` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `steam1` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `member2` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `steam2` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `member3` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `steam3` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `member4` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `steam4` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `validated` int(1) NOT NULL default '0',
+  UNIQUE KEY `name` (`name`,`tag`,`url`,`picture`,`mail`),
+  KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
