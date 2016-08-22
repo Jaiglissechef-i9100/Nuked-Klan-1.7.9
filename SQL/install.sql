@@ -192,7 +192,8 @@ INSERT INTO `nuked_block` (`bid`, `active`, `position`, `module`, `titre`, `cont
 (11, 1, 4, '', 'Partenaires', '<div style="text-align: center;padding: 10px;"><a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/ban.png" alt="" title="Nuked-klaN CMS" /></a></div><div style="text-align: center;padding: 10px;"><a href="http://www.nitroserv.fr" onclick="window.open(this.href); return false;"><img style="border: 0;" src="images/nitroserv.png" alt="" title="Location de serveurs de jeux" /></a></div>', 'html', 0, 'Tous'),
 (12, 1, 0, 'Video', 'Nos videos', '', 'module', 0, 'Tous'),
 (13, 2, 2, 'Banlist', 'Derniers banni', '', 'module', 1, 'Tous'),
-(14, 1, 0, 'Wow_recrutement', 'Recrutement', '', 'module', 0, 'Tous');
+(14, 1, 0, 'Wow_recrutement', 'Recrutement', '', 'module', 0, 'Tous'),
+(15, 4, 0, 'Tags', 'Nuage de mots', '', 'module', 0, 'Tous');
 
 -- --------------------------------------------------------
 
@@ -389,7 +390,8 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('img_cat', '100'),
 ('nb_img_lignes', '3'),
 ('img_none', 'modules/Annonces/images/no_foto.gif'),
-('index_page', '');
+('index_page', ''),
+('tags', 'keyword');
 
 -- --------------------------------------------------------
 
@@ -1035,7 +1037,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (34, 'Email', 9, 9),
 (35, 'Tournament', 0, 2),
 (36, 'Ticket', 0, 9),
-(37, 'Reglement', 0, 9);
+(37, 'Reglement', 0, 9),
+(38, 'Tags', '0', '3');
 
 -- --------------------------------------------------------
 
