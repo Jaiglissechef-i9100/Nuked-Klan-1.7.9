@@ -129,4 +129,9 @@ define("_ACTIONADDCATNEWS","a ajouté la catégorie news");
 define("_ACTIONEDITCATNEWS","a modifié la catégorie news");
 define("_ACTIONDELCATNEWS","a supprimé la catégorie news");
 define("_ACTIONPREFNEWS","a modifié les préférences du module news");
+
+// Patch News Forum
+define("_FORUM_NEWS","Forum des news");
+define("_DISABLED","Désactivé");
+define("_REDIRINPROGRESS","Redirection en cours...");
 ?>

@@ -61,7 +61,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 			$WhereNews = "WHERE $day >= date AND published = '1' ORDER BY date DESC LIMIT $start, $max_news";
 		}
 		
-		$sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat, published, niveau, allow_comments FROM ".NEWS_TABLE." $WhereNews");
+		$sql = mysql_query("SELECT id, auteur, auteur_id, date, titre, texte, suite, cat, published, niveau, allow_comments, thread_id FROM ".NEWS_TABLE." $WhereNews");
 		
 		if (mysql_num_rows($sql) <= 0) {
 			echo '<p style="text-align: center">' . _NONEWSINDB . '</p>';
@@ -69,6 +69,28 @@ if ($visiteur >= $level_access && $level_access > -1) {
 		
 		while ($TabNews = mysql_fetch_assoc($sql)) {
 			$TabNews['titre'] = printSecuTags($TabNews['titre']);
+
+            /* Patch News Forum */
+            if ($nuked['news_forum'] != "" && $TabNews['thread_id'] > 0)
+            {
+                $sql2 = mysql_query("SELECT forum_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
+                list($forum_id) = mysql_fetch_array($sql2);
+
+                //$nb_comment = mysql_num_rows($sql2) - 1;
+                $nb_comment = "reagir sur le forum";
+
+                if ($forum_id == 0)
+                {
+                    $upd1 = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET forum_id = '" . $nuked['news_forum'] . "' WHERE id = '" . $thread_id . "'");
+                    $upd2 = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET forum_id = '" . $nuked['news_forum'] . "' WHERE thread_id = '" . $thread_id . "'");
+                }
+            }
+            else
+            {
+                $sql2 = mysql_query("SELECT im_id FROM ".COMMENT_TABLE." WHERE im_id = '{$TabNews['id']}' AND module = 'news'");
+                $nb_comment = mysql_num_rows($sql2);
+            }
+            /* Fin du patch */
 
 			$sql2 = mysql_query("SELECT im_id FROM ".COMMENT_TABLE." WHERE im_id = '{$TabNews['id']}' AND module = 'news'");
 			$nb_comment = mysql_num_rows($sql2);
@@ -122,46 +144,64 @@ if ($visiteur >= $level_access && $level_access > -1) {
 		}
     }
 
-	function index_comment($news_id) {
-		global $user, $visiteur, $nuked;
+    function index_comment($news_id) {
 
-		if( $visiteur >= admin_mod("News")){
-			echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
-				  <div style="text-align:right;">
-					<a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
-						<img style="border:none;" src="images/edition.gif" alt="" title="'._EDIT.'" />
-					</a>&nbsp;
-					<a href="javascript:delnews(\''.$news_id.'\');">
-						<img style="border:none;" src="images/delete.gif" alt="" title="'._DEL.'" />
-					</a>
-				  </div>';
-		}
-		
-		$sql2 = mysql_query("SELECT published, niveau, allow_comments FROM ".$nuked['prefix']."_news WHERE id = '".$news_id."' ");
-		$TabNews = mysql_fetch_array($sql2);
-		
-		if($TabNews['published'] == 1 && $visiteur >= $TabNews['niveau']) {
-			
-			index();
-		
-			$sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
-			$row = mysql_fetch_array($sql);
-			
-			if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1 && $TabNews['allow_comments'] == 1) {
-				include ('modules/Comment/index.php');
-				com_index('news', $news_id);
-			}
-			
-			if ($TabNews['allow_comments'] == 0) {
-				opentable();
-				echo '<div style="text-align: center; padding: 10px;">' . _COMMENTSDISABLED . '</div>';
-				closetable();
-			}
-			
-		} else {
-			error_news();
-		}
-	}
+        global $user, $visiteur, $nuked;
+
+        /* Patch News Forum */
+        if ($nuked['news_forum'] != "")
+        {
+            $sql = mysql_query("SELECT thread_id FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
+            list($thread_id) = mysql_fetch_array($sql);
+        }
+
+        if (isset($thread_id) && $thread_id > 0)
+        {
+            $sql2 = mysql_query("SELECT forum_id FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
+            list($forum_id) = mysql_fetch_array($sql2);
+
+            if ($forum_id == 0)
+            {
+                $upd1 = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET forum_id = '" . $nuked['news_forum'] . "' WHERE id = '" . $thread_id . "'");
+                $upd2 = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET forum_id = '" . $nuked['news_forum'] . "' WHERE thread_id = '" . $thread_id . "'");
+                $fid = $nuked['news_forum'];
+            }
+            else
+            {
+                $fid = $forum_id;
+            }
+                    
+            echo "<br /><br /><div style=\"text-align: center;\">" . _REDIRINPROGRESS . "</div><br /><br />\n";
+
+            $url = "index.php?file=Forum&page=viewtopic&forum_id=" . $fid . "&thread_id=" . $thread_id;
+            redirect($url, 0);
+        }
+        else
+        {
+
+            if( $visiteur >= admin_mod("News")){
+                echo '<script type="text/javascript">function delnews(id){if(confirm(\''._DELTHISNEWS.' ?\')){document.location.href = \'index.php?file=News&page=admin&op=do_del&news_id=\'+id;}}</script>
+                      <div style="text-align:right;">
+                        <a href="index.php?file=News&amp;page=admin&amp;op=edit&amp;news_id='.$news_id.'">
+                            <img style="border:none;" src="images/edition.gif" alt="" title="'._EDIT.'" />
+                        </a>&nbsp;
+                        <a href="javascript:delnews(\''.$news_id.'\');">
+                            <img style="border:none;" src="images/delete.gif" alt="" title="'._DEL.'" />
+                        </a>
+                      </div>';
+            }
+            
+            index();
+            
+            $sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
+            $row = mysql_fetch_array($sql);
+
+            if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1) {
+                include ('modules/Comment/index.php');
+                com_index('news', $news_id);
+            }
+        }
+    }
 
     function suite($news_id) {
         global $user, $visiteur, $nuked;
@@ -188,7 +228,7 @@ if ($visiteur >= $level_access && $level_access > -1) {
 			$sql = mysql_query("SELECT active FROM ".$nuked['prefix']."_comment_mod WHERE module = 'news'");
 			$row = mysql_fetch_array($sql);
 
-			if ($row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1 && $TabNews['allow_comments'] == 1) {
+			if ($nuked['news_forum'] == "" && $row['active'] == 1 && $visiteur >= nivo_mod('Comment') && nivo_mod('Comment') > -1)
 				include ('modules/Comment/index.php');
 				com_index('news', $news_id);
 			}

@@ -281,7 +281,8 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('Guestbookpost', '0'),
 ('Guestbooktemplate', '0'),
 ('max_video', '10'),
-('cat_idem', '0');
+('cat_idem', '0'),
+('news_forum', '1');
 
 -- --------------------------------------------------------
 
@@ -953,6 +954,7 @@ CREATE TABLE IF NOT EXISTS `nuked_news` (
   `published` INT(1) default NULL,
   `niveau` INT(1) default NULL,
   `allow_comments` INT(1) default NULL,
+  `thread_id` int(5) NOT NULL default '0',
   PRIMARY KEY (`id`),
   KEY `cat` (`cat`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;

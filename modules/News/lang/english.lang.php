@@ -130,4 +130,9 @@ define("_ACTIONEDITCATNEWS","has modified the news category");
 define("_ACTIONDELCATNEWS", "has deleted the news category");
 define("_ACTIONPREFNEWS","has modified the preference of news module");
 
+// Patch News Forum
+define("_FORUM_NEWS","Forum of news");
+define("_DISABLED","Disabled");
+define("_REDIRINPROGRESS","Redirect in progress...");
+
 ?>

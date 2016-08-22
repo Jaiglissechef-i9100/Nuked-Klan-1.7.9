@@ -344,7 +344,27 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$auteur = $user[2];
 		$auteur_id = $user[0];
 
-		$sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date` , `published` , `niveau` , `allow_comments`) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "', '" . $published . "' , '" . $niveau . "' , '" . $allow_comments .  "')");
+		/* Patch News Forum */
+		if ($nuked['news_forum'] != "")
+		{
+	        if ($date < time())
+	        	$forum_id = $nuked['news_forum'];
+	        else 
+	        	$forum_id = "";
+		            	
+	        $topic_titre = "[" . _NAVNEWS . "] " . $titre;
+	        
+		    $sql2 = mysql_query("INSERT INTO " . FORUM_THREADS_TABLE . " ( `id` , `titre` , `date` , `closed` , `auteur` , `auteur_id` , `forum_id` , `last_post` , `view` , `annonce` , `sondage` ) VALUES ( '' , '" . $topic_titre . "' , '" . $date . "' , '' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $forum_id . "' , '" . $date . "' , '' , 1 , 0 )");
+	        $req = mysql_query("SELECT MAX(id) FROM " . FORUM_THREADS_TABLE . " WHERE titre = '" . $topic_titre . "' AND date = '" . $date . "' AND auteur = '" . $auteur . "'");
+	        $idmax = mysql_result($req, 0, "MAX(id)");
+
+	        $thread_id = $idmax;
+	        $full_texte = $texte . "\n\n" . $suite;		
+	        $sql3 = mysql_query("INSERT INTO " . FORUM_MESSAGES_TABLE . " ( `id` , `titre` , `txt` , `date` , `edition` , `auteur` , `auteur_id` , `auteur_ip` , `bbcodeoff` , `smileyoff` , `cssoff` , `usersig` , `emailnotify` , `thread_id` , `forum_id` , `file` ) VALUES ( '' , '" . $topic_titre . "' , '" . $full_texte . "' , '" . $date . "' , '' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $user_ip . "' , '" . $bbcodeoff . "' , '" . $smileyoff . "' , 0 , 0 , 0 , '" . $thread_id . "' , '" . $forum_id . "' , '' )");
+		}
+		/* Fin du patch */
+
+		$sql = mysql_query("INSERT INTO " . NEWS_TABLE . " ( `id` , `cat` , `titre` , `auteur` , `auteur_id` , `texte` , `suite` , `date` , `published` , `niveau` , `allow_comments` , `thread_id` ) VALUES ( '', '" . $cat ."' , '" . $titre . "' , '" . $auteur . "' , '" . $auteur_id . "' , '" . $texte . "' , '" . $suite . "' , '" . $date .  "', '" . $published . "' , '" . $niveau . "' , '" . $allow_comments .  "' , '" . $thread_id . "')");
 		
 		// Action
 		$texteaction = "". _ACTIONADDNEWS .": ".$titre.".";
@@ -537,6 +557,26 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		$suite = html_entity_decode($suite);
 		$suite = mysql_real_escape_string(stripslashes($suite));
 
+		/* Patch News Forum */
+		if ($nuked['news_forum'] != "")
+		{
+			$sql = mysql_query("SELECT thread_id FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
+		    list($thread_id) = mysql_fetch_array($sql); 
+
+		    if ($thread_id > 0)
+		    {
+				$topic_titre = "[" . _NAVNEWS . "] " . $titre;
+				$full_texte = $texte . "\n\n" . $suite;           
+				
+				$sql1 = mysql_query("SELECT id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' ORDER BY id LIMIT 0, 1");
+				list($mid) = mysql_fetch_row($sql1);
+
+				$upd1 = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET titre = '" . $topic_titre . "' WHERE id = '" . $thread_id . "'");
+				$upd2 = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET titre = '" . $topic_titre . "', txt = '" . $full_texte . "' WHERE id = '" . $mid . "'");
+		    }
+		}
+		/* Fin du patch */
+
 		$upd = mysql_query("UPDATE " . NEWS_TABLE . " SET cat = '" . $cat . "', titre = '" . $titre . "', texte = '" . $texte . "', suite = '" . $suite . "', date = '" . $date . "' , published = '" . $published . "', niveau = '" . $niveau . "', allow_comments = '" . $allow_comments . "' WHERE id = '" . $news_id . "'");
 		
 		// Action
@@ -561,9 +601,19 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 	function do_del($news_id) {
 		global $nuked, $user;
 
-		$sqls = mysql_query("SELECT titre FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
-		list($titre) = mysql_fetch_array($sqls);
+		$sqls = mysql_query("SELECT titre, thread_id FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
+		list($titre, $thread_id) = mysql_fetch_array($sqls);
 		$titre = mysql_real_escape_string(stripslashes($titre));
+
+		/* Patch News Forum */
+		if ($nuked['news_forum'] != "" && $thread_id > 0)
+		{
+			$del1 = mysql_query("DELETE FROM " . FORUM_THREADS_TABLE . " WHERE id = '" . $thread_id . "'");
+			$del2 = mysql_query("DELETE FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
+			$del3 = mysql_query("DELETE FROM " . FORUM_READ_TABLE . " WHERE thread_id = '" . $thread_id . "' AND forum_id = '" . $nuked['news_forum'] . "'");
+		}
+		/* Fin du patch */
+
 		$del = mysql_query("DELETE FROM " . NEWS_TABLE . " WHERE id = '" . $news_id . "'");
 		$del_com = mysql_query("DELETE FROM " . COMMENT_TABLE . "  WHERE im_id = '" . $news_id . "' AND module = 'news'");
 		// Action
@@ -800,13 +850,53 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 		   . "<table style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
 		   . "<tr><td align=\"center\"><big>" . _PREFS . "</big></td></tr>\n"
 		   . "<tr><td>" . _NUMBERNEWS . " :</td><td> <input type=\"text\" name=\"max_news\" size=\"2\" value=\"" . $nuked['max_news'] . "\" /></td></tr>\n"
-		   . "<tr><td>" . _NUMBERARCHIVE . " :</td><td> <input type=\"text\" name=\"max_archives\" size=\"2\" value=\"" . $nuked['max_archives'] . "\" /></td></tr>\n"
+		   . "<tr><td>" . _NUMBERARCHIVE . " :</td><td> <input type=\"text\" name=\"max_archives\" size=\"2\" value=\"" . $nuked['max_archives'] . "\" /></td></tr>\n";
+
+		   /* Patch News Forum */
+			echo"<tr><td>" . _FORUM_NEWS . " : <select name=\"news_forum\"><option value=\"\">" . _DISABLED . "</option>\n";
+
+		        $sql_cat = mysql_query("SELECT id, nom FROM " . FORUM_CAT_TABLE . " ORDER BY ordre, nom");
+		        while (list($cat, $cat_name) = mysql_fetch_row($sql_cat))
+		        {
+		            $cat_name = stripslashes($cat_name);
+		            $cat_name = htmlentities($cat_name);
+
+		            echo "<option value=\"\">* " . $cat_name . "</option>\n";
+
+		            $sql_forum = mysql_query("SELECT nom, id FROM " . FORUM_TABLE . " WHERE cat = '" . $cat . "' ORDER BY ordre, nom");
+		            while (list($forum_name, $fid) = mysql_fetch_row($sql_forum))
+		            {
+		                $forum_name = stripslashes($forum_name);
+		                $forum_name = htmlentities($forum_name);
+
+				if ($fid == $nuked['news_forum']) $selected = "selected=\"selected\"";
+				else $selected = "";
+
+		                echo "<option value=\"" . $fid . "\"" . $selected . ">&nbsp;&nbsp;&nbsp;" . $forum_name . "</option>\n";
+		            } 
+		        } 
+
+        echo "</select></td></tr>\n";
+	
+		echo"</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
+
 		   . "</table><div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _SEND . "\" /></div>\n"
 		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=News&amp;page=admin\"><b>" . _BACK . "</b></a> ]</div></form><br /></div></div>\n";
 	}
 
-	function change_pref($max_news, $max_archives) {
+	function change_pref($max_news, $max_archives, $news_forum) {
 		global $nuked, $user;
+
+		if ($news_forum <> $nuked['news_forum'] && $news_forum != "")
+		{
+		    $sql1 = mysql_query("SELECT thread_id FROM " . NEWS_TABLE. " WHERE thread_id != ''");
+		    while(list($thread_id) = mysql_fetch_array($sql1))
+		    {
+				$sql2 = mysql_query("UPDATE " . FORUM_THREADS_TABLE . " SET forum_id = '" . $news_forum . "' WHERE id = '" . $thread_id . "' AND forum_id > 0");
+				$sql3 = mysql_query("UPDATE " . FORUM_MESSAGES_TABLE . " SET forum_id = '" . $news_forum . "', WHERE thread_id = '" . $thread_id . "' AND forum_id > 0");
+		    }
+        	$upd3 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $news_forum . "' WHERE name = 'news_forum'");
+		}
 
 		$upd1 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_news . "' WHERE name = 'max_news'");
 		$upd2 = mysql_query("UPDATE " . CONFIG_TABLE . " SET value = '" . $max_archives . "' WHERE name = 'max_archives'");
@@ -905,7 +995,7 @@ if ($visiteur >= $level_admin && $level_admin > -1) {
 
 		case "change_pref":
 			admintop();
-			change_pref($_REQUEST['max_news'], $_REQUEST['max_archives']);
+			change_pref($_REQUEST['max_news'], $_REQUEST['max_archives'], $_REQUEST['news_forum']);
 			adminfoot();
 			break;
 
