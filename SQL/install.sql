@@ -793,6 +793,7 @@ CREATE TABLE IF NOT EXISTS `nuked_forums_poll` (
 -- Structure de la table `nuked_forums_primaire`
 --
 
+DROP TABLE IF EXISTS `nuked_forums_primaire`;
 CREATE TABLE IF NOT EXISTS `nuked_forums_primaire` (
   `id` int(11) NOT NULL auto_increment,
   `nom` varchar(100) collate latin1_general_ci default NULL,
