@@ -38,6 +38,47 @@ CREATE TABLE IF NOT EXISTS `nuked_action` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `nuked_annonces`
+--
+
+DROP TABLE IF EXISTS `nuked_annonces`;
+CREATE TABLE IF NOT EXISTS `nuked_annonces` (
+  `artid` int(11) NOT NULL auto_increment,
+  `anid` int(11) NOT NULL default '0',
+  `title` varchar(40) collate latin1_general_ci NOT NULL default '',
+  `content` text collate latin1_general_ci NOT NULL,
+  `counter` int(11) NOT NULL default '0',
+  `pseudo` text collate latin1_general_ci NOT NULL,
+  `email` varchar(40) collate latin1_general_ci NOT NULL default '',
+  `ville` varchar(25) collate latin1_general_ci NOT NULL default '',
+  `date` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `pays` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `prix` varchar(10) collate latin1_general_ci NOT NULL default '',
+  `duree` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `active` char(1) collate latin1_general_ci NOT NULL default '',
+  `obsol` varchar(30) collate latin1_general_ci NOT NULL default '',
+  `url_screen` varchar(200) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`artid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `nuked_annonces_cat`
+--
+
+DROP TABLE IF EXISTS `nuked_annonces_cat`;
+CREATE TABLE IF NOT EXISTS `nuked_annonces_cat` (
+  `anid` int(11) NOT NULL auto_increment,
+  `parentid` int(11) NOT NULL default '0',
+  `anname` varchar(40) collate latin1_general_ci NOT NULL default '',
+  `foto` varchar(80) collate latin1_general_ci NOT NULL default '',
+  PRIMARY KEY  (`anid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_banned`
 --
 
@@ -282,7 +323,10 @@ INSERT INTO `nuked_config` (`name`, `value`) VALUES
 ('Guestbooktemplate', '0'),
 ('max_video', '10'),
 ('cat_idem', '0'),
-('news_forum', '1');
+('news_forum', '1'),
+('img_cat', '100'),
+('nb_img_lignes', '3'),
+('img_none', 'modules/Annonces/images/no_foto.gif');
 
 -- --------------------------------------------------------
 
@@ -872,6 +916,7 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (21, 'Contact', 0, 3);
 (22, 'Equipe', 0, 2);
 (23, 'Video', 0, 9);
+(24, 'Annonces', 0, 3);
 
 -- --------------------------------------------------------
 
