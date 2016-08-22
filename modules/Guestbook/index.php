@@ -15,8 +15,11 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Guestbook/lang/" . $language . ".lang.php");
 
-// Inclusion système Captcha
-include_once("Includes/nkCaptcha.php");
+// Inclusion système reCaptcha
+//include_once('Includes/nkCaptcha.php');
+include_once('Includes/recaptcha.php');
+include_once('Includes/hash.php');
+require_once('Includes/recaptchalib.php');
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == "off") $captcha = 0;
@@ -79,6 +82,7 @@ if( $nuked['Guestbookpost'] == '1' or $user){
 		echo "<tr><td><b>" . _MAIL . " :</b></td><td>"; if ($mail) echo '<b>' . $mail . '</b></td></tr>'; else echo "<input id=\"guest_mail\" type=\"text\" name=\"email\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 		echo "<tr><td><b>" . _URL . " :</b></td><td>"; if ($url) echo '<b>' . $url . '</b></td></tr>'; else echo "<input type=\"text\" name=\"url\" value=\"\" size=\"40\" maxlength=\"80\" /></td></tr>\n";
 
+		//captcha
 		if ($captcha == 1) create_captcha(2);
 
 
@@ -102,14 +106,31 @@ if( $nuked['Guestbookpost'] == '1' or $user){
 
         opentable();
 
-        // Verification code captcha
-        if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
-        {
-            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
-            closetable();
-            footer();
-            exit();
+	// Verification code captcha
+	include("./Includes/keys.php");
+	
+	if($captcha = 0 && empty($_POST["recaptcha_response_field"])){
+	echo "<br /><br /><div style=\"text-align: center;\">" . _EMPTYCODE . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+				closetable();
+				footer();
+				exit();
+	}
+	
+	if ($_POST["recaptcha_response_field"]) {
+        $resp = recaptcha_check_answer ($privatekey,
+                                        $_SERVER["REMOTE_ADDR"],
+                                        $_POST["recaptcha_challenge_field"],
+                                        $_POST["recaptcha_response_field"]);
+
+        if ($resp->is_valid) {
+                $captchaflag = 1;
+        } else {
+				echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+				closetable();
+				footer();
+				exit();
         }
+	}
 
         if ($user[2] != "")
         {

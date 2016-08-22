@@ -175,6 +175,9 @@ define("_NOTIFYISON","Notification activé avec succès.");
 define("_NOTIFYISOFF","Notification désactivé avec succès.");
 define("_NOTEXTRESUME","Aucun aperçu disponible...");
 
+// Recaptcha patch
+define('_EMPTYCODE', 'Le code que vous avez enter n\'est pas valide !');
+
 define("_ADMINFORUM","Administration Forum");
 define("_HELP","Aides");
 define("_ADDFORUM","Ajouter un Forum");
