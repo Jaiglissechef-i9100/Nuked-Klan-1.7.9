@@ -1130,7 +1130,8 @@ INSERT INTO `nuked_modules` (`id`, `nom`, `niveau`, `admin`) VALUES
 (38, 'Tags', '0', '3'),
 (39, 'myliens', 0, 9),
 (40, 'Steam_ban', 0, 9),
-(41, 'Gallery_v2', 0, 9);
+(41, 'Gallery_v2', 0, 9),
+(42, 'Strats', '3', '7');
 
 -- --------------------------------------------------------
 
@@ -2048,6 +2049,35 @@ CREATE TABLE IF NOT EXISTS `nuked_steam_ban` (
   `date` varchar(60) collate latin1_general_ci NOT NULL default '',
   PRIMARY KEY  (`sid`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=2 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_strat`
+--
+
+DROP TABLE IF EXISTS `nuked_strat`;
+CREATE TABLE IF NOT EXISTS `nuked_strat` (
+  `strat_id` int(10) NOT NULL auto_increment,
+  `strat_map_id` int(10) NOT NULL,
+  `title` text collate latin1_general_ci NOT NULL,
+  `text` text collate latin1_general_ci NOT NULL,
+  `picture` text collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`sid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `nuked_strats_map`
+--
+
+DROP TABLE IF EXISTS `nuked_strats_map`;
+CREATE TABLE IF NOT EXISTS `nuked_strats_map` (
+  `strat_map_id` int(10) NOT NULL auto_increment,
+  `map_name` text collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`sid`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
