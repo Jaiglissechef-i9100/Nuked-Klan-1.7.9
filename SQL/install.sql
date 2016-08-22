@@ -1052,6 +1052,26 @@ CREATE TABLE IF NOT EXISTS `nuked_notification` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `nuked_page`
+--
+
+DROP TABLE IF EXISTS `nuked_page`;
+CREATE TABLE IF NOT EXISTS `nuked_page` (
+  `id` int(11) NOT NULL auto_increment,
+  `niveau` int(1) NOT NULL default '0',
+  `titre` varchar(50) collate latin1_general_ci NOT NULL default '',
+  `content` text collate latin1_general_ci NOT NULL,
+  `url` varchar(80) collate latin1_general_ci NOT NULL default '',
+  `type` varchar(5) collate latin1_general_ci NOT NULL default '',
+  `show_title` int(1) NOT NULL default '0',
+  `members` text collate latin1_general_ci NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `titre` (`titre`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `nuked_recrute`
 --
 
