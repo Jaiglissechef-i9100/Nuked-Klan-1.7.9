@@ -1,6 +1,0 @@
-
-			 <?php
-			 $html_title  = "title blocks";	
-			 $html_code    = "Put here your HTML code ";
-
-			 ?>

@@ -1,7 +1,0 @@
-
-			 <?php 
-			 $id_topmatch  = "";
-			 $top_logo   = "themes/EvilGame/images/tm/1.jpg";
-			 $top_myname = "Fnatic.MSI";
-			 $top_logo2 = "themes/EvilGame/images/tm/3.jpg";
-			 ?>

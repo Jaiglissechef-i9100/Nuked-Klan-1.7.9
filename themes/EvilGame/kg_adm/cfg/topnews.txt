@@ -1,5 +1,0 @@
-
-			 <?php 
-			 $id_topnews  = "1";
-			 $top_logo   = "themes/Undersea_sun/images/topnews/1.jpg";
-			 ?>
