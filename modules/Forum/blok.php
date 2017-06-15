@@ -13,7 +13,7 @@ if (!defined("INDEX_CHECK"))
 }
 
 
-global $nuked, $file, $language, $user, $bgcolor3, $bgcolor2;
+global $nuked, $file, $language, $user, $bgcolor3, $bgcolor2, $bgcolor1;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 define('FORUM_PRIMAIRE_TABLE', $nuked['prefix'] . '_forums_primaire');
 
@@ -39,8 +39,8 @@ if ($active == 3 || $active == 4)
     . "<td style=\"width: 10%;\" align=\"center\"><b>" . _VIEWS . "</b></td>\n"
     . "<td style=\"width: 30%;\" align=\"center\"><b>" . _LASTPOST . "</b></td></tr>\n";
 
-    $sql = mysql_query("SELECT FTT.id, FTT.titre, FTT.auteur, FTT.auteur_id, FTT.view, FTT.closed, FTT.forum_id FROM " . FORUM_THREADS_TABLE . " AS FTT INNER JOIN " . FORUM_TABLE . " AS FT ON FT.id = FTT.forum_id WHERE FT.niveau <= '" . $visiteur . "' ORDER BY last_post DESC LIMIT 0, 10");
-    while (list($thread_id, $titre, $auteur, $auteur_id, $nb_read, $closed, $forum_id) = mysql_fetch_row($sql))
+    $sql = mysql_query("SELECT FTT.id, FTT.titre, FTT.date, FTT.auteur, FTT.auteur_id, FTT.view, FTT.closed, FTT.forum_id FROM " . FORUM_THREADS_TABLE . " AS FTT INNER JOIN " . FORUM_TABLE . " AS FT ON FT.id = FTT.forum_id WHERE FT.niveau <= '" . $visiteur . "' ORDER BY last_post DESC LIMIT 0, 10");
+    while (list($thread_id, $titre, $datepost, $auteur, $auteur_id, $nb_read, $closed, $forum_id) = mysql_fetch_row($sql))
     {
         $auteur = nk_CSS($auteur);
 
@@ -49,16 +49,27 @@ if ($active == 3 || $active == 4)
         $title = preg_replace("`&amp;gt;`i", "&gt;", $title);
         $title = nk_CSS($title);
 
+             $newsdate = time() - 86400;
+             $att = "";
+
+             if ($datepost!="" && $datepost > $newsdate) $att = "&nbsp;<img alt=\"Update\" src=\"modules/Forum/images/new_message.png\" style=\"vertical-align: middle;\" />";
+       
+       
         $sql3 = mysql_query("SELECT thread_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
         $nb_rep = mysql_num_rows($sql3) - 1;
 
         $sql4 = mysql_query("SELECT MAX(id) from " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "'");
         $idmax = mysql_result($sql4, 0, "MAX(id)");
 
-        $sql5 = mysql_query("SELECT date, auteur, auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $idmax . "'");
-        list($last_date, $last_auteur, $last_auteur_id) = mysql_fetch_array($sql5);
-        $last_date = nkDate($last_date);
+        $sql5 = mysql_query("SELECT date, auteur, auteur_id, txt FROM " . FORUM_MESSAGES_TABLE . " WHERE id = '" . $idmax . "'");
+        list($last_date, $last_auteur, $last_auteur_id, $txt) = mysql_fetch_array($sql5);
+        $last_datefixe = ftime($last_date);
 
+             $newsdateupdate = time() - 86400;
+             $attupdate = "";
+
+             if ($last_date!="" && $nb_rep > 0 && $last_date > $newsdateupdate) $attupdate = "&nbsp;<img alt=\"Update\" src=\"Includes/blocks/images/maj.gif\" style=\"vertical-align: middle;\" />";
+    
         $last_auteur = nk_CSS($last_auteur);
 
         if ($auteur_id != "")
@@ -83,10 +94,15 @@ if ($active == 3 || $active == 4)
 
         if ($last_auteur_id != "")
         {
-            $sql7 = mysql_query("SELECT pseudo FROM " . USER_TABLE . " WHERE id = '" . $last_auteur_id . "'");
+            $sql7 = mysql_query("SELECT avatar, pseudo FROM " . USER_TABLE . " WHERE id = '" . $last_auteur_id . "'");
             $test1 = mysql_num_rows($sql7);
-            list($last_autor) = mysql_fetch_array($sql7);
+            list($avatar, $last_autor) = mysql_fetch_array($sql7);
 
+				if($avatar) {				
+				$avatarok = $avatar;
+				} else { $avatarok = "modules/Members/images/pasavatar.png";
+			    }
+			    
             if ($test1 > 0 && $last_autor != "")
             {
                 $author = "<a href=\"index.php?file=Members&amp;op=detail&amp;autor=" . urlencode($last_autor) . "\"><b>" . $last_autor . "</b></a>";
@@ -103,15 +119,15 @@ if ($active == 3 || $active == 4)
 
         if (strlen($titre) > 20 && $file == $nuked['index_site'])
         {
-            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "\" title=\"" . $title. "\"><b>" . printSecuTags(substr($titre, 0, 20)) . "...</b></a>";
+            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "#" . $idmax."\" title=\"" . $title. "\"><b>" . printSecuTags(substr($titre, 0, 20)) . "...</b></a>";
         }
         else if (strlen($titre) > 30)
         {
-            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "\" title=\"" . $title. "\"><b>" . printSecuTags(substr($titre, 0, 30)) . "...</b></a>";
+            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "#" . $idmax."\" title=\"" . $title. "\"><b>" . printSecuTags(substr($titre, 0, 30)) . "...</b></a>";
         }
         else
         {
-            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "\"><b>" . $title . "</b></a>";
+            $titre_topic = "<a href=\"index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "#" . $idmax."\"><b>" . $title . "</b></a>";
         }
 
         if (($nb_rep + 1) > $nuked['mess_forum_page'])
@@ -124,12 +140,40 @@ if ($active == 3 || $active == 4)
         {
             $link_post = "index.php?file=Forum&amp;page=viewtopic&amp;forum_id=" . $forum_id . "&amp;thread_id=" . $thread_id . "#" . $idmax;
         }
+        if($i2 == 0) {
+                $bg = $bgcolor2;
+                $i2++;
+            }
+            else {
+                $bg = $bgcolor1;
+                $i2 =0;
+            }
+            if($ii2 == 0) {
+                $bgbord = $bgcolor1;
+                $ii2++;
+            }
+            else {
+                $bgbord = $bgcolor2;
+                $ii2 =0;
+            }
+        /*
+		$txt = printSecuTags($txt);
+        $txt = preg_replace("`&amp;lt;`i", "&lt;", $txt);
+        $txt = preg_replace("`&amp;gt;`i", "&gt;", $txt);
+        
+        */
+        $txt = nk_CSS($txt);
+        $txt = preg_replace("`<br />`i", "", $txt);
+        if ( strlen($txt) > 30 ) { $txt = substr($txt, 0, 30)."..."; }    
         echo "<tr style=\"background: " . $bgcolor2 . ";\">\n"
-        . "<td style=\"width: 35%;\">&nbsp;" . $titre_topic . "</td>\n"
+        . "<td style=\"width: 35%;\">&nbsp;" . $titre_topic . "".$att."".$attupdate."<br />
+		   <span style=\"font-family:colibri;\">".$txt."</span></td>\n"
         . "<td style=\"width: 15%;\" align=\"center\">" . $initiat . "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">" . $nb_rep . "</td>\n"
         . "<td style=\"width: 10%;\" align=\"center\">" . $nb_read . "</td>\n"
-        . "<td style=\"width: 30%;\" align=\"center\">" . $last_date . "<br /><a href=\"" . $link_post . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/icon_latest_reply.gif\" alt=\"\" title=\"" . _SEELASTPOST . "\" /></a>" . $author . "</td></tr>\n";
+        . "<td style=\"width: 30%;\">
+		<img alt=\"avatar\" src=\"".$avatarok."\" style=\"-webkit-border-radius: 45px;-moz-border-radius: 45px;border-radius: 45px;padding:2px;border:1px " . $bg . " outset; background:".$bgcolor1.";width: 25px; height: 25px; float: left; margin-right: 5px;\" />
+		" . $last_datefixe . "<br /><a href=\"" . $link_post . "\"><img style=\"border: 0;\" src=\"modules/Forum/images/icon_latest_reply.gif\" alt=\"\" title=\"" . _SEELASTPOST . "\" /></a>" . $author . "</td></tr>\n";
     }
     echo "</table><div style=\"text-align: right;\">&#187; <a href=\"index.php?file=Forum\"><small>" . _VISITFORUMS . "</small></a></div>\n";
 }
@@ -140,8 +184,13 @@ else
     $sql = mysql_query("SELECT FTT.id, FTT.titre, FTT.last_post, FTT.forum_id FROM " . FORUM_THREADS_TABLE . " AS FTT INNER JOIN " . FORUM_TABLE . " AS FT ON FT.id = FTT.forum_id WHERE FT.niveau <= '" . $visiteur . "' ORDER BY last_post DESC LIMIT 0, 10");
     while (list($thread_id, $titre, $last_post, $forum_id) = mysql_fetch_row($sql))
     {
-        $date = nkDate($last_post);
+        $date = ftime($last_post);
 
+                    $newsdate = time() - 604800;
+                    $att = "";
+
+             if ($last_post!="" && $last_post > $newsdate) $att = "&nbsp;<img alt=\"Update\" src=\"modules/Forum/images/new_message.png\" style=\"vertical-align: middle;\" />";
+                    
         $sql2 = mysql_query("SELECT id, auteur, auteur_id FROM " . FORUM_MESSAGES_TABLE . " WHERE thread_id = '" . $thread_id . "' ORDER BY id DESC LIMIT 0, 1");
         list($mess_id, $auteur, $auteur_id) = mysql_fetch_array($sql2);
 
@@ -176,13 +225,13 @@ else
 
         if (strlen($titre) > 40)
         {
-            $titre_topic = "<a href=\"" . $link_post . "\" title=\"" . $title . " ( " . $autor . " )\"><b>" . printSecuTags(substr($titre, 0, 40)) . "...</b></a>";
+            $titre_topic = "<a href=\"" . $link_post . "\" title=\"" . $title . " ( " . $autor . " )&nbsp;le&nbsp;" . $date . "\"><b>" . printSecuTags(substr($titre, 0, 40)) . "...</b></a>";
         }
         else
         {
-            $titre_topic = "<a href=\"" . $link_post . "\" title=\"" . _BY . "&nbsp;" . $autor . "\"><b>" . $title . "</b></a>";
+            $titre_topic = "<a href=\"" . $link_post . "\" title=\"" . _BY . "&nbsp;" . $autor . "&nbsp;le&nbsp;" . $date . "\"><b>" . $title . "</b></a>";
         }
-        echo "<tr><td><img src=\"images/posticon.gif\" alt=\"\" title=\"" . $date . "\" />&nbsp;" . $titre_topic . "</td></tr>\n";
+        echo "<tr><td><img src=\"images/posticon.gif\" alt=\"\" title=\"" . $autor . "\" />&nbsp;" . $titre_topic . "".$att."</td></tr>\n";
     }
     echo "</table><div style=\"text-align: right;\">&#187; <a href=\"index.php?file=Forum\"><small>" . _VISITFORUMS . "</small></a></div>&nbsp;\n";
 }
