@@ -648,9 +648,10 @@ CREATE TABLE IF NOT EXISTS `nuked_facebook` (
 DROP TABLE IF EXISTS `nuked_faqs`;
 CREATE TABLE IF NOT EXISTS `nuked_faqs` (
   `id` int(10) NOT NULL auto_increment,
-  `questions` text NOT NULL,
-  `reponses` text NOT NULL,
+  `questions` text collate latin1_general_ci NOT NULL,
+  `reponses` text collate latin1_general_ci NOT NULL,
   `cat` int(11) NOT NULL default '0',
+  `date` varchar(30) collate latin1_general_ci default NULL,
   PRIMARY KEY  (`id`),
   KEY `cat` (`cat`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;
@@ -664,7 +665,8 @@ CREATE TABLE IF NOT EXISTS `nuked_faqs` (
 DROP TABLE IF EXISTS `nuked_faqs_cat`;
 CREATE TABLE IF NOT EXISTS `nuked_faqs_cat` (
   `cid` int(11) NOT NULL auto_increment,
-  `titre` varchar(50) NOT NULL default '',
+  `titre` varchar(50) collate latin1_general_ci NOT NULL default '',
+  `image` text collate latin1_general_ci,
   PRIMARY KEY  (`cid`),
   KEY `titre` (`titre`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci AUTO_INCREMENT=1 ;

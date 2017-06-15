@@ -7,29 +7,20 @@
 //  it under the terms of the GNU General Public License as published by   //
 //  the Free Software Foundation; either version 2 of the License.         //
 //-------------------------------------------------------------------------//
-if (!defined("INDEX_CHECK"))
-{
-    die ("<div style=\"text-align: center;\">You cannot open this page directly</div>");
-} 
+defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
 
-global $user,$nuked, $language;
+global $user, $nuked, $language;
 translate("modules/Faqs/lang/" . $language . ".lang.php");
-include("modules/Admin/design.php");
 
+include 'modules/Admin/design.php';
 admintop();
 
-if (!$user)
-{
-    $visiteur = 0;
-} 
-else
-{
-    $visiteur = $user[1];
-} 
+$visiteur = $user ? $user[1] : 0;
+
 $ModName = basename(dirname(__FILE__));
 $level_admin = admin_mod($ModName);
-if ($visiteur >= $level_admin && $level_admin > -1)
-{
+if ($visiteur >= $level_admin && $level_admin > -1) {
+	
     function main_cat()
     {
 	global $nuked, $language, $bgcolor1, $bgcolor2, $bgcolor3;
@@ -107,55 +98,109 @@ if ($visiteur >= $level_admin && $level_admin > -1)
         . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Faqs.php\" rel=\"modal\">\n"
 	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
 	. "</div></div>\n"
-	. "<form method=\"post\" action=\"index.php?file=Faqs&amp;page=admin&amp;op=send_cat\">\n"
+	. "<form method=\"post\" action=\"index.php?file=Faqs&amp;page=admin&amp;op=send_cat\" enctype=\"multipart/form-data\">\n"
 	. "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-	. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr></table>\n"
+	. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" /></td></tr>\n"
+    . "<tr><td><b>" . _IMAGENOTOBLIGER . "</b></td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" /></td></tr>\n"
+	. "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
+	. "</table>\n"
 	. "<div style=\"text-align: center;\"><br /><input type=\"submit\" value=\"" . _CREATECAT . "\" /></div>\n"
 	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Faqs&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
     }
 
 
-    function send_cat($titre)
+	function send_cat($titre, $image, $fichiernom) {
+		global $nuked, $user;
+		
+		$filename = $_FILES['fichiernom']['name'];
+
+		if ($filename != "") {
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
+
+			if ($ext == "jpg" || $ext == "jpeg" || $ext == "JPG" || $ext == "JPEG" || $ext == "gif" || $ext == "GIF" || $ext == "png" || $ext == "PNG") {
+				$url_image = "upload/Faqs/" . $filename;
+				move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+				@chmod ($url_image, 0644);
+			} else {
+				echo "<div class=\"notification error png_bg\">\n"
+				   . "<div>\n"
+				   . "No image file !"
+				   . "</div>\n"
+				   . "</div>\n";
+				redirect("index.php?file=Faqs&page=admin&op=add_cat", 2);
+				adminfoot();
+				footer();
+				die;
+			}
+		} else {
+			$url_image = $image;
+		}
+
+		$titre = mysql_real_escape_string(stripslashes($titre));
+
+		$sql = mysql_query("INSERT INTO " . $nuked['prefix'] . "_faqs_cat ( `cid` , `titre` , `image` ) VALUES ( '' , '" . $titre . "' , '" . $url_image . "' )");
+		// Action
+		$texteaction = "". _CATADD .": ".$titre.".";
+		$acdate = time();
+		$sqlaction = mysql_query("INSERT INTO ". $nuked['prefix'] ."_action  (`date`, `pseudo`, `action`)  VALUES ('".$acdate."', '".$user[0]."', '".$texteaction."')");
+		//Fin action
+		echo "<div class=\"notification success png_bg\">\n"
+		   . "<div>\n"
+		   . _CATADD . "\n"
+		   . "</div>\n"
+		   . "</div>\n";
+		redirect("index.php?file=Faqs&page=admin&op=main_cat", 2);
+	}
+	function edit_cat($cid) {
+		global $nuked, $language;
+
+		$sql = mysql_query("SELECT titre, image FROM " . $nuked['prefix'] . "_faqs_cat WHERE cid = '" . $cid . "'");
+		list($titre, $image) = mysql_fetch_array($sql);
+
+		echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
+		   . "<div class=\"content-box-header\"><h3>" . _ADMINFAQS . "</h3>\n"
+		   . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Faqs.php\" rel=\"modal\">\n"
+		   . "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
+		   . "</div></div>\n"
+		   . "<div class=\"tab-content\" id=\"tab2\"><form method=\"post\" action=\"index.php?file=Faqs&amp;page=admin&amp;op=modif_cat\" enctype=\"multipart/form-data\">\n"
+		   . "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\">\n"
+		   . "<tr><td><b>" . _TITLE . " : </b><input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr>\n"
+		   . "<tr><td><b>" . _IMAGENOTOBLIGER . "</b></td></tr><tr><td><b>" . _URLIMG . " : </b><input type=\"text\" name=\"image\" size=\"39\" value=\"" . $image . "\" />&nbsp;&nbsp;<img style=\"vertical-align:middle;width: 35px;\" alt=\"" . $titre . "\" src=\"" . $image . "\" /></td></tr>\n"
+		   . "<tr><td><b>" . _UPIMG . " : </b><input type=\"file\" name=\"fichiernom\" /></td></tr>\n"
+		   . "</table><div style=\"text-align: center;\"><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\" /><br /><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
+		   . "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Faqs&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br /></div>\n";
+
+	}
+
+    function modif_cat($cid, $titre, $image, $fichiernom)
     {
-	global $nuked;
+	global $nuked, $user;
+	
+		$filename = $_FILES['fichiernom']['name'];
 
-        $titre = addslashes($titre);
+		if ($filename != "") {
+			$ext = pathinfo($filename, PATHINFO_EXTENSION);
 
-        $sql = mysql_query("INSERT INTO " . $nuked['prefix'] . "_faqs_cat ( `cid` , `titre` ) VALUES ( '' , '" . $titre . "' )");
-        echo "<div class=\"notification success png_bg\">\n"
-		. "<div>\n"
-		. "" . _CATADD . "\n"
-		. "</div>\n"
-		. "</div>\n";     
-         redirect("index.php?file=Faqs&page=admin&op=main_cat", 2);
-    }
-
-
-    function edit_cat($cid)
-    {
-	global $nuked, $language;
-
-        $sql = mysql_query("SELECT titre FROM " . $nuked['prefix'] . "_faqs_cat WHERE cid = '" . $cid . "'");
-        list($titre) = mysql_fetch_array($sql);
-        $titre = stripslashes($titre);
-
-   echo "<div class=\"content-box\">\n" //<!-- Start Content Box -->
-		. "<div class=\"content-box-header\"><h3>" . _ADMINFAQS . "</h3>\n"
-        . "<div style=\"text-align:right;\"><a href=\"help/" . $language . "/Faqs.php\" rel=\"modal\">\n"
-	. "<img style=\"border: 0;\" src=\"help/help.gif\" alt=\"\" title=\"" . _HELP . "\" /></a>\n"
-	. "</div></div>\n"	. "<form method=\"post\" action=\"index.php?file=Faqs&amp;page=admin&amp;op=modif_cat\">\n"
-	. "<table  style=\"margin-left: auto;margin-right: auto;text-align: left;\" border=\"0\" cellspacing=\"0\" cellpadding=\"3\">\n"
-	. "<tr><td><b>" . _TITLE . " :</b> <input type=\"text\" name=\"titre\" size=\"30\" value=\"" . $titre . "\" /></td></tr></table>\n"
-	. "<div style=\"text-align: center;\"><br /><input type=\"hidden\" name=\"cid\" value=\"" . $cid . "\"><input type=\"submit\" value=\"" . _MODIFTHISCAT . "\" /></div>\n"
-	. "<div style=\"text-align: center;\"><br />[ <a href=\"index.php?file=Faqs&amp;page=admin&amp;op=main_cat\"><b>" . _BACK . "</b></a> ]</div></form><br />\n";
-    }
-
-
-    function modif_cat($cid,$titre)
-    {
-	global $nuked;
-
-	$sql = mysql_query("UPDATE " . $nuked['prefix'] . "_faqs_cat SET titre = '" . $titre . "' WHERE cid = '" . $cid . "'");
+			if (!preg_match("`\.php`i", $filename) && !preg_match("`\.htm`i", $filename) && !preg_match("`\.[a-z]htm`i", $filename) && (preg_match("`jpg`i", $ext) || preg_match("`jpeg`i", $ext) || preg_match("`gif`i", $ext) || preg_match("`png`i", $ext))) {
+				$url_image = "upload/Faqs/" . $filename;
+				move_uploaded_file($_FILES['fichiernom']['tmp_name'], $url_image) or die ("<br /><br /><div style=\"text-align: center;\"><b>Upload file failed !!!</b></div><br /><br />");
+				@chmod ($url_image, 0644);
+			} else {
+				echo "<div class=\"notification error png_bg\">\n"
+				   . "<div>\n"
+				   . "No image file !"
+				   . "</div>\n"
+				   . "</div>\n";
+				redirect("index.php?file=Faqs&page=admin&op=edit_cat&cid=" . $cid, 2);
+				adminfoot();
+				footer();
+				die;
+			}
+		} else {
+			$url_image = $image;
+		}
+		
+	$sql = mysql_query("UPDATE " . $nuked['prefix'] . "_faqs_cat SET titre = '" . $titre . "', image = '" . $url_image . "' WHERE cid = '" . $cid . "'");
 	 echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
 		. "" . _CATMODIF . "\n"
@@ -313,14 +358,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     }
 
 
-    function do_add($cat, $questions, $reponses)
+    function do_add($cat, $questions, $reponses, $date)
     {
 	global $nuked;
 
 	$questions = addslashes($questions);
 	$reponses = addslashes($reponses);
-
-	$sql = mysql_query("INSERT INTO " . $nuked['prefix'] . "_faqs ( `id` , `questions` , `reponses` , `cat` )  VALUES ( '' , '" . $questions . "' , '" . $reponses . "' , '" . $cat . "' )");
+    $date = time();
+    
+	$sql = mysql_query("INSERT INTO " . $nuked['prefix'] . "_faqs ( `id` , `questions` , `reponses` , `cat` , `date`)  VALUES ( '' , '" . $questions . "' , '" . $reponses . "' , '" . $cat . "' , '" . $date . "')");
 		 echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
 		. "" . _QUESTIONADD . "\n"
@@ -368,14 +414,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
     }
 
 
-    function do_edit($faq_id, $cat, $questions, $reponses)
+    function do_edit($faq_id, $cat, $questions, $reponses, $date)
     {
 	global $nuked;
 
 	$questions = addslashes($questions);
 	$reponses = addslashes($reponses);
-
-	$sql = mysql_query("UPDATE " . $nuked['prefix'] . "_faqs SET questions = '" . $questions . "', reponses = '" . $reponses . "', cat = '" . $cat . "' WHERE id = '" . $faq_id . "'");
+    $date = time();
+    
+	$sql = mysql_query("UPDATE " . $nuked['prefix'] . "_faqs SET questions = '" . $questions . "', reponses = '" . $reponses . "', cat = '" . $cat . "', date = '" . $date . "' WHERE id = '" . $faq_id . "'");
 		echo "<div class=\"notification success png_bg\">\n"
 		. "<div>\n"
 		. "" . _QUESTIONMODIF . "\n"
@@ -400,17 +447,18 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 
 
     switch ($_REQUEST['op'])
-    {	
+    {
+			
 	case "main":
-        main();
-       	break;
+    main();
+    break;
 	
 	case "add_faqs":
 	add_faqs();
 	break;
 	
 	case "do_add":
-	do_add($_REQUEST['cat'], $_REQUEST['questions'], $_REQUEST['reponses']);
+	do_add($_REQUEST['cat'], $_REQUEST['questions'], $_REQUEST['reponses'], $_REQUEST['date']);
 	break;
 
 	case "edit":
@@ -418,7 +466,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	break;
 
 	case "do_edit":
-	do_edit($_REQUEST['faq_id'], $_REQUEST['cat'], $_REQUEST['questions'], $_REQUEST['reponses']);
+	do_edit($_REQUEST['faq_id'], $_REQUEST['cat'], $_REQUEST['questions'], $_REQUEST['reponses'], $_REQUEST['date']);
 	break;
 
 	case "del":
@@ -426,7 +474,7 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	break;
 	
 	case "send_cat":
-	send_cat($_REQUEST['titre']);
+	send_cat($_REQUEST['titre'], $_REQUEST['image'], $_REQUEST['fichiernom']);
 	break;
 
 	case "add_cat":
@@ -442,15 +490,15 @@ if ($visiteur >= $level_admin && $level_admin > -1)
 	break;
 
 	case "modif_cat":
-	modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['description']);
+	modif_cat($_REQUEST['cid'], $_REQUEST['titre'], $_REQUEST['image'], $_REQUEST['fichiernom']);
 	break;
 
 	case "del_cat":
 	del_cat($_REQUEST['cid']);
 	break;
 	
-     	default:
-       	main();
+    default:
+    main();
 	break;
     }
 

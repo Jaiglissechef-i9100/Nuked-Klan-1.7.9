@@ -3,6 +3,10 @@ if (!defined("INDEX_CHECK"))
 {
 	exit('You can\'t run this file alone.');
 }
+
+define("_IMAGENOTOBLIGER","Une image pour la catégorie n'est pas obligatoire."); 
+define("_UPIMG","Uploader l'image ");
+define("_URLIMG","Url de l'image ");
 define("_FSEND","Envoyer une question à un(e) ami(e)");
 define("_YOUSUBMIT","Vous allez envoyer à votre ami(e) cette question");
 define("_YNICK","Votre Pseudo");
