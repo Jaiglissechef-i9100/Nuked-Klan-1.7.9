@@ -7,13 +7,8 @@
 // it under the terms of the GNU General Public License as published by     //
 // the Free Software Foundation; either version 2 of the License.           //
 // -------------------------------------------------------------------------//
-defined('INDEX_CHECK') or die ('You can\'t run this file alone.');
+if (!defined("INDEX_CHECK")) exit('You can\'t run this file alone.');
 ?>
-<div style="text-align: center; width: 100%">
-    <a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;">
-        <img width="80" height="15" style="border:none" src="images/nk_powered.gif" alt="" title="Powered by Nuked-Klan <?php echo $nuked['version']; ?>© 2001, 2011" />
-    </a>
-    <a href="http://kotshiro.free.fr" onclick="window.open(this.href); return false;">
-       <img width="80" height="15" style="border:none" src="images/inconnueteambadge.gif" alt="" title="Visit InconnueTeam" />
-    </a>
-</div>
+<div id="copyleft" style="text-align: center; width: 100%">
+<a href="http://www.nuked-klan.org" onclick="window.open(this.href); return false;"><img style="width: 80px; height: 15; border: 0" src="images/nk_powered.gif" alt="" title="Powered by Nuked-Klan <?php echo $nuked['version']; ?> © 2002, 2011" /></a>&nbsp;&nbsp;<a href="http://www.inconnueteam.fr/" title="InconnueTeam"><img src="images/inconnueteambadge.gif" style="border: none;" alt="inconnueteam"/></a></div>
+
