@@ -15,8 +15,53 @@ function affich_block_menu($blok){
 }
 
 function block_link($content){
-    global $user;
+    global $user, $nuked;
 
+    include('Includes/blocks/template.php');
+
+    //patch notifications Juin 2013
+    $date=mktime(date("m"),date("d"),date("Y"));
+    
+    //guestbook
+    $sqlguestbook = mysql_query("SELECT COUNT(*) FROM ".GUESTBOOK_TABLE." WHERE date > '".$date."' ");
+    list($countguest) = mysql_fetch_array($sqlguestbook);    
+    if ($countguest) { $afficheguest = "&nbsp;<img alt=\"Update\" src=\"".$nuked['url']."/Includes/blocks/images/maj.gif\" style=\"width: 34px; height: 9px;\" /><xx class=\"noti_bubble\">".$countguest."</xx>"; }
+   
+    //fofo
+    $sqlfofofofof = mysql_query("SELECT COUNT(*) FROM ".FORUM_MESSAGES_TABLE." WHERE date > '".$date."' ");
+    list($countfofo) = mysql_fetch_array($sqlfofofofof);    
+    if ($countfofo) { $affichefofo = "&nbsp;<img alt=\"Update\" src=\"".$nuked['url']."/Includes/blocks/images/maj.gif\" /><xx class=\"noti_bubble\">".$countfofo."</xx>"; }
+    
+    //news
+    $sqlnews = mysql_query("SELECT COUNT(*) FROM ".NEWS_TABLE." WHERE date > '".$date."' ");
+    list($countnews) = mysql_fetch_array($sqlnews);    
+    if ($countnews) { $affichenews = "&nbsp;<img alt=\"Update\" src=\"".$nuked['url']."/Includes/blocks/images/maj.gif\" style=\"width: 34px; height: 9px;\" /><xx class=\"noti_bubble\">".$countnews."</xx>"; }
+   
+    //Ressources
+    $sqldownlo = mysql_query("SELECT COUNT(*) FROM ".DOWNLOAD_TABLE." WHERE date > '".$date."' ");
+    list($countdownloads) = mysql_fetch_array($sqldownlo);    
+    if ($countdownloads) { $affichedownloads = "&nbsp;<img alt=\"Update\" src=\"".$nuked['url']."/Includes/blocks/images/maj.gif\" style=\"width: 34px; height: 9px;\" /><xx class=\"noti_bubble\">".$countdownloads."</xx>"; }
+    
+    //Liens
+    $sqlliens = mysql_query("SELECT COUNT(*) FROM ".LINKS_TABLE." WHERE date > '".$date."' ");
+    list($countliens) = mysql_fetch_array($sqlliens);    
+    if ($countliens) { $affichelinks = "&nbsp;<img alt=\"Update\" src=\"".$nuked['url']."/Includes/blocks/images/maj.gif\" style=\"width: 34px; height: 9px;\" /><xx class=\"noti_bubble\">".$countliens."</xx>"; }
+    
+    //membres
+    $sqlmembre = mysql_query("SELECT COUNT(*) FROM ".USER_TABLE." WHERE date > '".$date."' ");
+    list($countusers) = mysql_fetch_array($sqlmembre);    
+    if ($countusers) { $afficheusers = "&nbsp;<img alt=\"Update\" src=\"".$nuked['url']."/Includes/blocks/images/maj.gif\" style=\"width: 34px; height: 9px;\" /><xx class=\"noti_bubble\">".$countusers."</xx>"; }
+    
+    //wars
+    $sqldefy = mysql_query("SELECT COUNT(*) FROM ".DEFY_TABLE." WHERE date > '".$date."' ");
+    list($countdefy) = mysql_fetch_array($sqldefy);    
+    if ($countdefy) { $affichedefy = "&nbsp;<img alt=\"Update\" src=\"".$nuked['url']."/Includes/blocks/images/maj.gif\" style=\"width: 34px; height: 9px;\" /><xx class=\"noti_bubble\">".$countdefy."</xx>"; }
+ 
+    //sections
+    $sqlsections = mysql_query("SELECT COUNT(*) FROM ".SECTIONS_TABLE." WHERE date > '".$date."' ");
+    list($countsections) = mysql_fetch_array($sqlsections);    
+    if ($countsections) { $affichesections = "&nbsp;<img alt=\"Update\" src=\"".$nuked['url']."/Includes/blocks/images/maj.gif\" style=\"width: 34px; height: 9px;\" /><xx class=\"noti_bubble\">".$countsections."</xx>"; }
+ 
     $content = html_entity_decode($content);
     $link = explode('NEWLINE', $content);
     $screen = '<ul style="list-style: none; padding: 0">';
@@ -34,8 +79,18 @@ function block_link($content){
         if (!$nivuser)$nivuser = 0;
         
         if ($nivuser >= $nivo){
+        	
+        	if ($url == 'index.php?file=Forum') {$afficheff = $affichefofo;} else {$afficheff = '';}
+        	if ($url == 'index.php?file=News') {$affichenews = $affichenews;} else {$affichenews = '';}
+        	if ($url == 'index.php?file=Download') {$affichedd = $affichedownloads;} else {$affichedd = '';}
+        	if ($url == 'index.php?file=Members') {$afficheuu = $afficheusers;} else {$afficheuu = '';}
+        	if ($url == 'index.php?file=Links') {$affichell = $affichelinks;} else {$affichell = '';}
+        	if ($url == 'index.php?file=Guestbook') {$affichebook = $afficheguest;} else {$affichebook = '';}
+        	if ($url == 'index.php?file=Defy') {$affichedef = $affichedefy;} else {$affichedef = '';}
+        	if ($url == 'index.php?file=Sections') {$affichesec = $affichesections;} else {$affichesec = '';}
+        	
             if ($url <> '' && $title <> '' && $blank == 0)
-                $screen .= '<li><a href="' . $url . '" title="' . $comment . '" style="padding-left: 10px" class="menu">' . $title . '</a></li>';
+                $screen .= '<li><a href="' . $url . '" title="' . $comment . '" style="padding-left: 10px" class="menu">' . $title . '</a>'.$afficheff.''.$affichenews.''.$affichedd.''.$afficheuu.''.$affichell.''.$affichebook .''.$affichedef.''.$affichesec.'</li>';
 
             if ($url <> '' && $title <> '' && $blank == 1)
                 $screen .= '<li><a href="' . $url . '" title="' . $comment . '" class="menu" style="padding-left: 10px" onclick="window.open(this.href); return false;">' . $title . '</a></li>';
@@ -47,7 +102,6 @@ function block_link($content){
     $screen .= '</ul>';
     return $screen;
 }
-
 function edit_block_menu($bid){
     global $nuked, $language;
 
