@@ -2110,7 +2110,8 @@ INSERT INTO `nuked_stats` (`nom`, `type`, `count`) VALUES
 ('Members', 'pages', 0),
 ('Team', 'pages', 0),
 ('Forum', 'pages', 0),
-('Gallery_v2', 'pages', 0);
+('Gallery_v2', 'pages', 0),
+('Faqs', 'pages', '0');
 
 -- --------------------------------------------------------
 
