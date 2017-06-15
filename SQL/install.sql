@@ -1944,7 +1944,10 @@ INSERT INTO `nuked_smilies` (`id`, `code`, `url`, `name`) VALUES
 (20, '<_<', 'dry.gif', 'Dry'),
 (21, '-_-', 'sleep.gif', 'Sleep'),
 (22, '^_^', 'happy.gif', 'Happy'),
-(23, ':o', 'ohmy.gif', 'Ohmy');
+(23, ':o', 'ohmy.gif', 'Ohmy'),
+(24, ':burk:', 'burk.gif', 'Beurk'),
+(25, '<3', 'love.gif', 'Love'),
+(26, ':/', 'redface.gif', 'Upset');
 
 -- --------------------------------------------------------
 
