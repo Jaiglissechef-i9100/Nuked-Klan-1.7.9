@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Sam 10 Novembre 2012 à 16:57
+-- GÃ©nÃ©rÃ© le: Sam 10 Novembre 2012 Ã  16:57
 -- Version du serveur: 5.5.28-1~dotdeb.0-log
 -- Version de PHP: 5.3.18-1~dotdeb.0
 
@@ -17,7 +17,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES latin1 */;
 
 --
--- Base de données: `NK-179`
+-- Base de donnÃ©es: `NK-179`
 --
 
 -- --------------------------------------------------------
@@ -180,7 +180,7 @@ CREATE TABLE IF NOT EXISTS `nuked_block` (
 
 INSERT INTO `nuked_block` (`bid`, `active`, `position`, `module`, `titre`, `content`, `type`, `nivo`, `page`) VALUES
 (1, 2, 1, '', 'Login', '', 'login', 0, 'Tous'),
-(2, 1, 1, '', 'Menu', '[News]|News||0|NEWLINE[Archives]|Archives||0|NEWLINE[Forum]|Forum||0|NEWLINE[Download]|Téléchargements||0|NEWLINE[Members]|Membres||0|NEWLINE[Team]|Team||0|NEWLINE[Defy]|Nous Défier||0|NEWLINE[Recruit]|Recrutement||0|NEWLINE[Sections]|Articles||0|NEWLINE[Server]|Serveurs||0|NEWLINE[Links]|Liens Web||0|NEWLINE[Calendar]|Calendrier||0|NEWLINE[Gallery]|Galerie||0|NEWLINE[Wars]|Matchs||0|NEWLINE[Irc]|IrC||0|NEWLINE[Guestbook]|Livre d''Or||0|NEWLINE[Search]|Recherche||0|NEWLINE|<b>Membre</b>||1|NEWLINE[User]|Compte||1|NEWLINE|<b>Admin</b>||2|NEWLINE[Admin]|Administration||2|', 'menu', 0, 'Tous'),
+(2, 1, 1, '', 'Menu', '[News]|News||0|NEWLINE[Archives]|Archives||0|NEWLINE[Forum]|Forum||0|NEWLINE[Download]|TÃ©lÃ©chargements||0|NEWLINE[Members]|Membres||0|NEWLINE[Team]|Team||0|NEWLINE[Defy]|Nous DÃ©fier||0|NEWLINE[Recruit]|Recrutement||0|NEWLINE[Sections]|Articles||0|NEWLINE[Server]|Serveurs||0|NEWLINE[Links]|Liens Web||0|NEWLINE[Calendar]|Calendrier||0|NEWLINE[Gallery]|Galerie||0|NEWLINE[Wars]|Matchs||0|NEWLINE[Irc]|IrC||0|NEWLINE[Guestbook]|Livre d''Or||0|NEWLINE[Search]|Recherche||0|NEWLINE|<b>Membre</b>||1|NEWLINE[User]|Compte||1|NEWLINE|<b>Admin</b>||2|NEWLINE[Admin]|Administration||2|', 'menu', 0, 'Tous'),
 (3, 1, 2, 'Search', 'Recherche', '', 'module', 0, 'Tous'),
 (4, 2, 2, '', 'Sondage', '', 'survey', 0, 'Tous'),
 (5, 2, 3, 'Wars', 'Matchs', '', 'module', 0, 'Tous'),
@@ -831,7 +831,7 @@ INSERT INTO `nuked_forums_rank` (`id`, `nom`, `type`, `post`, `image`) VALUES
 (3, 'Membre', 0, 100, 'modules/Forum/images/rank/star3.gif'),
 (4, 'Membre averti', 0, 500, 'modules/Forum/images/rank/star4.gif'),
 (5, 'Posteur Fou', 0, 1000, 'modules/Forum/images/rank/star5.gif'),
-(6, 'Modérateur', 1, 0, 'modules/Forum/images/rank/mod.gif'),
+(6, 'ModÃ©rateur', 1, 0, 'modules/Forum/images/rank/mod.gif'),
 (7, 'Administrateur', 2, 0, 'modules/Forum/images/rank/mod.gif');
 
 -- --------------------------------------------------------
@@ -1033,7 +1033,7 @@ CREATE TABLE IF NOT EXISTS `nuked_games` (
 --
 
 INSERT INTO `nuked_games` (`id`, `name`, `titre`, `icon`, `pref_1`, `pref_2`, `pref_3`, `pref_4`, `pref_5`, `map`) VALUES
-(1, 'Counter Strike Source', 'Préférences CS', 'images/games/cs.gif', 'Autre pseudo', 'Map favorite', 'Arme favorite', 'Skin Terro', 'Skin CT', 'de_dust2|de_inferno');
+(1, 'Counter Strike Source', 'PrÃ©fÃ©rences CS', 'images/games/cs.gif', 'Autre pseudo', 'Map favorite', 'Arme favorite', 'Skin Terro', 'Skin CT', 'de_dust2|de_inferno');
 
 -- --------------------------------------------------------
 
@@ -1425,7 +1425,7 @@ CREATE TABLE IF NOT EXISTS `nuked_news` (
 --
 
 INSERT INTO `nuked_news` (`id`, `cat`, `titre`, `auteur`, `auteur_id`, `texte`, `suite`, `date`, `bbcodeoff`, `smileyoff`, `published`, `niveau`, `allow_comments`) VALUES
-(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.7.9', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, à priori, bien déroulée, rendez-vous dans la partie administration pour commencer à utiliser votre site tout simplement en vous loguant avec le pseudo indiqué lors de l''install. En cas de problèmes, veuillez le signaler sur  <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prévu à cet effet.', '', '1352563028', 0, 0, 1, 0, 1);
+(1, '1', 'Bienvenue sur votre site NuKed-KlaN 1.7.9', 'admin', 'zbdwzpdqq76N3XirqaC0', 'Bienvenue sur votre site NuKed-KlaN, votre installation s''est, Ã  priori, bien dÃ©roulÃ©e, rendez-vous dans la partie administration pour commencer Ã  utiliser votre site tout simplement en vous loguant avec le pseudo indiquÃ© lors de l''install. En cas de problÃ¨mes, veuillez le signaler sur  <a href="http://www.nuked-klan.org">http://www.nuked-klan.org</a> dans le forum prÃ©vu Ã  cet effet.', '', '1352563028', 0, 0, 1, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -1948,7 +1948,7 @@ INSERT INTO `nuked_smilies` (`id`, `code`, `url`, `name`) VALUES
 (22, '^_^', 'happy.gif', 'Happy'),
 (23, ':o', 'ohmy.gif', 'Ohmy'),
 (24, ':burk:', 'burk.gif', 'Beurk'),
-(25, '<3', 'love.gif', 'Love'),
+(25, '<3', 'smack.gif', 'Smack'),
 (26, ':/', 'redface.gif', 'Upset');
 
 -- --------------------------------------------------------
@@ -2008,9 +2008,9 @@ CREATE TABLE IF NOT EXISTS `nuked_sondage_data` (
 --
 
 INSERT INTO `nuked_sondage_data` (`sid`, `optionText`, `optionCount`, `voteID`) VALUES
-(1, 'Ca déchire, continuez !', 0, 1),
+(1, 'Ca dÃ©chire, continuez !', 0, 1),
 (1, 'Mouais, pas mal...', 0, 2),
-(1, 'C''est naze, arrêtez-vous !', 0, 3),
+(1, 'C''est naze, arrÃªtez-vous !', 0, 3),
 (1, 'C''est quoi Nuked-Klan ?', 0, 4);
 
 -- --------------------------------------------------------
@@ -2536,7 +2536,7 @@ CREATE TABLE IF NOT EXISTS `nuked_users` (
 --
 -- Login / MDP : admin / admin
 -- Tip : Regenerate new password with "Lost password".
--- Info : Regénérez un nouveau pass avec la fonction mot de passe perdu.
+-- Info : RegÃ©nÃ©rez un nouveau pass avec la fonction mot de passe perdu.
 --
 
 INSERT INTO `nuked_users` (`id`, `team`, `team2`, `team3`, `rang`, `ordre`, `pseudo`, `mail`, `email`, `icq`, `msn`, `aim`, `yim`, `url`, `pass`, `niveau`, `date`, `avatar`, `signature`, `user_theme`, `user_langue`, `game`, `country`, `count`, `erreur`, `token`, `token_time`) VALUES
