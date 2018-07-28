@@ -15,8 +15,8 @@ if (!defined("INDEX_CHECK"))
 global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Guestbook/lang/" . $language . ".lang.php");
 
-// Inclusion système reCaptcha
-include_once('Includes/nkCaptcha.php');
+// Inclusion système Captcha
+include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == "off") $captcha = 0;
@@ -105,11 +105,10 @@ if( $nuked['Guestbookpost'] == '1' or $user){
         // Verification code captcha
         if ($captcha == 1 && !ValidCaptchaCode($_REQUEST['code_confirm']))
         {
-	        echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
+            echo "<br /><br /><div style=\"text-align: center;\">" . _BADCODECONFIRM . "<br /><br /><a href=\"javascript:history.back()\">[ <b>" . _BACK . "</b> ]</a></div><br /><br />";
             closetable();
-			
             footer();
-	        exit();		
+            exit();
         }
 
         if ($user[2] != "")

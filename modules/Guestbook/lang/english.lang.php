@@ -33,9 +33,6 @@ define("_NEXTPAGE","Next Page");
 define("_NOSIGN","There are yet no signatures");
 define("_NOFLOOD","Do not flood! Please wait a moment...");
 
-// Recaptcha patch
-define('_EMPTYCODE', 'The code that you have entered is not valid!');
-
 define("_ADMINGUESTBOOK","Guestbook Administration");
 define("_HELP","Help");
 define("_POSTDELETE","Message was successfully removed.");

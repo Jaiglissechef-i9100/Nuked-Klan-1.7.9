@@ -18,8 +18,8 @@ translate("modules/Forum/lang/" . $language . ".lang.php");
 define('FORUM_PRIMAIRE_TABLE', $nuked['prefix'] . '_forums_primaire');
 include("modules/Forum/template.php");
 
-// Inclusion système reCaptcha
-include_once('Includes/nkCaptcha.php');
+// Inclusion système Captcha
+include_once("Includes/nkCaptcha.php");
 
 /****** Récupération du skin ******/
 include('modules/Forum/Skin/' . $nuked['forum_skin'] . '/comun.php');

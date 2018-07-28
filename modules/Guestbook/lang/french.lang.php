@@ -42,9 +42,6 @@ define("_NEXTPAGE","Page Suivante");
 define("_NOSIGN","Il n'y a pas encore de message");
 define("_NOFLOOD","Flood interdit ! veuillez patienter quelques instants...");
 
-// Recaptcha patch
-define('_EMPTYCODE', 'Le code que vous avez enter n\'est pas valide !');
-
 define("_ADMINGUESTBOOK","Administration Livre D'or");
 define("_HELP","Aides");
 define("_POSTDELETE","Message supprimé avec succès.");

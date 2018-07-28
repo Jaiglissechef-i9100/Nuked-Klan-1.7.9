@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?php
 /**
  * @version     1.7.10
@@ -12,8 +11,9 @@ global $language, $user, $cookie_captcha;
 translate('modules/User/lang/' . $language . '.lang.php');
 translate('modules/Members/lang/' . $language . '.lang.php');
 
-// Inclusion système reCaptcha
+// Inclusion système Captcha
 include_once('Includes/nkCaptcha.php');
+include_once('Includes/hash.php');
 
 // On determine si le captcha est actif ou non
 if (_NKCAPTCHA == 'off') $captcha = 0;
@@ -877,9 +877,9 @@ function login_screen(){
                 . "<tr><td><b>" . _NICK . " :</b></td><td><input type=\"text\" name=\"pseudo\" size=\"15\" maxlength=\"180\" /></td></tr>\n"
                 . "<tr><td><b>" . _PASSWORD . " :</b></td><td><input type=\"password\" name=\"pass\" size=\"15\" maxlength=\"15\" /></td></tr>\n"
                 . "<input type=\"hidden\" name=\"erreurr\" value=\"".$error."\" size=\"15\" maxlength=\"15\" />\n";
-
-		if ($_REQUEST['captcha'] == 'true') create_captcha(1);
-
+                
+        if ($_REQUEST['captcha'] == 'true') create_captcha(1);
+        
         echo "<tr><td colspan=\"2\"><input type=\"checkbox\" class=\"checkbox\" name=\"remember_me\" value=\"ok\" checked=\"checked\" /><small>&nbsp;" . _REMEMBERME . "</small></td></tr>\n"
                 . "<tr><td colspan=\"2\" align=\"center\"><input type=\"submit\" value=\"" . _TOLOG . "\" /></td></tr><tr><td colspan=\"2\">&nbsp;</td></tr>\n"
                 . "<tr><td colspan=\"2\"><b><a href=\"index.php?file=User&amp;op=reg_screen\">" . _USERREGISTER . "</a> | <a href=\"index.php?file=User&amp;op=oubli_pass\">" . _LOSTPASS . "</a></b></td></tr></table></form><br />\n";
@@ -901,7 +901,6 @@ function reg($pseudo, $mail, $email, $pass_reg, $pass_conf, $game, $country){
 	}
 
     $pseudo = htmlentities($pseudo, ENT_QUOTES, 'ISO-8859-1' );
-
     $pseudo = verif_pseudo($pseudo);
 
     $mail = mysql_real_escape_string(stripslashes($mail));
@@ -1096,7 +1095,7 @@ function login($pseudo, $pass, $remember_me){
     if($check > 0){
         list($id_user, $dbpass, $usertheme, $userlang, $niveau, $count) = mysql_fetch_array($sql);
 
-		// Verification code captcha
+        // Verification code captcha
         if (!ValidCaptchaCode($_REQUEST['code_confirm']) && $count >= 3){
             if (empty($_REQUEST['code_confirm'])) $msg_error = _MSGCAPTCHA;
             else $msg_error = _BADCODECONFIRM;
@@ -1118,9 +1117,7 @@ function login($pseudo, $pass, $remember_me){
         }
         else{
             $captcha = '';
-
-        }		
-
+        }
         if ($pseudo == "" || $pass == ""){
             $error = 1;
             $url = "index.php?file=User&op=login_screen&error=" . $error . $captcha;

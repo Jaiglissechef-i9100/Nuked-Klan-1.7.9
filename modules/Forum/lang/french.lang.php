@@ -175,7 +175,6 @@ define("_NOTIFYISON","Notification activé avec succès.");
 define("_NOTIFYISOFF","Notification désactivé avec succès.");
 define("_NOTEXTRESUME","Aucun aperçu disponible...");
 
-
 define("_ADMINFORUM","Administration Forum");
 define("_HELP","Aides");
 define("_ADDFORUM","Ajouter un Forum");

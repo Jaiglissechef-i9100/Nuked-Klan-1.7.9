@@ -16,7 +16,7 @@ global $nuked, $language, $user, $cookie_captcha;
 translate("modules/Forum/lang/" . $language . ".lang.php");
 define('FORUM_PRIMAIRE_TABLE', $nuked['prefix'] . '_forums_primaire');
 
-// Inclusion système reCaptcha
+// Inclusion système Captcha
 include_once("Includes/nkCaptcha.php");
 
 // On determine si le captcha est actif ou non
@@ -187,7 +187,6 @@ if ($visiteur >= $level_access && $level_access > -1)
         }
         else
         {
-
             $administrator = 0;
         }
 
@@ -825,7 +824,6 @@ if ($visiteur >= $level_access && $level_access > -1)
             footer();
             exit();
         }
-
 
         if ($_REQUEST['auteur'] == "" || $_REQUEST['titre'] == "" || $_REQUEST['texte'] == "" || @ctype_space($_REQUEST['titre']) || @ctype_space($_REQUEST['texte']))
         {

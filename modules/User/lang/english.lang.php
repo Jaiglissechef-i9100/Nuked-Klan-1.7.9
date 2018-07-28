@@ -164,9 +164,6 @@ define("_BADPASSWORD","Bad password!");
 define("_ACCOUNTDELETE","Your account was successfully removed.");
 define('_HI', 'Hello');
 
-// Recaptcha patch
-define('_EMPTYCODE', 'The code that you have entered is not valid!');
-
 define('_LINKALWAYSACTIVE', 'We have already sent to you a token, please check your mails');
 define('_LINKTONEWPASSWORD', 'To regenerate your password please click on the link below :');
 define('_LINKTIME', 'This link is valid 1 hour, it will pass this time please repeat the procedure for the forgotten password.');

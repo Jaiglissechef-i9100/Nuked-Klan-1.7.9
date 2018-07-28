@@ -160,9 +160,6 @@ define("_BADPASSWORD","Le mot de passe n'est pas bon !");
 define("_ACCOUNTDELETE","Votre compte a été supprimé avec succès.");
 define('_HI', 'Bonjour');
 
-// Recaptcha patch
-define('_EMPTYCODE', 'Le code que vous avez enter n\'est pas valide !');
-
 // Lost Password
 define('_LINKALWAYSACTIVE', 'Un token vous a déjà été envoyé, veuillez vérifier votre boîte email.');
 define('_LINKTONEWPASSWORD', 'Veuillez cliquer sur le lien suivant pour réinitialiser votre mot de passe');
